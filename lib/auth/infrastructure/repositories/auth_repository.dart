@@ -27,9 +27,15 @@ class AuthRepository implements IAuthRepository {
 
       final tokenFromStorage = await _tokenStorage.read();
 
-      if(tokenFromStorage != null) {
-        log("Token already exists, skipping login.");
-        return (true, tokenFromStorage);
+      if (tokenFromStorage != null) {
+        final response = await _dio.get(
+          Endpoints.auth.enter,
+          queryParameters: {"userUuid": tokenFromStorage.userUuid},
+          options: Options(headers: headers),
+        );
+        final tokenNew = Token.fromJson(response.data);
+        await _tokenStorage.save(tokenNew);
+        return (true, tokenNew);
       }
 
       final responseData = await _dio.post(

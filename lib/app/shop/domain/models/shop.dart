@@ -18,6 +18,9 @@ class Shop extends Equatable {
   final int minOrderAmount;
   final bool isOpen;
   final String status;
+  final List<String> images;
+  final String category;
+  final List<String> categories;
 
   const Shop({
     required this.id,
@@ -37,27 +40,33 @@ class Shop extends Equatable {
     required this.minOrderAmount,
     required this.isOpen,
     required this.status,
+    required this.images,
+    required this.category,
+    required this.categories,
   });
 
   factory Shop.fromJson(Map<String, dynamic> json) {
     return Shop(
-      id: json['id'] ??'',
-      name: json['name'] ??'',
-      description: json['description'] ??'',
-      imageUrl: json['imageUrl'] ??'',
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      description: json['description'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
       isActive: json['isActive'] ?? false,
-      createdAt: DateTime.parse(json['createdAt'] ?? DateTime(0001)),
-      updatedAt: DateTime.parse(json['updatedAt'] ?? DateTime(0001)),
-      address: json['address'] ??'',
-      phone: json['phone'] ??'',
+      createdAt: DateTime.parse(json['createdAt'] ?? DateTime(0001).toIso8601String()),
+      updatedAt: DateTime.parse(json['updatedAt'] ?? DateTime(0001).toIso8601String()),
+      address: json['address'] ?? '',
+      phone: json['phone'] ?? '',
       email: json['email'] ?? '',
       workingHours: json['workingHours'] ?? '',
       location: json['location'] ?? '',
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
       discountPercent: json['discountPercent'] ?? 0,
       minOrderAmount: json['minOrderAmount'] ?? 0,
-      isOpen: json['isOpen']  ?? false,
+      isOpen: json['isOpen'] ?? false,
       status: json['status'] ?? '',
+      images: (json['images'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const [],
+      category: json['category'] ?? '',
+      categories: (json['categories'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const [],
     );
   }
 
@@ -80,6 +89,9 @@ class Shop extends Equatable {
       'minOrderAmount': minOrderAmount,
       'isOpen': isOpen,
       'status': status,
+      'images': images,
+      'category': category,
+      'categories': categories,
     };
   }
 
@@ -102,5 +114,8 @@ class Shop extends Equatable {
     minOrderAmount,
     isOpen,
     status,
+    images,
+    category,
+    categories,
   ];
 }

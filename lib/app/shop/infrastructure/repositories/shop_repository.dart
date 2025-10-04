@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:service_shop/app/shop/domain/models/shop.dart';
+import 'package:service_shop/app/shop/domain/models/shop_products.dart';
 import 'package:service_shop/app/shop/domain/repositories/i_shop_repository.dart';
 
 class ShopRepository implements IShopRepository {
@@ -20,6 +21,28 @@ class ShopRepository implements IShopRepository {
     } on DioException catch (e) {
       // Handle Dio exceptions
       throw Exception('Failed to load shops: ${e.message}');
+    } catch (e) {
+      // Handle any other exceptions
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
+
+  @override
+  Future<List<ShopProductCategory>> getShopProducts(String shopUuid) async {
+    try {
+      final response = await _dio.get(
+        '/branchProducts',
+        queryParameters: {'shopUuid': shopUuid},
+      );
+
+      final List<ShopProductCategory> shopProducts = (response.data as List)
+          .map((categoryJson) => ShopProductCategory.fromJson(categoryJson))
+          .toList();
+
+      return shopProducts;
+    } on DioException catch (e) {
+      // Handle Dio exceptions
+      throw Exception('Failed to load shop products: ${e.message}');
     } catch (e) {
       // Handle any other exceptions
       throw Exception('An unexpected error occurred: $e');

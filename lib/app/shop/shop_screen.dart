@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_shop/app/shop/application/shop_products/shop_product_controller.dart';
 import 'package:service_shop/app/shop/application/shops/shops_provider.dart';
 import 'package:service_shop/app/shop/application/shops/shops_state.dart';
+import 'package:service_shop/app/shop/presentation/shop_detail/shop_product_detail_screen.dart';
 import 'package:service_shop/core/presentation/appbar/logo_appbar.dart';
 import 'presentation/shop_card.dart';
 
@@ -50,7 +52,21 @@ class ShopScreen extends ConsumerWidget {
                       itemCount: state.shops.length,
                       itemBuilder: (context, index) {
                         final shop = state.shops[index];
-                        return ShopCard(shop: shop);
+                        return ShopCard(
+                          shop: shop,
+                          onTap: () {
+                            ref
+                                .read(shopProductProvider.notifier)
+                                .loadShopProducts(shop.id);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ShopProductDetailScreen();
+                                },
+                              ),
+                            );
+                          },
+                        );
                       },
                     );
                   },

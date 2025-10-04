@@ -19,6 +19,12 @@ class DioInterceptor extends Interceptor {
     handler.next(options);
   }
 
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
+
+    handler.next(err);
+  }
+
 
   bool _isUnauthorized(DioException err) {
     return err.response?.statusCode == 401;

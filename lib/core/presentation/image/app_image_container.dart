@@ -48,7 +48,7 @@ class AppImageContainer extends StatelessWidget {
         child: image == null || image!.isEmpty
             ? placeholder ??
                 Image.asset(
-                  'assets/logos/placeholder.png',
+                  'assets/logo/placeholder.png',
                   fit: fit,
                 )
             : CachedNetworkImage(

@@ -46,8 +46,8 @@ class ShopScreen extends ConsumerWidget {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             childAspectRatio: 0.7,
-                            crossAxisSpacing: 4,
-                            mainAxisSpacing: 1,
+                            crossAxisSpacing: 0,
+                            mainAxisSpacing: 2,
                           ),
                       itemCount: state.shops.length,
                       itemBuilder: (context, index) {

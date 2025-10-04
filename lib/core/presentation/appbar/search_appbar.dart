@@ -48,7 +48,10 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.search, color: ServiceColors.primaryColor),
+              icon: const Icon(
+                Icons.search,
+                color: ServiceColors.primaryColor,
+              ),
               onPressed: onSearch,
             ),
           ],

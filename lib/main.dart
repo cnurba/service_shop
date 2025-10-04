@@ -18,7 +18,7 @@ Future<void> _appInitializer() async {
   getIt<Dio>()
     ..options = BaseOptions(
       connectTimeout: const Duration(milliseconds: 60 * 1000),
-      receiveTimeout: const Duration(milliseconds: 3000),
+      receiveTimeout: const Duration(milliseconds: 60 * 1000),
       baseUrl: ServerAddress().baseUrl,
     )
     ..interceptors.add(getIt<DioInterceptor>());

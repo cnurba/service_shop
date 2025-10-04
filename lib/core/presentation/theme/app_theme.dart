@@ -10,6 +10,16 @@ class AppTheme {
       textTheme: _lightTextTheme(base.textTheme),
       primaryColor: ServiceColors.primaryColor,
       scaffoldBackgroundColor: ServiceColors.scaffoldBackgroundColor,
+      appBarTheme: base.appBarTheme.copyWith(
+        //color: ServiceColors.appBarColor,
+        elevation: 2,
+        iconTheme: const IconThemeData(color: ServiceColors.primaryColor),
+        titleTextStyle: const TextStyle(
+          color: ServiceColors.primaryColor,
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
       cardTheme: base.cardTheme.copyWith(
         color: ServiceColors.cardBgColor,
         elevation: 2,

@@ -7,7 +7,6 @@ import 'package:service_shop/core/presentation/theme/colors.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   const ProductDetailScreen({super.key, required this.product});
-
   final ShopProduct product;
 
   @override

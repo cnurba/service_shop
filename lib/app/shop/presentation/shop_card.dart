@@ -28,26 +28,16 @@ class ShopCard extends StatelessWidget {
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
             ),
-            child: shop.imageUrl.isNotEmpty
-                ? AppImageContainer(
-                    image: shop.imageUrl,
-                    height: 120,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  )
-                : Container(
-                    height: 120,
-                    width: double.infinity,
-                    color: Colors.grey[300],
-                    child: const Icon(
-                      Icons.store,
-                      size: 60,
-                      color: Colors.grey,
-                    ),
-                  ),
+            child: AppImageContainer(
+              image: shop.imageUrl,
+              height: 120,
+              width: double.infinity,
+              fit: BoxFit.cover,
+
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.all(6.0),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -85,11 +75,10 @@ class ShopCard extends StatelessWidget {
                   children: [
                     Text(
                       shop.isOpen ? 'Открыто:' : 'Закрыто:',
-                      style:Theme.of(context).textTheme.bodySmall!.copyWith(
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         fontWeight: FontWeight.bold,
                         color: shop.isOpen ? Colors.green : Colors.red,
                       ),
-
                     ),
                     const SizedBox(width: 2),
                     Container(
@@ -105,7 +94,7 @@ class ShopCard extends StatelessWidget {
                       ),
                       child: Text(
                         shop.workingHours,
-                        style:Theme.of(context).textTheme.bodySmall!.copyWith(
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           fontWeight: FontWeight.bold,
                           color: shop.isOpen ? Colors.green : Colors.red,
                         ),

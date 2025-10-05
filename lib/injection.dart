@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:service_shop/app/search/domain/repositories/category_repository.dart';
 import 'package:service_shop/app/search/domain/repository/i_search_repository.dart';
 import 'package:service_shop/app/search/infrastructure/repositories/search_repository.dart';
 import 'package:service_shop/app/shop/domain/repositories/i_shop_repository.dart';
@@ -25,9 +24,6 @@ void initGetIt() {
   getIt.registerLazySingleton<DioInterceptor>(
     () => DioInterceptor(getIt(), getIt()),
   );
-  //
-  // getIt.registerLazySingleton<IUserModelCache>(() => UserModelCache());
-  //
   getIt.registerLazySingleton<IAuthRepository>(
     () => AuthRepository(getIt(), getIt()),
   );

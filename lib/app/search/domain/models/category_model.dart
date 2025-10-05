@@ -23,6 +23,19 @@ class CategoryModel extends Equatable {
     required this.children,
   });
 
+  factory CategoryModel.empty() {
+    return CategoryModel(
+      id: '',
+      name: '',
+      description: '',
+      imageUrl: '',
+      isActive: false,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      sortOrder: 0,
+      children: [],
+    );
+  }
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(
       id: json['id'] as String,

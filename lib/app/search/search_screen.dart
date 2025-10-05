@@ -1,62 +1,92 @@
 import 'package:flutter/material.dart';
-import 'package:service_shop/app/search/presentation/category_screen.dart';
-import 'package:service_shop/app/search/presentation/widgets/filter_button.dart';
-import 'package:service_shop/app/search/presentation/widgets/sort_custom_dialog.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_shop/app/search/application/qwery_params/query_provider.dart';
+import 'package:service_shop/app/search/domain/models/category_model.dart';
+import 'package:service_shop/app/search/presentation/filter_search_widgets/category_screen.dart';
+import 'package:service_shop/app/search/presentation/filter_search_widgets/filter_screen.dart';
+import 'package:service_shop/app/search/presentation/filter_widgets/filter_sort_widget.dart';
 import 'package:service_shop/core/extansions/router_extension.dart';
 import 'package:service_shop/core/presentation/appbar/search_appbar.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends ConsumerWidget {
   const SearchScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final queryState = ref.watch(queryProvider);
     return Scaffold(
-      appBar: SearchAppBar(hintText: "Поиск"),
+      appBar: SearchAppBar(hintText: "Поиск",onChanged: (value) {
+          ref.read(queryProvider.notifier).setSearchText(value);
+      },),
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FilterButton(
-                onPressed: () {
-                  context.push(CategoryScreen((category) {
+          /// Create a FilterSortWidget with navigation to CategoryScreen and FilterScreen
+          Container(
+            decoration: BoxDecoration(
+              color: ServiceColors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 4.0,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                queryState.category != null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 0.0,
+                        ),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Chip(
+                            label: Text(queryState.category!.name),
+                            visualDensity: VisualDensity.compact,
+                            backgroundColor: ServiceColors.primaryColor.withOpacity(0.1),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            onDeleted: () {
+                              ref.read(queryProvider.notifier).clearCategory();
+                            },
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
 
-                  },));
-                },
-                icon: Icons.select_all,
-                label: "Категории",
-              ),
-              FilterButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return SortCustomDialog();
-                    },
-                  );
-                },
-                icon: Icons.sort,
-                label: "Сортировать по",
-              ),
-              FilterButton(
-                onPressed: () {},
-                icon: Icons.filter_list_outlined,
-                label: "Фильтр",
-              ),
-            ],
+                FilterSortWidget(
+                  onSelectedSortOption: (sortOption) {
+                    ref.read(queryProvider.notifier).setSortBy(sortOption.id);
+                  },
+                  onPressedCategory: () {
+                    context.push(
+                      CategoryScreen((selectedCategory) {
+                        ref
+                            .read(queryProvider.notifier)
+                            .setCategory(selectedCategory);
+                      }),
+                    );
+                  },
+                  onPressedFilter: () {
+                    context.push(FilterScreen());
+                  },
+                ),
+              ],
+            ),
           ),
-          // Expanded(
-          //   child: Center(
-          //     child: Text(
-          //       'Здесь будет отображаться результат поиска',
-          //       style: TextStyle(
-          //         fontSize: 16,
-          //         color: ServiceColors.primaryColor,
-          //       ),
-          //     ),
-          //   ),
-          // ),
+
+          const Expanded(
+            child: Center(
+              child: Text(
+                'Результаты поиска появятся здесь',
+                style: TextStyle(fontSize: 16, color: Colors.grey),
+              ),
+            ),
+          ),
         ],
       ),
     );

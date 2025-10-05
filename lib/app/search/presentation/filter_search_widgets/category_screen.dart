@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/core/presentation/image/app_image_container.dart';
-import '../../search/domain/models/category_model.dart';
-import '../../search/application/categories/category_list_provider.dart';
-import '../../search/application/categories/category_list_state.dart';
+import '../../domain/models/category_model.dart';
+import '../../application/categories/category_list_provider.dart';
+import '../../application/categories/category_list_state.dart';
 
 class CategoryScreen extends ConsumerWidget {
   const CategoryScreen(this.selectCategory, {super.key});
-
   final Function(CategoryModel) selectCategory;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(categoriesProvider);
@@ -40,13 +38,7 @@ class CategoryScreen extends ConsumerWidget {
         return ListView(
           children: state.categories
               .map(
-                (cat) => GestureDetector(
-                  onTap: () {
-                    selectCategory(cat);
-                    //Navigator.of(ref.context).pop();
-                  },
-                  child: _CategoryTile(category: cat),
-                ),
+                (cat) => _CategoryTile(category: cat, onTap: selectCategory),
               )
               .toList(),
         );
@@ -62,8 +54,9 @@ class CategoryScreen extends ConsumerWidget {
 
 class _CategoryTile extends StatefulWidget {
   final CategoryModel category;
+  final Function(CategoryModel)? onTap;
 
-  const _CategoryTile({required this.category});
+  const _CategoryTile({required this.category, required this.onTap});
 
   @override
   State<_CategoryTile> createState() => _CategoryTileState();
@@ -94,6 +87,9 @@ class _CategoryTileState extends State<_CategoryTile> {
               onTap: () {
                 setState(() {
                   selectedCategory = child;
+                  if (widget.onTap != null) {
+                    widget.onTap!(child);
+                  }
                 });
               },
               title: Text(child.name),

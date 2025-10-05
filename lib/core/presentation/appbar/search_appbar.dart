@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:service_shop/app/search/presentation/filter_widgets/filter_sort_widget.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
 
 class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String hintText;
-
   final ValueChanged<String>? onChanged;
   final VoidCallback? onSearch;
 
@@ -17,8 +17,9 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: ServiceColors.white,
       title: Container(
-        height: 40,
+        height: 45,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
@@ -63,5 +64,5 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 10);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

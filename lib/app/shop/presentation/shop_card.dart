@@ -12,15 +12,16 @@ class ShopCard extends StatelessWidget {
     super.key,
     required this.shop,
     this.onFavorite,
-    this.isFavorite = false, this.onTap,
+    this.isFavorite = false,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap:onTap,
+      onTap: onTap,
       child: Card(
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 3,
         child: Column(
@@ -79,38 +80,54 @@ class ShopCard extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 8),
-                  Text(
-                    shop.address,
-                    style: Theme.of(context).textTheme.bodySmall,
-                    maxLines: 2,
+                  SizedBox(
+                    height: 30,
+                    child: Text(
+                      shop.address,
+                      style: Theme.of(context).textTheme.bodySmall,
+                      maxLines: 2,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Text(
-                        shop.isOpen ? 'Открыто:' : 'Закрыто:',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: shop.isOpen ? Colors.green : Colors.red,
+                      FittedBox(
+                        child: Text(
+                          shop.isOpen ? 'Открыто:' : 'Закрыто:',
+                          overflow: TextOverflow.ellipsis, // prevents overflow
+                          style: Theme.of(context).textTheme.bodySmall!
+                              .copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: shop.isOpen ? Colors.green : Colors.red,
+                              ),
                         ),
                       ),
-                      const SizedBox(width: 2),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 4,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: shop.isOpen
-                              ? Colors.green[100]
-                              : Colors.red[100],
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          shop.workingHours,
-                          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: shop.isOpen ? Colors.green : Colors.red,
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: FittedBox(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 4,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: shop.isOpen
+                                  ? Colors.green[100]
+                                  : Colors.red[100],
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              shop.workingHours,
+                              overflow:
+                                  TextOverflow.ellipsis, // prevents overflow
+                              style: Theme.of(context).textTheme.bodySmall!
+                                  .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: shop.isOpen
+                                        ? Colors.green
+                                        : Colors.red,
+                                  ),
+                            ),
                           ),
                         ),
                       ),

@@ -1,148 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_shop/app/profile/application/profile_edit/profile_edit_provider.dart';
 
-class ProfileEditScreen extends StatelessWidget {
+class ProfileEditScreen extends ConsumerWidget {
   const ProfileEditScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(profileEditProvider);
+    final controller = ref.read(profileEditProvider.notifier);
+
+    Widget buildField(
+      String label,
+      String fieldKey, {
+      bool obscure = false,
+      Widget? suffix,
+    }) {
+      return TextField(
+        decoration: InputDecoration(
+          labelText: label,
+          border: const OutlineInputBorder(),
+          suffixIcon: suffix,
+        ),
+        obscureText: obscure,
+        onChanged: (value) => controller.updateField(fieldKey, value),
+        controller: TextEditingController(
+          text: {
+            'firstName': state.firstName,
+            'lastName': state.lastName,
+            'birthDate': state.birthDate,
+            'gender': state.gender,
+            'phone': state.phone,
+            'email': state.email,
+            'password': state.password,
+          }[fieldKey],
+        ),
+      );
+    }
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Мои данные")),
+      appBar: AppBar(title: const Text('Мои данные')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const CircleAvatar(radius: 40, child: Icon(Icons.person, size: 40)),
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () {},
-              child: const Text("Изменить фото"),
+              child: const Text('Изменить фото'),
             ),
             const SizedBox(height: 16),
-
-            // Личные данные
-            const TextField(
-              decoration: InputDecoration(
-                label: Text('Имя'),
-                border: OutlineInputBorder(),
-              ),
+            buildField('Имя', 'firstName'),
+            const SizedBox(height: 12),
+            buildField('Фамилия', 'lastName'),
+            const SizedBox(height: 12),
+            buildField(
+              'Дата рождения',
+              'birthDate',
+              suffix: const Icon(Icons.date_range),
             ),
             const SizedBox(height: 12),
-            const TextField(
-              decoration: InputDecoration(
-                label: Text('Фамилия'),
-                border: OutlineInputBorder(),
-              ),
+            buildField(
+              'Пол',
+              'gender',
+              suffix: const Icon(Icons.arrow_forward_ios),
             ),
             const SizedBox(height: 12),
-            const TextField(
-              decoration: InputDecoration(
-                label: Text('Дата рождения'),
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(Icons.date_range),
-              ),
-            ),
+            buildField('Телефон', 'phone', suffix: const Icon(Icons.phone)),
             const SizedBox(height: 12),
-            const TextField(
-              decoration: InputDecoration(
-                label: Text('Пол'),
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(Icons.arrow_forward_ios),
-              ),
-            ),
+            buildField('E-mail', 'email', suffix: const Icon(Icons.email)),
             const SizedBox(height: 12),
-
-            // Телефон
-            Row(
-              children: [
-                const Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      label: Text('Телефон'),
-                      border: OutlineInputBorder(),
-                      suffixIcon: Icon(Icons.phone),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    "   Подтвeржден",
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-
-            // Email
-            Row(
-              children: [
-                const Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      label: Text('E-mail'),
-                      border: OutlineInputBorder(),
-                      suffixIcon: Icon(Icons.email),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    "Ожидает \n подтвреждения",
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-
-            // Пароль
-            Row(
-              children: [
-                const Expanded(
-                  child: TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      label: Text('Пароль'),
-                      border: OutlineInputBorder(),
-                      suffixIcon: Icon(Icons.lock),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    "Сменить пароль",
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                ),
-              ],
+            buildField(
+              'Пароль',
+              'password',
+              obscure: true,
+              suffix: const Icon(Icons.lock),
             ),
           ],
         ),

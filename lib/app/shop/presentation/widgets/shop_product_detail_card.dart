@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:service_shop/app/shop/domain/models/shop_products.dart';
 import 'package:service_shop/app/shop/presentation/widgets/add_remove_button.dart';
 import 'package:service_shop/core/presentation/image/app_image_container.dart';
-import 'package:service_shop/core/presentation/theme/colors.dart';
 
 class ShopProductDetailCard extends StatefulWidget {
   final ShopProduct product;

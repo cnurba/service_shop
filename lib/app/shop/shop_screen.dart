@@ -18,17 +18,19 @@ class ShopScreen extends ConsumerWidget {
       child: Scaffold(
         appBar: LogoAppbar(),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 16),
+
                 child: Text(
                   'Магазины',
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
+
               Expanded(
                 child: Builder(
                   builder: (context) {

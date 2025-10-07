@@ -10,6 +10,7 @@ class ProfileEditState {
   final String phone;
   final String email;
   final String password;
+  final String imageUrl = '';
 
   const ProfileEditState({
     this.status = ProfileStatus.initial,

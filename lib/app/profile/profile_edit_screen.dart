@@ -17,12 +17,17 @@ class ProfileEditScreen extends ConsumerWidget {
       Widget? suffix,
     }) {
       return TextField(
+        //enabled: false,
+
         decoration: InputDecoration(
           labelText: label,
           border: const OutlineInputBorder(),
           suffixIcon: suffix,
         ),
         obscureText: obscure,
+        onTap: (){
+          showDatePicker(context: context, firstDate: DateTime(2025,01,01), lastDate: DateTime.now());
+        },
         onChanged: (value) => controller.updateField(fieldKey, value),
         controller: TextEditingController(
           text: {

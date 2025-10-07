@@ -4,6 +4,9 @@ import 'package:service_shop/app/profile/application/profile_edit/profile_edit_s
 class ProfileEditController extends StateNotifier<ProfileEditState> {
   ProfileEditController() : super(const ProfileEditState());
 
+  void setName(String name){
+    state = state.copyWith(firstName: name);
+  }
   // Update any field
   void updateField(String field, String value) {
     switch (field) {

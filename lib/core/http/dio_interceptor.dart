@@ -13,8 +13,10 @@ class DioInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     final token = await tokenStorage.read();
-    if (token != null && token.accessToken.isNotEmpty) {
-      options.headers['Authorization'] = 'Bearer ${token.accessToken}';
+    if(!options.path.contains('/GetToken')){
+      if (token != null && token.accessToken.isNotEmpty) {
+        options.headers['Authorization'] = 'Bearer ${token.accessToken}';
+      }
     }
     handler.next(options);
   }

@@ -42,7 +42,8 @@ class SettingsScreen extends StatelessWidget {
           ),
           ListTile(
             title: Text('Доставка'),
-            trailing: Switch(value: true, onChanged: (bool value) {}),
+
+            trailing: Switch.adaptive(value: true, onChanged: (bool value) {}),
           ),
           ListTile(
             title: Text('Новости'),

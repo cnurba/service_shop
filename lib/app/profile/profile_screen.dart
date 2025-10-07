@@ -6,6 +6,7 @@ import 'package:service_shop/app/profile/widgets/my_adress_screen.dart';
 import 'package:service_shop/app/profile/widgets/order_history_screen.dart';
 import 'package:service_shop/app/profile/widgets/payment_method_screen.dart';
 import 'package:service_shop/app/profile/widgets/settings_screen.dart';
+import 'package:service_shop/core/extansions/router_extension.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -19,7 +20,7 @@ class ProfileScreen extends StatelessWidget {
           IconButton(icon: const Icon(Icons.notifications), onPressed: () {}),
         ],
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
@@ -67,14 +68,16 @@ class ProfileScreen extends StatelessWidget {
                 );
               },
             ),
+
             ListTile(
               title: const Text("Мои адреса"),
               leading: Icon(Icons.location_on_outlined),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyAddressesScreen()),
-                );
+                context.push(MyAddressesScreen());
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => MyAddressesScreen()),
+                // );
               },
             ),
             ListTile(

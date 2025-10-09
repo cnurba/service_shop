@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:service_shop/core/presentation/appbar/custom_appbar.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
 
 class AboutAppScreen extends StatelessWidget {
@@ -7,16 +8,7 @@ class AboutAppScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'О приложении',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
+      appBar: customAppBar(context, "О приложении", showBack: false),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

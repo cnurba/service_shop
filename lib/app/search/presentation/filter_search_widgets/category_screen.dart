@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_shop/core/presentation/appbar/logo_appbar.dart';
 import 'package:service_shop/core/presentation/image/app_image_container.dart';
 import '../../domain/models/category_model.dart';
 import '../../application/categories/category_list_provider.dart';
@@ -11,24 +12,40 @@ class CategoryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(categoriesProvider);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Категории'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: LogoAppbar(),
+        body: Column(
+          children: [
+            SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Категории',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Icon(Icons.close),
+              ],
+            ),
+            Divider(),
+            Expanded(
+              child: _buildBody(state, ref, (selectedCategory) {
+                selectCategory(selectedCategory);
+                Navigator.of(context).pop();
+              }),
+            ),
+          ],
+        ),
       ),
-      body: _buildBody(state, ref, (selectedCategory) {
-        selectCategory(selectedCategory);
-        Navigator.of(context).pop();
-      },),
     );
   }
 
-  Widget _buildBody(CategoryListState state, WidgetRef ref,Function(CategoryModel) selectCategory) {
+  Widget _buildBody(
+    CategoryListState state,
+    WidgetRef ref,
+    Function(CategoryModel) selectCategory,
+  ) {
     switch (state.status) {
       case CategoryListStatus.loading:
         return const Center(child: CircularProgressIndicator());
@@ -37,9 +54,7 @@ class CategoryScreen extends ConsumerWidget {
       case CategoryListStatus.loaded:
         return ListView(
           children: state.categories
-              .map(
-                (cat) => _CategoryTile(category: cat, onTap: selectCategory),
-              )
+              .map((cat) => _CategoryTile(category: cat, onTap: selectCategory))
               .toList(),
         );
       default:

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:service_shop/app/profile/profile_edit_screen.dart';
-import 'package:service_shop/app/profile/widgets/about_app_screen.dart';
-import 'package:service_shop/app/profile/widgets/feedback_screen.dart';
-import 'package:service_shop/app/profile/widgets/my_adress_screen.dart';
-import 'package:service_shop/app/profile/widgets/order_history_screen.dart';
-import 'package:service_shop/app/profile/widgets/payment_method_screen.dart';
-import 'package:service_shop/app/profile/widgets/settings_screen.dart';
+import 'package:service_shop/app/profile/screens/about_app_screen.dart';
+import 'package:service_shop/app/profile/screens/feedback_screen.dart';
+import 'package:service_shop/app/profile/screens/my_adress_screen.dart';
+import 'package:service_shop/app/profile/screens/order_history_screen.dart';
+import 'package:service_shop/app/profile/screens/payment_method_screen.dart';
+import 'package:service_shop/app/profile/screens/settings_screen.dart';
+import 'package:service_shop/app/profile/widgets/profile_menu_tile.dart';
+import 'package:service_shop/app/profile/widgets/status_container.dart';
 import 'package:service_shop/core/extansions/router_extension.dart';
+import 'package:service_shop/core/presentation/appbar/custom_appbar.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -14,8 +17,10 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Профиль"),
+      appBar: customAppBar(
+        context,
+        "Профиль",
+        showBack: false,
         actions: [
           IconButton(icon: const Icon(Icons.notifications), onPressed: () {}),
         ],
@@ -42,90 +47,39 @@ class ProfileScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (_) => const ProfileEditScreen()),
                 );
               },
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  "Редактировать профиль",
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
-              ),
+              child: StatusContainer(text: 'Редактировать профиль'),
             ),
             const SizedBox(height: 16),
-            ListTile(
-              title: const Text("История заказов"),
-              leading: Icon(Icons.task_outlined),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => OrderHistoryScreen()),
-                );
-              },
-            ),
 
-            ListTile(
-              title: const Text("Мои адреса"),
-              leading: Icon(Icons.location_on_outlined),
-              onTap: () {
-                context.push(MyAddressesScreen());
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => MyAddressesScreen()),
-                // );
-              },
+            ProfileMenuTile(
+              title: "История заказов",
+              icon: Icons.task_outlined,
+              onTap: () => context.push(OrderHistoryScreen()),
             ),
-            ListTile(
-              title: Text('Способы оплаты'),
-              leading: Icon(Icons.wallet_outlined),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PaymentMethodScreen(),
-                  ),
-                );
-              },
+            ProfileMenuTile(
+              title: "Мои адреса",
+              icon: Icons.location_on_outlined,
+              onTap: () => context.push(MyAddressesScreen()),
             ),
-            ListTile(
-              title: Text('Покупки'),
-              leading: Icon(Icons.insert_drive_file_outlined),
+            ProfileMenuTile(
+              title: "Способы оплаты",
+              icon: Icons.wallet_outlined,
+              onTap: () => context.push(PaymentMethodScreen()),
             ),
-            ListTile(
-              title: Text('Обратная связь'),
-              leading: Icon(Icons.feedback_outlined),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FeedbackScreen()),
-                );
-              },
+            ProfileMenuTile(
+              title: "Обратная связь",
+              icon: Icons.feedback_outlined,
+              onTap: () => context.push(FeedbackScreen()),
             ),
-
-            ListTile(
-              title: Text('О приложении'),
-              leading: Icon(Icons.info_outline),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AboutAppScreen()),
-                );
-              },
+            ProfileMenuTile(
+              title: "О приложении",
+              icon: Icons.info_outline,
+              onTap: () => context.push(AboutAppScreen()),
             ),
-            ListTile(
-              title: Text('Настройки'),
-              leading: Icon(Icons.settings_outlined),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SettingsScreen()),
-                );
-              },
+            ProfileMenuTile(
+              title: "Настройки",
+              icon: Icons.settings_outlined,
+              onTap: () => context.push(SettingsScreen()),
             ),
           ],
         ),

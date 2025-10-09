@@ -1,4 +1,6 @@
-class UserProfile {
+import 'package:equatable/equatable.dart';
+
+class UserProfile extends Equatable {
   final String firstName;
   final String lastName;
   final String birthDate;
@@ -7,7 +9,7 @@ class UserProfile {
   final String email;
   final String password;
 
-  UserProfile({
+  const UserProfile({
     required this.firstName,
     required this.lastName,
     required this.birthDate,
@@ -36,4 +38,15 @@ class UserProfile {
       password: password ?? this.password,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    firstName,
+    lastName,
+    birthDate,
+    gender,
+    phone,
+    email,
+    password,
+  ];
 }

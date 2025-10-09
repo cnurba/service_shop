@@ -4,33 +4,32 @@ import 'package:service_shop/app/profile/application/profile_edit/profile_edit_s
 class ProfileEditController extends StateNotifier<ProfileEditState> {
   ProfileEditController() : super(const ProfileEditState());
 
-  void setName(String name){
+  // Individual field updaters
+  void setFirstName(String name) {
     state = state.copyWith(firstName: name);
   }
-  // Update any field
-  void updateField(String field, String value) {
-    switch (field) {
-      case 'firstName':
-        state = state.copyWith(firstName: value);
-        break;
-      case 'lastName':
-        state = state.copyWith(lastName: value);
-        break;
-      case 'birthDate':
-        state = state.copyWith(birthDate: value);
-        break;
-      case 'gender':
-        state = state.copyWith(gender: value);
-        break;
-      case 'phone':
-        state = state.copyWith(phone: value);
-        break;
-      case 'email':
-        state = state.copyWith(email: value);
-        break;
-      case 'password':
-        state = state.copyWith(password: value);
-        break;
-    }
+
+  void setLastName(String name) {
+    state = state.copyWith(lastName: name);
+  }
+
+  void setBirthDate(String date) {
+    state = state.copyWith(birthDate: date);
+  }
+
+  void setGender(String gender) {
+    state = state.copyWith(gender: gender);
+  }
+
+  void setPhone(String phone) {
+    state = state.copyWith(phone: phone);
+  }
+
+  void setEmail(String email) {
+    state = state.copyWith(email: email);
+  }
+
+  void setPassword(String password) {
+    state = state.copyWith(password: password);
   }
 }

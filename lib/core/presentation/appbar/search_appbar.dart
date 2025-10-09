@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:service_shop/app/search/presentation/filter_widgets/filter_sort_widget.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
 
 class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -49,10 +48,7 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
             IconButton(
-              icon: const Icon(
-                Icons.search,
-                color: ServiceColors.primaryColor,
-              ),
+              icon: const Icon(Icons.search, color: ServiceColors.primaryColor),
               onPressed: onSearch,
             ),
           ],

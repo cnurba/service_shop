@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/profile/application/profile_edit/profile_edit_provider.dart';
+import 'package:service_shop/app/profile/widgets/gender_selector.dart';
+import 'package:service_shop/app/profile/widgets/profile_field_updater.dart';
 import 'package:service_shop/app/profile/widgets/text_field_with_status.dart';
 
 class ProfileTextField extends ConsumerWidget {
@@ -39,8 +41,9 @@ class ProfileTextField extends ConsumerWidget {
     Widget? effectiveSuffixIcon = suffixIcon;
     VoidCallback? onTapIcon;
 
+    // Handle date field
     if (fieldKey == 'birthDate') {
-      effectiveSuffixIcon = Icon(Icons.date_range);
+      effectiveSuffixIcon = const Icon(Icons.date_range);
       onTapIcon = () async {
         DateTime? picked = await showDatePicker(
           context: context,
@@ -54,36 +57,22 @@ class ProfileTextField extends ConsumerWidget {
         if (picked != null) {
           final formattedDate =
               "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
-          controller.updateField(fieldKey, formattedDate);
-        }
-      };
-    } else if (fieldKey == 'gender') {
-      effectiveSuffixIcon = Icon(Icons.arrow_forward_ios);
-      onTapIcon = () async {
-        final selected = await showModalBottomSheet<String>(
-          context: context,
-          builder: (context) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  title: const Text("Мужской"),
-                  onTap: () => Navigator.pop(context, "Мужской"),
-                ),
-                ListTile(
-                  title: const Text("Женский"),
-                  onTap: () => Navigator.pop(context, "Женский"),
-                ),
-              ],
-            );
-          },
-        );
-
-        if (selected != null) {
-          controller.updateField(fieldKey, selected);
+          controller.setBirthDate(formattedDate);
         }
       };
     }
+    // Handle gender field
+    else if (fieldKey == 'gender') {
+      effectiveSuffixIcon = const Icon(Icons.arrow_forward_ios);
+      onTapIcon = () async {
+        final selected = await selectGender(context);
+        if (selected != null) {
+          controller.setGender(selected);
+        }
+      };
+    }
+
+    (value) => updateProfileField(controller, fieldKey, value);
 
     final textField = TextField(
       controller: textController,
@@ -95,7 +84,7 @@ class ProfileTextField extends ConsumerWidget {
             : null,
       ),
       obscureText: obscureText,
-      onChanged: (value) => controller.updateField(fieldKey, value),
+      onChanged: (value) => updateProfileField(controller, fieldKey, value),
       readOnly: fieldKey == 'birthDate' || fieldKey == 'gender',
     );
 

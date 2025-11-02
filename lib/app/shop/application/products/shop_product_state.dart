@@ -1,22 +1,21 @@
 import 'package:equatable/equatable.dart';
-import '../../domain/models/shop_products.dart';
-
-enum ShopProductStatus { initial, loading, loaded, error }
+import 'package:service_shop/app/core/models/products/product_category.dart';
+import 'package:service_shop/core/enum/state_type.dart';
 
 class ShopProductState extends Equatable {
-  final List<ShopProductCategory> categories;
-  final ShopProductStatus status;
+  final List<ProductCategory> categories;
+  final StateType status;
   final String? error;
 
   const ShopProductState({
     this.categories = const [],
-    this.status = ShopProductStatus.initial,
+    this.status = StateType.initial,
     this.error,
   });
 
   ShopProductState copyWith({
-    List<ShopProductCategory>? categories,
-    ShopProductStatus? status,
+    List<ProductCategory>? categories,
+    StateType? status,
     String? error,
   }) {
     return ShopProductState(

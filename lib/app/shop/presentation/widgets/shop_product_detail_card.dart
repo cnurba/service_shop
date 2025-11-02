@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:service_shop/app/shop/domain/models/shop_products.dart';
+import 'package:service_shop/app/core/models/products/product.dart';
 import 'package:service_shop/app/shop/presentation/widgets/add_remove_button.dart';
 import 'package:service_shop/core/presentation/image/app_image_container.dart';
 
-class ShopProductDetailCard extends StatefulWidget {
-  final ShopProduct product;
+class ProductCard extends StatefulWidget {
+  final Product product;
   final VoidCallback? onFavorite;
   final int count;
   final VoidCallback? onAdd;
   final VoidCallback? onRemove;
   final VoidCallback? onTap;
 
-  const ShopProductDetailCard({
+  const ProductCard({
     super.key,
     required this.product,
     this.onFavorite,
@@ -23,10 +23,10 @@ class ShopProductDetailCard extends StatefulWidget {
   });
 
   @override
-  State<ShopProductDetailCard> createState() => _ShopProductDetailCardState();
+  State<ProductCard> createState() => _ProductCardState();
 }
 
-class _ShopProductDetailCardState extends State<ShopProductDetailCard> {
+class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -80,9 +80,15 @@ class _ShopProductDetailCardState extends State<ShopProductDetailCard> {
                     Text(
                       widget.product.name,
                       style: Theme.of(context).textTheme.bodySmall,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
+                    // Text(
+                    //   widget.product.propertyName,
+                    //   style: Theme.of(context).textTheme.bodySmall,
+                    //   maxLines: 2,
+                    //   overflow: TextOverflow.ellipsis,
+                    // ),
                   ],
                 ),
               ),

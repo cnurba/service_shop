@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:service_shop/app/shop/application/shop_products/shop_product_controller.dart';
+import 'package:service_shop/app/shop/application/products/shop_product_controller.dart';
 import 'package:service_shop/app/shop/application/shops/shops_provider.dart';
 import 'package:service_shop/app/shop/application/shops/shops_state.dart';
-import 'package:service_shop/app/shop/presentation/shop_detail/shop_product_detail_screen.dart';
+import 'package:service_shop/app/shop/presentation/screens/product_screen.dart';
+import 'package:service_shop/core/extansions/router_extension.dart';
 import 'package:service_shop/core/presentation/appbar/logo_appbar.dart';
 import 'presentation/shop_card.dart';
 
@@ -60,13 +61,7 @@ class ShopScreen extends ConsumerWidget {
                             ref
                                 .read(shopProductProvider.notifier)
                                 .loadShopProducts(shop.id);
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ShopProductDetailScreen();
-                                },
-                              ),
-                            );
+                            context.push(ProductScreen());
                           },
                         );
                       },

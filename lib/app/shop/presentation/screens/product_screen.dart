@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:service_shop/app/shop/application/shop_products/shop_product_controller.dart';
+import 'package:service_shop/app/core/models/data_tree.dart';
+import 'package:service_shop/app/shop/application/product/product_detail_controller.dart';
+import 'package:service_shop/app/shop/application/product_detail_loader/product_detail_loader_controller.dart';
+import 'package:service_shop/app/shop/application/products/shop_product_controller.dart';
+import 'package:service_shop/app/shop/presentation/shop_detail/product_detail_loader_screen.dart';
 import 'package:service_shop/app/shop/presentation/shop_detail/product_detail_screen.dart';
 import 'package:service_shop/app/shop/presentation/widgets/shop_product_detail_card.dart';
+import 'package:service_shop/core/enum/state_type.dart';
+import 'package:service_shop/core/extansions/router_extension.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
 
-import '../../application/shop_products/shop_product_state.dart';
-
-class ShopProductDetailScreen extends StatelessWidget {
-  const ShopProductDetailScreen({super.key});
+class ProductScreen extends StatelessWidget {
+  const ProductScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +24,10 @@ class ShopProductDetailScreen extends StatelessWidget {
           backgroundColor: ServiceColors.white,
           body: Builder(
             builder: (context) {
-              if (state.status == ShopProductStatus.loading) {
+              if (state.status == StateType.loading) {
                 return const Center(child: CircularProgressIndicator());
               }
-              if (state.status == ShopProductStatus.error) {
+              if (state.status == StateType.error) {
                 return Center(child: Text('Ошибка: ${state.error}'));
               }
               if (state.categories.isEmpty) {
@@ -38,6 +42,7 @@ class ShopProductDetailScreen extends StatelessWidget {
                   final category = state.categories[index];
                   return ListView(
                     shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
                     children: [
                       SizedBox(height: 8),
                       Text(
@@ -46,7 +51,7 @@ class ShopProductDetailScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 8),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
+                        height: MediaQuery.of(context).size.height * 0.32,
                         child: ListView.builder(
                           itemCount: category.products.length,
                           padding: EdgeInsets.only(right: 8),
@@ -55,11 +60,31 @@ class ShopProductDetailScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             final product = category.products[index];
-                            return ShopProductDetailCard(product: product,onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                                return ProductDetailScreen(product: product);
-                              }));
-                            },);
+                            return ProductCard(
+                              product: product,
+                              onTap: () async {
+                                ref
+                                    .read(productDetailLoaderProvider.notifier)
+                                    .load(product.branchUuid, product.uuid);
+
+                                final result = await showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      const ProductDetailLoaderScreen(),
+                                );
+
+                                if (result is DataTree) {
+                                  ref
+                                      .read(productDetailProvider.notifier)
+                                      .initialize(
+                                        dataTree: result,
+                                        product: product,
+                                      );
+
+                                  context.push(ProductDetailScreen());
+                                }
+                              },
+                            );
                           },
                         ),
                       ),

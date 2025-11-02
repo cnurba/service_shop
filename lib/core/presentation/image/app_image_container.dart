@@ -14,11 +14,7 @@ class AppImageContainer extends StatelessWidget {
     this.height = 100,
     this.borderRadius = 8.0,
     this.boxShadow = const [
-      BoxShadow(
-        color: Colors.black12,
-        blurRadius: 4.0,
-        offset: Offset(0, 2),
-      ),
+      BoxShadow(color: Colors.black12, blurRadius: 4.0, offset: Offset(0, 2)),
     ],
     this.fit = BoxFit.cover,
     this.placeholder,
@@ -47,22 +43,14 @@ class AppImageContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
         child: image == null || image!.isEmpty
             ? placeholder ??
-                Image.asset(
-                  'assets/logo/placeholder.png',
-                  fit: fit,
-                )
+                  Image.asset('assets/logo/placeholder.png', fit: fit)
             : CachedNetworkImage(
                 imageUrl: "${ServerAddress().imageUrl}$image",
                 fit: fit,
-                placeholder: (context, url) => placeholder ??
-                    Center(
-                      child: SizedBox.shrink(),
-                    ),
-                errorWidget: (context, url, error) => errorWidget ??
-                    Icon(
-                      Icons.error,
-                      color: Colors.red,
-                    ),
+                placeholder: (context, url) =>
+                    placeholder ?? Center(child: SizedBox.shrink()),
+                errorWidget: (context, url, error) =>
+                    errorWidget ?? Icon(Icons.error, color: Colors.red),
               ),
       ),
     );

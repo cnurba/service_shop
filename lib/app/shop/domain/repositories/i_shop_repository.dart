@@ -1,7 +1,10 @@
+import 'package:service_shop/app/core/models/data_tree.dart';
+import 'package:service_shop/app/core/models/products/product_category.dart';
+import 'package:service_shop/app/shop/application/product/product_detail_state.dart';
 import 'package:service_shop/app/shop/domain/models/shop.dart';
-import 'package:service_shop/app/shop/domain/models/shop_products.dart';
 
 abstract class IShopRepository {
   Future<List<Shop>> getShops();
-  Future<List<ShopProductCategory>> getShopProducts(String shopUuid);
+  Future<List<ProductCategory>> getShopProducts(String shopUuid);
+  Future<DataTree> getProductDetail({required String shopUuid, required String productUuid});
 }

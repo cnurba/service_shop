@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/search/application/qwery_params/query_provider.dart';
-import 'package:service_shop/app/search/domain/models/category_model.dart';
 import 'package:service_shop/app/search/presentation/filter_search_widgets/category_screen.dart';
 import 'package:service_shop/app/search/presentation/filter_search_widgets/filter_screen.dart';
 import 'package:service_shop/app/search/presentation/filter_widgets/filter_sort_widget.dart';

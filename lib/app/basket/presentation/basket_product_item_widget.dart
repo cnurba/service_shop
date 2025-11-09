@@ -1,0 +1,124 @@
+import 'package:flutter/material.dart';
+import 'package:service_shop/app/core/models/products/product.dart';
+import 'package:service_shop/core/presentation/image/app_image_container.dart';
+
+class BasketProductCard extends StatelessWidget {
+  final Product product;
+  final VoidCallback onAdd;
+  final VoidCallback onMinus;
+  final VoidCallback onRemove;
+  final VoidCallback onAddToFavorites;
+
+  const BasketProductCard({
+    super.key,
+    required this.product,
+    required this.onAdd,
+    required this.onRemove,
+    required this.onMinus,
+    required this.onAddToFavorites,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Вспомогательный метод для отображения иконки поставщика или первой буквы
+    return Card(
+      //margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      elevation: 0, // Убираем тень, как на скриншоте
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      child: Column(
+        children: [
+          // Средняя часть: Изображение, название и описание
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: AppImageContainer(image: product.imageUrl),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${product.price?.toStringAsFixed(0) ?? '0'} c',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red),
+                    ),
+                    Text(
+                      product.name ?? 'Название не указано',
+                      style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
+                    if (product.propertyName != null &&
+                      product.propertyName!.isNotEmpty)
+                    Text(
+                      product.propertyName!,
+                      style:
+                      const TextStyle(fontSize: 13, color: Colors.grey),
+                    ),
+
+                    // Нижняя часть: Управление количеством и действия
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Кнопки количества
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.remove, size: 20),
+                                onPressed: onMinus,
+                                constraints: const BoxConstraints(),
+                                padding: const EdgeInsets.all(8),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(
+                                  product.quantity.toString(),
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.add, size: 20),
+                                onPressed: () => onAdd,
+                                constraints: const BoxConstraints(),
+                                padding: const EdgeInsets.all(8),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Кнопки избранного и удаления
+                        Row(
+                          children: [
+                            IconButton(
+                              icon:
+                              const Icon(Icons.favorite_border, color: Colors.grey),
+                              onPressed: onAddToFavorites,
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete_outline, color: Colors.grey),
+                              onPressed: onRemove,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+        ],
+      ),
+    );
+  }
+}

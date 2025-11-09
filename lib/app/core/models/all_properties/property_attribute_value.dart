@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:service_shop/app/core/models/all_properties/property_all.dart';
-import 'package:service_shop/app/core/models/attribute/attribute.dart';
-import 'package:service_shop/app/core/models/attribute/property.dart';
 
 class PropertyAttributeValue extends Equatable {
   final String propertyValue;

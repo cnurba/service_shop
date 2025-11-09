@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:service_shop/app/search/presentation/filter_search_widgets/filter_screen.dart';
 import 'package:service_shop/app/search/presentation/filter_widgets/category_button.dart';
 import 'package:service_shop/app/search/presentation/filter_widgets/filter_button.dart';
 import 'package:service_shop/app/search/presentation/filter_widgets/sort_drop_button.dart';
-import 'package:service_shop/core/extansions/router_extension.dart';
 
 class FilterSortWidget extends StatelessWidget {
   const FilterSortWidget({

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_shop/app/basket/application/basket_provider/basket_controller.dart';
 import 'package:service_shop/app/core/models/data_tree.dart';
 import 'package:service_shop/app/shop/application/product/product_detail_controller.dart';
 import 'package:service_shop/app/shop/application/product_detail_loader/product_detail_loader_controller.dart';
 import 'package:service_shop/app/shop/application/products/shop_product_controller.dart';
+import 'package:service_shop/app/shop/application/shops/shops_provider.dart';
 import 'package:service_shop/app/shop/presentation/shop_detail/product_detail_loader_screen.dart';
 import 'package:service_shop/app/shop/presentation/shop_detail/product_detail_screen.dart';
 import 'package:service_shop/app/shop/presentation/widgets/shop_product_detail_card.dart';
@@ -61,7 +63,21 @@ class ProductScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final product = category.products[index];
                             return ProductCard(
+                              quantity: ref
+                                  .watch(basketProvider)
+                                  .getProductCount(
+                                      product, product.branchUuid),
                               product: product,
+                              onRemove: () {
+                               ref.read(basketProvider.notifier).onMinusCount(product, product.branchUuid);
+                              },
+                              onAdd: () {
+                                final shop = ref.read(shopsProvider).shops.where((e)=>e.id==product.branchUuid).first;
+                                ref.read(basketProvider.notifier).add(product, shop);
+                              },
+                              onFavorite: () {
+
+                              },
                               onTap: () async {
                                 ref
                                     .read(productDetailLoaderProvider.notifier)

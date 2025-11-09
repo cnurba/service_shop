@@ -22,6 +22,7 @@ class ShopAttributeSelectWidget extends StatefulWidget {
 
 class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
   String selectedUuid = "";
+  bool _autoSelected = false;
 
   @override
   void initState() {
@@ -32,6 +33,29 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
       }
     }
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant ShopAttributeSelectWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Если в новых свойствах есть выбранное — синхронизируем локальный selectedUuid
+    String? newSelected;
+    for (var prop in widget.attribute.properties) {
+      if (prop.selected) {
+        newSelected = prop.propertyUuid;
+        break;
+      }
+    }
+    if (newSelected != null && newSelected != selectedUuid) {
+      // Обновляем без вызова onSelected — это отражение состояния контроллера
+      if (mounted) {
+        setState(() {
+          selectedUuid = newSelected!;
+          // если пришёл явный выбор от контроллера — блокируем автоподстановку
+          _autoSelected = true;
+        });
+      }
+    }
   }
 
   @override
@@ -49,12 +73,13 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
       }
     }
 
-    // if controller didn't provide selected, pick first and notify after build
-    if (selectedUuid.isEmpty && uniqueProps.isNotEmpty) {
+    // if controller didn't provide selected, pick first and notify after build (only once)
+    if (selectedUuid.isEmpty && uniqueProps.isNotEmpty && !_autoSelected) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           setState(() {
             selectedUuid = uniqueProps.first.propertyUuid;
+            _autoSelected = true;
           });
           widget.onSelected(uniqueProps.first);
         }
@@ -93,6 +118,9 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
                       : Colors.transparent,
                   child: GestureDetector(
                     onTap: () {
+                      // DEBUG: лог клика по цвету
+                      // ignore: avoid_print
+                      print('ShopAttributeSelectWidget.onTap color: attribute=${widget.attribute.attribute.attributeUuid}, property=${prop.propertyUuid}');
                       setState(() {
                         selectedUuid = prop.propertyUuid;
                         widget.onSelected.call(prop);
@@ -110,6 +138,9 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
               if (widget.isMainAttribute || prop.propertyPicture.isNotEmpty) {
                 return GestureDetector(
                   onTap: () {
+                    // DEBUG: лог клика по карточке
+                    // ignore: avoid_print
+                    print('ShopAttributeSelectWidget.onTap card: attribute=${widget.attribute.attribute.attributeUuid}, property=${prop.propertyUuid}');
                     setState(() {
                       selectedUuid = prop.propertyUuid;
                       widget.onSelected.call(prop);
@@ -174,6 +205,9 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
                 label: Text(prop.propertyValue),
                 selected: selectedUuid == prop.propertyUuid,
                 onSelected: (val) {
+                  // DEBUG: лог клика по чипу
+                  // ignore: avoid_print
+                  print('ShopAttributeSelectWidget.onSelected chip: attribute=${widget.attribute.attribute.attributeUuid}, property=${prop.propertyUuid}');
                   setState(() {
                     selectedUuid = prop.propertyUuid;
                     widget.onSelected(prop);

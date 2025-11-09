@@ -12,6 +12,7 @@ class Product extends Equatable {
   final String imageUrl;
   final double price;
   final double count;
+  final double quantity;
   final List<String> images;
 
   const Product({
@@ -27,6 +28,7 @@ class Product extends Equatable {
     required this.count,
     required this.propertyUuid,
     required this.propertyName,
+    this.quantity = 0,
   });
 
   factory Product.empty() {
@@ -43,6 +45,7 @@ class Product extends Equatable {
       count: 0,
       propertyUuid: '',
       propertyName: '',
+      quantity:0,
     );
   }
 
@@ -68,6 +71,38 @@ class Product extends Equatable {
     );
   }
 
+  copyWith({
+    String? uuid,
+    String? name,
+    String? description,
+    String? categoryName,
+    String? sku,
+    String? imageUrl,
+    List<String>? images,
+    double? price,
+    double? count,
+    String? propertyUuid,
+    String? propertyName,
+    String? branchUuid,
+    double? quantity,
+  }) {
+    return Product(
+      uuid: uuid ?? this.uuid,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      categoryName: categoryName ?? this.categoryName,
+      sku: sku ?? this.sku,
+      imageUrl: imageUrl ?? this.imageUrl,
+      images: images ?? this.images,
+      price: price ?? this.price,
+      count: count ?? this.count,
+      propertyUuid: propertyUuid ?? this.propertyUuid,
+      propertyName: propertyName ?? this.propertyName,
+      branchUuid: branchUuid ?? this.branchUuid,
+      quantity: quantity ?? this.quantity,
+    );
+  }
+
   @override
   List<Object?> get props => [
     uuid,
@@ -82,5 +117,6 @@ class Product extends Equatable {
     propertyUuid,
     propertyName,
     branchUuid,
+    quantity,
   ];
 }

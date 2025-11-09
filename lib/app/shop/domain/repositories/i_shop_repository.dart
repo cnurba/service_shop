@@ -1,6 +1,5 @@
 import 'package:service_shop/app/core/models/data_tree.dart';
 import 'package:service_shop/app/core/models/products/product_category.dart';
-import 'package:service_shop/app/shop/application/product/product_detail_state.dart';
 import 'package:service_shop/app/shop/domain/models/shop.dart';
 
 abstract class IShopRepository {

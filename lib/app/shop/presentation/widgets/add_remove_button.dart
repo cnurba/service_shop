@@ -11,7 +11,7 @@ class AddRemoveButton extends StatelessWidget {
 
   final VoidCallback onAdd;
   final VoidCallback onRemove;
-  final int count;
+  final double count;
 
   @override
   Widget build(BuildContext context) {

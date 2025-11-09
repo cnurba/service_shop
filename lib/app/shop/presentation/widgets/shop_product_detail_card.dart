@@ -7,7 +7,7 @@ import 'package:service_shop/core/presentation/image/app_image_container.dart';
 class ProductCard extends StatefulWidget {
   final Product product;
   final VoidCallback? onFavorite;
-  final int count;
+  final double quantity;
   final VoidCallback? onAdd;
   final VoidCallback? onRemove;
   final VoidCallback? onTap;
@@ -16,10 +16,10 @@ class ProductCard extends StatefulWidget {
     super.key,
     required this.product,
     this.onFavorite,
-    this.count = 1,
     this.onAdd,
     this.onRemove,
     this.onTap,
+    this.quantity = 0,
   });
 
   @override
@@ -83,16 +83,19 @@ class _ProductCardState extends State<ProductCard> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    // Text(
-                    //   widget.product.propertyName,
-                    //   style: Theme.of(context).textTheme.bodySmall,
-                    //   maxLines: 2,
-                    //   overflow: TextOverflow.ellipsis,
-                    // ),
+                    Text(
+                      widget.product.propertyName,
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontSize: 8
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
                 ),
               ),
-              AddRemoveButton(count: 1, onAdd: () {}, onRemove: () {}),
+              AddRemoveButton(count: widget.quantity, onAdd: widget.onAdd!,
+               onRemove: widget.onRemove!),
             ],
           ),
         ),

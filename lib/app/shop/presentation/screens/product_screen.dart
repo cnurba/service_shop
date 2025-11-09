@@ -15,7 +15,6 @@ import 'package:service_shop/core/presentation/theme/colors.dart';
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -88,7 +87,6 @@ class ProductScreen extends StatelessWidget {
                                   builder: (context) =>
                                       const ProductDetailLoaderScreen(),
                                 );
-
                                 if (result is DataTree) {
                                   ref
                                       .read(productDetailProvider.notifier)

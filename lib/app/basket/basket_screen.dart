@@ -43,7 +43,7 @@ class BasketScreen extends ConsumerWidget {
                   return Column(
                     children: [
                       ListTile(
-                        title: Text('Магазин ${shopItem.shopName}'),
+                        title: Text('Магазин ${shopItem.shop.name}'),
                         trailing: Text(shopItem.totalAmount.toString()),
                       ),
                       ListView.separated(
@@ -54,16 +54,16 @@ class BasketScreen extends ConsumerWidget {
                           final product = shopItem.products.elementAt(index);
                           return BasketProductCard(
                             onMinus: () {
-                              ref.read(basketProvider.notifier).onMinusCount(product, shopItem.shopId);
+                              ref.read(basketProvider.notifier).onMinusCount(product, shopItem.shop.id);
                             },
                             onAddToFavorites: () {
-                              ref.read(basketProvider.notifier).onLike(product, shopItem.shopId);
+                              ref.read(basketProvider.notifier).onLike(product, shopItem.shop.id);
                             },
                             onAdd: () {
-                              ref.read(basketProvider.notifier).onAddCount(product, shopItem.shopId);
+                              ref.read(basketProvider.notifier).onAddCount(product, shopItem.shop.id);
                             },
                             onRemove: () {
-                              ref.read(basketProvider.notifier).remove(product, shopItem.shopId);
+                              ref.read(basketProvider.notifier).remove(product, shopItem.shop.id);
                             },
                             product:product ,
                           );

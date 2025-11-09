@@ -1,17 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:service_shop/app/core/models/products/product.dart';
+import 'package:service_shop/app/shop/domain/models/shop.dart';
 
-class BasketState extends Equatable{
+class BasketState extends Equatable {
   final List<BasketShopItem> shopItems;
 
-  const BasketState({
-    this.shopItems = const [],
-  });
+  const BasketState({this.shopItems = const []});
 
   factory BasketState.initial() {
-    return const BasketState(
-      shopItems: [],
-    );
+    return const BasketState(shopItems: []);
   }
 
   @override
@@ -19,10 +16,10 @@ class BasketState extends Equatable{
 
   double getProductCount(Product product, String branchUuid) {
     final shopItem = shopItems.firstWhere(
-      (shop) => shop.shopId == branchUuid,
+      (shopItem) => shopItem.shop.id == branchUuid,
       orElse: () => BasketShopItem.initial(),
     );
-    if (shopItem.shopId.isEmpty) return 0;
+    if (shopItem.shop.id.isEmpty) return 0;
 
     final productItem = shopItem.products.firstWhere(
       (prod) => prod.propertyUuid == product.propertyUuid,
@@ -34,47 +31,37 @@ class BasketState extends Equatable{
   }
 }
 
-class BasketShopItem extends Equatable{
-  final String shopId;
-  final String shopName;
-  final String shopImageUrl;
+class BasketShopItem extends Equatable {
+  final Shop shop;
   final List<Product> products;
   final double totalAmount;
 
   const BasketShopItem({
-    required this.shopId,
-    required this.shopName,
-    required this.shopImageUrl,
+    required this.shop,
     this.products = const [],
     this.totalAmount = 0.0,
   });
 
   factory BasketShopItem.initial() {
-    return const BasketShopItem(
-      shopId: '',
-      shopName: '',
-      shopImageUrl: '',
-      products: [],
-      totalAmount: 0.0,
-    );
+    return BasketShopItem(shop: Shop.empty(), products: [], totalAmount: 0.0);
   }
 
   copyWith({
-    String? shopId,
-    String? shopName,
-    String? shopImageUrl,
+    Shop? shop,
     List<Product>? products,
     double? totalAmount,
   }) {
     return BasketShopItem(
-      shopId: shopId ?? this.shopId,
-      shopName: shopName ?? this.shopName,
-      shopImageUrl: shopImageUrl ?? this.shopImageUrl,
+      shop: shop ?? this.shop,
       products: products ?? this.products,
       totalAmount: totalAmount ?? this.totalAmount,
     );
   }
 
   @override
-  List<Object?> get props => [shopId, shopName, shopImageUrl,products, totalAmount];
+  List<Object?> get props => [
+    shop,
+    products,
+    totalAmount,
+  ];
 }

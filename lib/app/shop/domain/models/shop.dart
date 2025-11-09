@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:service_shop/app/shop/domain/models/delivery.dart';
 
 class Shop extends Equatable {
   final String id;
@@ -21,6 +22,7 @@ class Shop extends Equatable {
   final List<String> images;
   final String category;
   final List<String> categories;
+  final List<Delivery> deliveries;
 
   const Shop({
     required this.id,
@@ -43,7 +45,34 @@ class Shop extends Equatable {
     required this.images,
     required this.category,
     required this.categories,
+    required this.deliveries,
   });
+
+  factory Shop.empty() {
+    return Shop(
+      id: '',
+      name: '',
+      description: '',
+      imageUrl: '',
+      isActive: false,
+      createdAt: DateTime(0001),
+      updatedAt: DateTime(0001),
+      address: '',
+      phone: '',
+      email: '',
+      workingHours: '',
+      location: '',
+      rating: 0.0,
+      discountPercent: 0,
+      minOrderAmount: 0,
+      isOpen: false,
+      status: '',
+      images: const [],
+      category: '',
+      categories: const [],
+      deliveries: const [],
+    );
+  }
 
   factory Shop.fromJson(Map<String, dynamic> json) {
     return Shop(
@@ -52,8 +81,12 @@ class Shop extends Equatable {
       description: json['description'] ?? '',
       imageUrl: json['imageUrl'] ?? '',
       isActive: json['isActive'] ?? false,
-      createdAt: DateTime.parse(json['createdAt'] ?? DateTime(0001).toIso8601String()),
-      updatedAt: DateTime.parse(json['updatedAt'] ?? DateTime(0001).toIso8601String()),
+      createdAt: DateTime.parse(
+        json['createdAt'] ?? DateTime(0001).toIso8601String(),
+      ),
+      updatedAt: DateTime.parse(
+        json['updatedAt'] ?? DateTime(0001).toIso8601String(),
+      ),
       address: json['address'] ?? '',
       phone: json['phone'] ?? '',
       email: json['email'] ?? '',
@@ -64,9 +97,22 @@ class Shop extends Equatable {
       minOrderAmount: json['minOrderAmount'] ?? 0,
       isOpen: json['isOpen'] ?? false,
       status: json['status'] ?? '',
-      images: (json['images'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const [],
+      images:
+          (json['images'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       category: json['category'] ?? '',
-      categories: (json['categories'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const [],
+      categories:
+          (json['categories'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      deliveries:
+          (json['deliveries'] as List<dynamic>?)
+              ?.map((e) => Delivery.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
   }
 
@@ -92,6 +138,7 @@ class Shop extends Equatable {
       'images': images,
       'category': category,
       'categories': categories,
+      'deliveries': deliveries.map((e) => e.toJson()).toList(),
     };
   }
 
@@ -117,5 +164,6 @@ class Shop extends Equatable {
     images,
     category,
     categories,
+    deliveries,
   ];
 }

@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/core/models/attribute/attribute.dart';
-import 'package:service_shop/app/core/models/attribute/property.dart';
 import 'package:service_shop/app/core/models/data_tree.dart';
 import 'package:service_shop/app/core/models/products/product.dart';
 import 'package:service_shop/app/shop/application/product/product_detail_state.dart';
@@ -37,9 +36,7 @@ class ProductController extends StateNotifier<ProductDetailState> {
     }
 
     final tree = dataTree.tree.map(setDefaults).toList();
-
     state = state.copyWith(originalTree: dataTree, tree: tree, currentProduct: product);
-
     // DEBUG: print tree structure
     void _printTree() {
       StringBuffer sb = StringBuffer();

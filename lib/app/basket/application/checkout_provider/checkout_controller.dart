@@ -18,20 +18,6 @@ class CheckoutController extends StateNotifier<CheckoutState>{
     /// Инициализация состояния оформления заказа на основе состояния корзины
     /// Копируем список магазинов и товаров из корзины в состояние оформления заказа
     /// Это позволяет начать оформление заказа с текущего содержимого корзины
-    final List<CheckoutShopItem> shopItems = basketState.shopItems.map((basketShopItem) {
-        return CheckoutShopItem(
-          shopId: basketShopItem.shopId,
-          shopName: basketShopItem.shopName,
-          shopImageUrl: basketShopItem.shopImageUrl,
-          products: basketShopItem.products,
-          totalAmount: basketShopItem.totalAmount,
-          deliveryType: DeliveryType.pickup, // Устанавливаем значение по умолчанию
-        );
-      }).toList();
-    final totalAmount = shopItems.fold<double>(0.0, (sum, item) => sum + item.totalAmount);
-    final totalCount = shopItems.fold<double>(0.0, (sum, item) => sum + item.products.fold<double>(0.0, (prodSum, product) => prodSum + product.quantity));
-
-    state = state.copyWith(shopItems: shopItems,isCombinedDelivery: false,paymentType: PaymentType.cash,totalAmount:totalAmount, totalCount: totalCount);
   }
 
   void changePaymentType(PaymentType paymentType){

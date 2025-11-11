@@ -38,7 +38,7 @@ class ProductScreen extends StatelessWidget {
                 itemCount: state.categories.length,
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(8.0),
                 itemBuilder: (context, index) {
                   final category = state.categories[index];
                   return ListView(
@@ -51,56 +51,66 @@ class ProductScreen extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       SizedBox(height: 8),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.32,
-                        child: ListView.builder(
-                          itemCount: category.products.length,
-                          padding: EdgeInsets.only(right: 8),
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            final product = category.products[index];
-                            return ProductCard(
-                              quantity: ref
-                                  .watch(basketProvider)
-                                  .getProductCount(
-                                      product, product.branchUuid),
-                              product: product,
-                              onRemove: () {
-                               ref.read(basketProvider.notifier).onMinusCount(product, product.branchUuid);
-                              },
-                              onAdd: () {
-                                final shop = ref.read(shopsProvider).shops.where((e)=>e.id==product.branchUuid).first;
-                                ref.read(basketProvider.notifier).add(product, shop);
-                              },
-                              onFavorite: () {
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics:
+                            const NeverScrollableScrollPhysics(), // disables inner scrolling
+                        // padding: const EdgeInsets.only(right: 8),
+                        itemCount: category.products.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 8,
+                              crossAxisSpacing: 2,
+                              childAspectRatio:
+                                  0.6, // adjust to make card look nice
+                            ),
+                        itemBuilder: (context, index) {
+                          final product = category.products[index];
+                          return ProductCard(
+                            quantity: ref
+                                .watch(basketProvider)
+                                .getProductCount(product, product.branchUuid),
+                            product: product,
+                            onRemove: () {
+                              ref
+                                  .read(basketProvider.notifier)
+                                  .onMinusCount(product, product.branchUuid);
+                            },
+                            onAdd: () {
+                              final shop = ref
+                                  .read(shopsProvider)
+                                  .shops
+                                  .where((e) => e.id == product.branchUuid)
+                                  .first;
+                              ref
+                                  .read(basketProvider.notifier)
+                                  .add(product, shop);
+                            },
+                            onFavorite: () {},
+                            onTap: () async {
+                              ref
+                                  .read(productDetailLoaderProvider.notifier)
+                                  .load(product.branchUuid, product.uuid);
 
-                              },
-                              onTap: () async {
+                              final result = await showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    const ProductDetailLoaderScreen(),
+                              );
+                              if (result is DataTree) {
                                 ref
-                                    .read(productDetailLoaderProvider.notifier)
-                                    .load(product.branchUuid, product.uuid);
+                                    .read(productDetailProvider.notifier)
+                                    .initialize(
+                                      dataTree: result,
+                                      product: product,
+                                    );
 
-                                final result = await showDialog(
-                                  context: context,
-                                  builder: (context) =>
-                                      const ProductDetailLoaderScreen(),
-                                );
-                                if (result is DataTree) {
-                                  ref
-                                      .read(productDetailProvider.notifier)
-                                      .initialize(
-                                        dataTree: result,
-                                        product: product,
-                                      );
-
-                                  context.push(ProductDetailScreen());
-                                }
-                              },
-                            );
-                          },
-                        ),
+                                context.push(ProductDetailScreen());
+                              }
+                            },
+                          );
+                        },
                       ),
                     ],
                   );

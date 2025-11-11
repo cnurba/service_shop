@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/basket/application/basket_provider/basket_controller.dart';
 import 'package:service_shop/app/shop/application/product/product_detail_controller.dart';
 import 'package:service_shop/app/shop/application/product/product_detail_state.dart';
-import 'package:service_shop/app/shop/application/products/shop_product_controller.dart';
 import 'package:service_shop/app/shop/application/shops/shops_provider.dart';
 import 'package:service_shop/app/shop/presentation/widgets/add_remove_button.dart';
 import 'package:service_shop/app/shop/presentation/widgets/shop_attribute_select_widget.dart';
@@ -21,7 +20,11 @@ class ProductDetailScreen extends ConsumerWidget {
     final product = state.currentProduct;
     final tree = state.tree;
 
-    Widget buildAttribute(Attribute attr, {bool isMain = false, String parentPropertyUuid = ''}) {
+    Widget buildAttribute(
+      Attribute attr, {
+      bool isMain = false,
+      String parentPropertyUuid = '',
+    }) {
       // фиксируем текущий атрибут в final-переменной для корректного захвата в замыканиях
       final currentAttr = attr;
       // properties to show = attr.children
@@ -35,17 +38,30 @@ class ProductDetailScreen extends ConsumerWidget {
             // ключ теперь уникален для конкретной ветки: attributeUuid + parentPropertyUuid
             key: ValueKey('${currentAttr.attributeUuid}_$parentPropertyUuid'),
             isMainAttribute: isMain,
-            attribute: PropertyAttribute(attribute: attr, properties: properties),
+            attribute: PropertyAttribute(
+              attribute: attr,
+              properties: properties,
+            ),
             onSelected: (property) {
               // передаём UUID атрибута и выбранного свойства + parentPropertyUuid для точного определения ветки
-              ref.read(productDetailProvider.notifier).updateProperties(currentAttr.attributeUuid, property.propertyUuid, parentPropertyUuid: parentPropertyUuid);
+              ref
+                  .read(productDetailProvider.notifier)
+                  .updateProperties(
+                    currentAttr.attributeUuid,
+                    property.propertyUuid,
+                    parentPropertyUuid: parentPropertyUuid,
+                  );
             },
           ),
           // render children attributes for the selected property
           for (final prop in properties)
             if (prop.selected)
-            for (final childAttr in prop.children)
-              buildAttribute(childAttr, isMain: false, parentPropertyUuid: prop.propertyUuid),
+              for (final childAttr in prop.children)
+                buildAttribute(
+                  childAttr,
+                  isMain: false,
+                  parentPropertyUuid: prop.propertyUuid,
+                ),
         ],
       );
     }
@@ -57,10 +73,7 @@ class ProductDetailScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CarouselSlider(
-              images: product.images,
-              sliderHeight: 250,
-            ),
+            CarouselSlider(images: product.images, sliderHeight: 300),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Column(
@@ -81,15 +94,24 @@ class ProductDetailScreen extends ConsumerWidget {
                   Row(
                     children: [
                       AddRemoveButton(
-                        count: ref.watch(basketProvider).getProductCount(product, product.branchUuid),
+                        count: ref
+                            .watch(basketProvider)
+                            .getProductCount(product, product.branchUuid),
                         onAdd: () {
                           ref.read(productDetailProvider.notifier).addCount();
-                          final shop = ref.read(shopsProvider).shops.where((e)=>e.id==product.branchUuid).first;
+                          final shop = ref
+                              .read(shopsProvider)
+                              .shops
+                              .where((e) => e.id == product.branchUuid)
+                              .first;
                           ref.read(basketProvider.notifier).add(product, shop);
                         },
                         onRemove: () {
-                          ref.read(basketProvider.notifier).onMinusCount(product, product.branchUuid);
-                        }),
+                          ref
+                              .read(basketProvider.notifier)
+                              .onMinusCount(product, product.branchUuid);
+                        },
+                      ),
                       const Spacer(),
                       Text(
                         '${state.currentProduct.price} с',
@@ -105,7 +127,8 @@ class ProductDetailScreen extends ConsumerWidget {
             ),
             // Render root attributes (each root is an Attribute)
             if (tree.isNotEmpty) ...[
-              for (var i = 0; i < tree.length; i++) buildAttribute(tree[i], isMain: i == 0),
+              for (var i = 0; i < tree.length; i++)
+                buildAttribute(tree[i], isMain: i == 0),
             ],
             // Характеристика и описание
             Padding(
@@ -115,10 +138,14 @@ class ProductDetailScreen extends ConsumerWidget {
                 children: [
                   Text(
                     'Характеристика и описание',
-                    style: TextStyle(fontWeight: FontWeight.bold)
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
+                  Text(product.description),
                   const SizedBox(height: 4),
-                  Text('Артикул: ${product.sku}'),
+                  Text(
+                    'Артикул: ${product.sku}',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ),

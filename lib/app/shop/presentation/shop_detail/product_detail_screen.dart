@@ -25,35 +25,50 @@ class ProductDetailScreen extends ConsumerWidget {
       bool isMain = false,
       String parentPropertyUuid = '',
     }) {
-      // фиксируем текущий атрибут в final-переменной для корректного захвата в замыканиях
       final currentAttr = attr;
-      // properties to show = attr.children
       final properties = attr.children;
       if (properties.isEmpty) return const SizedBox.shrink();
 
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ShopAttributeSelectWidget(
-            // ключ теперь уникален для конкретной ветки: attributeUuid + parentPropertyUuid
-            key: ValueKey('${currentAttr.attributeUuid}_$parentPropertyUuid'),
-            isMainAttribute: isMain,
-            attribute: PropertyAttribute(
-              attribute: attr,
-              properties: properties,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
             ),
-            onSelected: (property) {
-              // передаём UUID атрибута и выбранного свойства + parentPropertyUuid для точного определения ветки
-              ref
-                  .read(productDetailProvider.notifier)
-                  .updateProperties(
-                    currentAttr.attributeUuid,
-                    property.propertyUuid,
-                    parentPropertyUuid: parentPropertyUuid,
-                  );
-            },
+            child: Text(
+              currentAttr.attributeName,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
           ),
-          // render children attributes for the selected property
+
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                ShopAttributeSelectWidget(
+                  key: ValueKey(
+                    '${currentAttr.attributeUuid}_$parentPropertyUuid',
+                  ),
+                  isMainAttribute: isMain,
+                  attribute: PropertyAttribute(
+                    attribute: attr,
+                    properties: properties,
+                  ),
+                  onSelected: (property) {
+                    ref
+                        .read(productDetailProvider.notifier)
+                        .updateProperties(
+                          currentAttr.attributeUuid,
+                          property.propertyUuid,
+                          parentPropertyUuid: parentPropertyUuid,
+                        );
+                  },
+                ),
+              ],
+            ),
+          ),
           for (final prop in properties)
             if (prop.selected)
               for (final childAttr in prop.children)
@@ -75,7 +90,7 @@ class ProductDetailScreen extends ConsumerWidget {
           children: [
             CarouselSlider(images: product.images, sliderHeight: 300),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -91,6 +106,8 @@ class ProductDetailScreen extends ConsumerWidget {
                     '${state.currentProduct.quantity} шт',
                     style: const TextStyle(color: Colors.grey),
                   ),
+                  const SizedBox(height: 4),
+
                   Row(
                     children: [
                       AddRemoveButton(

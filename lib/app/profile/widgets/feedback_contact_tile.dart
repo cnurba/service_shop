@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
 
 class ContactTile extends StatelessWidget {
-  final IconData icon;
+  final String image;
   final String label;
   final VoidCallback onTap;
 
   const ContactTile({
     super.key,
-    required this.icon,
+    required this.image,
     required this.label,
     required this.onTap,
   });
@@ -27,7 +27,7 @@ class ContactTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(icon, color: ServiceColors.primaryColor),
+            Image.asset(image, fit: BoxFit.contain),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -37,11 +37,6 @@ class ContactTile extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-            ),
-            const Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 16,
-              color: Colors.grey,
             ),
           ],
         ),

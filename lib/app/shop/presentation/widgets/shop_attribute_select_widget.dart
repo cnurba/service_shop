@@ -66,7 +66,9 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
     final List<Property> uniqueProps = [];
     for (var idx = 0; idx < propsList.length; idx++) {
       final p = propsList[idx];
-      final key = (p.propertyUuid.isNotEmpty) ? p.propertyUuid : '${p.propertyValue}_$idx';
+      final key = (p.propertyUuid.isNotEmpty)
+          ? p.propertyUuid
+          : '${p.propertyValue}_$idx';
       if (!seen.contains(key)) {
         seen.add(key);
         uniqueProps.add(p);
@@ -92,10 +94,10 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            widget.attribute.attribute.attributeName,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+          // Text(
+          //   widget.attribute.attribute.attributeName,
+          //   style: const TextStyle(fontWeight: FontWeight.bold),
+          // ),
           const SizedBox(height: 4),
           Wrap(
             spacing: 8,
@@ -120,7 +122,9 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
                     onTap: () {
                       // DEBUG: лог клика по цвету
                       // ignore: avoid_print
-                      print('ShopAttributeSelectWidget.onTap color: attribute=${widget.attribute.attribute.attributeUuid}, property=${prop.propertyUuid}');
+                      print(
+                        'ShopAttributeSelectWidget.onTap color: attribute=${widget.attribute.attribute.attributeUuid}, property=${prop.propertyUuid}',
+                      );
                       setState(() {
                         selectedUuid = prop.propertyUuid;
                         widget.onSelected.call(prop);
@@ -140,7 +144,9 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
                   onTap: () {
                     // DEBUG: лог клика по карточке
                     // ignore: avoid_print
-                    print('ShopAttributeSelectWidget.onTap card: attribute=${widget.attribute.attribute.attributeUuid}, property=${prop.propertyUuid}');
+                    print(
+                      'ShopAttributeSelectWidget.onTap card: attribute=${widget.attribute.attribute.attributeUuid}, property=${prop.propertyUuid}',
+                    );
                     setState(() {
                       selectedUuid = prop.propertyUuid;
                       widget.onSelected.call(prop);
@@ -161,11 +167,13 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(
-                          height: 80,
+                          height: 70,
                           width: 80,
                           child: prop.propertyPicture.isNotEmpty
                               ? AppImageContainer(
-                                  image: prop.propertyPicture, fit: BoxFit.cover)
+                                  image: prop.propertyPicture,
+                                  fit: BoxFit.cover,
+                                )
                               : Container(
                                   decoration: BoxDecoration(
                                     color: Colors.grey.shade200,
@@ -175,8 +183,9 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
                                   child: Text(
                                     prop.propertyValue,
                                     textAlign: TextAlign.center,
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodySmall,
                                   ),
                                 ),
                         ),
@@ -188,10 +197,9 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
-                            style:
-                                Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      fontSize: 12,
-                                    ),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodySmall?.copyWith(fontSize: 12),
                           ),
                         ),
                       ],
@@ -207,7 +215,9 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
                 onSelected: (val) {
                   // DEBUG: лог клика по чипу
                   // ignore: avoid_print
-                  print('ShopAttributeSelectWidget.onSelected chip: attribute=${widget.attribute.attribute.attributeUuid}, property=${prop.propertyUuid}');
+                  print(
+                    'ShopAttributeSelectWidget.onSelected chip: attribute=${widget.attribute.attribute.attributeUuid}, property=${prop.propertyUuid}',
+                  );
                   setState(() {
                     selectedUuid = prop.propertyUuid;
                     widget.onSelected(prop);

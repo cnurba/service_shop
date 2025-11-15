@@ -40,10 +40,9 @@ class _ProductCardState extends State<ProductCard> {
           elevation: 2,
           margin: const EdgeInsets.all(8),
           child: Column(
-            mainAxisSize: MainAxisSize.max, // 👈 use max instead of min
+            mainAxisSize: MainAxisSize.max,
             children: [
-              Expanded(
-                // 👈 makes the image + text area take flexible space
+              Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

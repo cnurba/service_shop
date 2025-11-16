@@ -59,7 +59,7 @@ class ProductDetailScreen extends ConsumerWidget {
           children: [
             CarouselSlider(
               images: product.images,
-              sliderHeight: 250,
+              sliderHeight: 300,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

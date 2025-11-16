@@ -16,7 +16,7 @@ class AppImageContainer extends StatelessWidget {
     this.boxShadow = const [
       BoxShadow(color: Colors.black12, blurRadius: 4.0, offset: Offset(0, 2)),
     ],
-    this.fit = BoxFit.cover,
+    this.fit = BoxFit.contain,
     this.placeholder,
     this.errorWidget,
   });

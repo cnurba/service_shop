@@ -32,7 +32,7 @@ class _ProductCardState extends State<ProductCard> {
     return GestureDetector(
       onTap: widget.onTap,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.6,
+        width: MediaQuery.of(context).size.width * 0.5,
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -48,8 +48,8 @@ class _ProductCardState extends State<ProductCard> {
                   AppImageContainer(
                     image: widget.product.imageUrl,
                     width: double.infinity,
-                    height: 150,
-                    fit: BoxFit.cover,
+                    height: 160,
+                    fit: BoxFit.fill,
                   ),
                   Positioned(
                     top: 8,

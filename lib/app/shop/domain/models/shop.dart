@@ -7,6 +7,7 @@ class Shop extends Equatable {
   final String description;
   final String imageUrl;
   final bool isActive;
+  final bool  liked;
   final DateTime createdAt;
   final DateTime updatedAt;
   final String address;
@@ -46,6 +47,7 @@ class Shop extends Equatable {
     required this.category,
     required this.categories,
     required this.deliveries,
+    required this.liked,
   });
 
   factory Shop.empty() {
@@ -71,6 +73,7 @@ class Shop extends Equatable {
       category: '',
       categories: const [],
       deliveries: const [],
+      liked: false
     );
   }
 
@@ -97,6 +100,7 @@ class Shop extends Equatable {
       minOrderAmount: json['minOrderAmount'] ?? 0,
       isOpen: json['isOpen'] ?? false,
       status: json['status'] ?? '',
+      liked: json['liked'] ?? false,
       images:
           (json['images'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -142,6 +146,56 @@ class Shop extends Equatable {
     };
   }
 
+  copyWith({
+    String? id,
+    String? name,
+    String? description,
+    String? imageUrl,
+    bool? isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? address,
+    String? phone,
+    String? email,
+    String? workingHours,
+    String? location,
+    double? rating,
+    int? discountPercent,
+    int? minOrderAmount,
+    bool? isOpen,
+    String? status,
+    List<String>? images,
+    String? category,
+    List<String>? categories,
+    List<Delivery>? deliveries,
+    bool? liked,
+  }) {
+    return Shop(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      imageUrl: imageUrl ?? this.imageUrl,
+      isActive: isActive ?? this.isActive,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      address: address ?? this.address,
+      phone: phone ?? this.phone,
+      email: email ?? this.email,
+      workingHours: workingHours ?? this.workingHours,
+      location: location ?? this.location,
+      rating: rating ?? this.rating,
+      discountPercent: discountPercent ?? this.discountPercent,
+      minOrderAmount: minOrderAmount ?? this.minOrderAmount,
+      isOpen: isOpen ?? this.isOpen,
+      status: status ?? this.status,
+      images: images ?? this.images,
+      category: category ?? this.category,
+      categories: categories ?? this.categories,
+      deliveries: deliveries ?? this.deliveries,
+      liked: liked ?? this.liked,
+    );
+  }
+
   @override
   List<Object?> get props => [
     id,
@@ -165,5 +219,6 @@ class Shop extends Equatable {
     category,
     categories,
     deliveries,
+    liked,
   ];
 }

@@ -4,14 +4,14 @@ import 'package:service_shop/core/presentation/image/app_image_container.dart';
 
 class ShopCard extends StatelessWidget {
   final Shop shop;
-  final VoidCallback? onFavorite;
+  final VoidCallback onFavorite;
   final bool isFavorite;
   final VoidCallback? onTap;
 
   const ShopCard({
     super.key,
     required this.shop,
-    this.onFavorite,
+    required this.onFavorite,
     this.isFavorite = false,
     this.onTap,
   });
@@ -68,9 +68,10 @@ class ShopCard extends StatelessWidget {
                           ],
                         ),
                       ),
-
-                      GestureDetector(
-                        onTap: onFavorite,
+                      InkWell(
+                        onTap: (){
+                          onFavorite();
+                        },
                         child: Icon(
                           isFavorite ? Icons.favorite : Icons.favorite_border,
                           color: Colors.red,

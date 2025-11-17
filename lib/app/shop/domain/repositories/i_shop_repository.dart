@@ -4,6 +4,8 @@ import 'package:service_shop/app/shop/domain/models/shop.dart';
 
 abstract class IShopRepository {
   Future<List<Shop>> getShops();
+  Future<bool> likeShop(String shopUuid);
+  Future<bool> unlikeShop(String shopUuid);
   Future<List<ProductCategory>> getShopProducts(String shopUuid);
   Future<DataTree> getProductDetail({required String shopUuid, required String productUuid});
 }

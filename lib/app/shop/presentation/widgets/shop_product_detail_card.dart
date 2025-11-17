@@ -32,70 +32,88 @@ class _ProductCardState extends State<ProductCard> {
     return GestureDetector(
       onTap: widget.onTap,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.5,
+        width: MediaQuery.of(context).size.width * 0.6,
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           elevation: 2,
           margin: const EdgeInsets.all(8),
-          child: ListView(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
-              Stack(
-                children: [
-                  AppImageContainer(
-                    image: widget.product.imageUrl,
-                    width: double.infinity,
-                    height: 160,
-                    fit: BoxFit.fill,
-                  ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: IconButton(
-                      icon: Icon(
-                        CupertinoIcons.heart_fill,
-                        color: Colors.red,
-                        size: 30,
-                      ),
-                      onPressed: widget.onFavorite,
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      '${widget.product.price.toString()} с',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
-                      ),
+                    Stack(
+                      children: [
+                        AppImageContainer(
+                          image: widget.product.imageUrl,
+                          width: double.infinity,
+                          height: 150,
+                          fit: BoxFit.cover,
+                        ),
+                        Positioned(
+                          top: 8,
+                          right: 8,
+                          child: IconButton(
+                            icon: Icon(
+                              CupertinoIcons.heart_fill,
+                              color: Colors.red,
+                              size: 30,
+                            ),
+                            onPressed: widget.onFavorite,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      widget.product.name,
-                      style: Theme.of(context).textTheme.bodySmall,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      widget.product.propertyName,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: 8
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${widget.product.price.toString()} с',
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
+                                ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            widget.product.name,
+                            style: Theme.of(context).textTheme.bodySmall,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            widget.product.propertyName,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodySmall!.copyWith(fontSize: 8),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-              AddRemoveButton(count: widget.quantity, onAdd: widget.onAdd!,
-               onRemove: widget.onRemove!),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: AddRemoveButton(
+                  count: widget.quantity,
+                  onAdd: widget.onAdd!,
+                  onRemove: widget.onRemove!,
+                ),
+              ),
             ],
           ),
         ),

@@ -72,6 +72,16 @@ class ShopRepository implements IShopRepository {
       throw Exception('An unexpected error occurred: $e');
     }
   }
+
+  @override
+  Future<bool> likeShop(String shopUuid) async{
+    return true;
+  }
+
+  @override
+  Future<bool> unlikeShop(String shopUuid) async{
+    return true;
+  }
 }
 
 // Repository methods would go her

@@ -13,6 +13,7 @@ class Product extends Equatable {
   final double price;
   final double count;
   final double quantity;
+  final bool liked;
   final List<String> images;
 
   const Product({
@@ -29,6 +30,7 @@ class Product extends Equatable {
     required this.propertyUuid,
     required this.propertyName,
     this.quantity = 0,
+    this.liked = false,
   });
 
   factory Product.empty() {
@@ -46,6 +48,7 @@ class Product extends Equatable {
       propertyUuid: '',
       propertyName: '',
       quantity:0,
+      liked: false,
     );
   }
 
@@ -65,6 +68,7 @@ class Product extends Equatable {
       propertyName: json['propertyName'] ?? '',
       propertyUuid: json['propertyUuid'] ?? '',
       imageUrl: json['imageUrl'] ?? '',
+      liked: json['liked'] ?? false,
       images: (json['images'] as List<dynamic>? ?? [])
           .map((e) => e as String)
           .toList(),
@@ -85,6 +89,7 @@ class Product extends Equatable {
     String? propertyName,
     String? branchUuid,
     double? quantity,
+    bool? liked,
   }) {
     return Product(
       uuid: uuid ?? this.uuid,
@@ -100,6 +105,7 @@ class Product extends Equatable {
       propertyName: propertyName ?? this.propertyName,
       branchUuid: branchUuid ?? this.branchUuid,
       quantity: quantity ?? this.quantity,
+      liked: liked ?? this.liked
     );
   }
 
@@ -118,5 +124,6 @@ class Product extends Equatable {
     propertyName,
     branchUuid,
     quantity,
+    liked,
   ];
 }

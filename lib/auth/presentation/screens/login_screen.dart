@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:service_shop/auth/presentation/screens/registration_screen.dart';
 import 'package:service_shop/auth/presentation/widgets/auth_container.dart';
+import 'package:service_shop/core/extansions/router_extension.dart';
 import 'package:service_shop/core/presentation/appbar/login_appbar.dart';
 import 'package:service_shop/core/presentation/buttons/custom_button.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
@@ -91,10 +93,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: ServiceColors.primaryColor,
                               ),
                             ),
-                            Text(
-                              'Регистрация',
-                              style: TextStyle(
-                                color: ServiceColors.primaryColor,
+                            GestureDetector(
+                              onTap: () => context.push(RegistrationScreen()),
+                              child: Text(
+                                'Регистрация',
+                                style: TextStyle(
+                                  color: ServiceColors.primaryColor,
+                                ),
                               ),
                             ),
                           ],

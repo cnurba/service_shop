@@ -4,6 +4,7 @@ import 'package:service_shop/core/presentation/theme/colors.dart';
 class AuthContainer extends StatelessWidget {
   final String title;
   final String? subtitle;
+  final IconData? icon;
   final Widget child;
 
   const AuthContainer({
@@ -11,6 +12,7 @@ class AuthContainer extends StatelessWidget {
     required this.title,
     required this.child,
     this.subtitle,
+    this.icon,
   });
 
   @override
@@ -24,16 +26,20 @@ class AuthContainer extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 12),
+          Icon(icon, color: Colors.green, size: 50),
+          const SizedBox(height: 12),
           Text(
             title,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: ServiceColors.primaryColor,
             ),
           ),
+          SizedBox(height: 8),
           if (subtitle != null)
             Text(
               subtitle!,
-              style: TextStyle(color: ServiceColors.primaryColor, fontSize: 10),
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
           const SizedBox(height: 14),
           child,

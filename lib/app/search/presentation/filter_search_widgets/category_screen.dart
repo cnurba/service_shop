@@ -25,7 +25,12 @@ class CategoryScreen extends ConsumerWidget {
                   'Категории',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                Icon(Icons.close),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.close),
+                ),
               ],
             ),
             Divider(),

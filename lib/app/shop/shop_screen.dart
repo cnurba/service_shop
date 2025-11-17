@@ -57,6 +57,12 @@ class ShopScreen extends ConsumerWidget {
                         final shop = state.shops[index];
                         return ShopCard(
                           shop: shop,
+                          isFavorite: shop.liked,
+                          onFavorite: () {
+                            ref
+                                .read(shopsProvider.notifier)
+                                .toggleFavorite(shop.id);
+                          },
                           onTap: () {
                             ref
                                 .read(shopProductProvider.notifier)

@@ -16,22 +16,35 @@ class AddRemoveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        border: Border.all(color: ServiceColors.primaryColor),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 2),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          IconButton(
-            icon: const Icon(Icons.remove_circle_outline),
-            color: ServiceColors.primaryColor,
-            iconSize: 30,
-            onPressed: onRemove,
+          InkWell(
+            onTap: onRemove,
+            child: const Icon(
+              Icons.remove_circle_outline,
+              size: 30,
+              color: ServiceColors.primaryColor,
+            ),
           ),
-          Text(count.toString(), style: Theme.of(context).textTheme.titleLarge),
-          IconButton(
-            icon: const Icon(Icons.add_circle_outline),
-            color: ServiceColors.primaryColor,
-            iconSize: 30,
-            onPressed: onAdd,
+          const SizedBox(width: 8),
+          Text(
+            count.toStringAsFixed(0),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(width: 8),
+          InkWell(
+            onTap: onAdd,
+            child: const Icon(
+              Icons.add_circle_outline,
+              size: 30,
+              color: ServiceColors.primaryColor,
+            ),
           ),
         ],
       ),

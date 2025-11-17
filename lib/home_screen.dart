@@ -4,9 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/basket/basket_screen.dart';
 import 'package:service_shop/app/favs/favs_screen.dart';
 import 'package:service_shop/app/profile/profile_screen.dart';
+import 'package:service_shop/app/profile/unregistered_profile_screen.dart';
 import 'package:service_shop/app/search/search_screen.dart';
 import 'package:service_shop/app/shop/application/shops/shops_provider.dart';
 import 'package:service_shop/app/shop/shop_screen.dart';
+import 'package:service_shop/auth/presentation/screens/resign_withnumber.dart';
 import 'package:service_shop/core/presentation/navs/nav_bar.dart';
 import 'package:service_shop/core/presentation/navs/tab_holder.dart';
 
@@ -20,14 +22,13 @@ class ServiceShopAppScreen extends ConsumerStatefulWidget {
       _ServiceShopAppScreenState();
 }
 
-class _ServiceShopAppScreenState
-    extends ConsumerState<ServiceShopAppScreen> {
+class _ServiceShopAppScreenState extends ConsumerState<ServiceShopAppScreen> {
   final _tabController = CupertinoTabController();
   final _toastKey = GlobalKey<ToastState>();
 
   @override
   void initState() {
-   Future.microtask(() {
+    Future.microtask(() {
       ref.read(shopsProvider.notifier).loadShops();
     });
     super.initState();
@@ -89,7 +90,6 @@ class _ServiceShopAppScreenState
     return WillPopScope(
       onWillPop: _onTabPopped,
       child: CupertinoTabScaffold(
-
         controller: _tabController,
         tabBuilder: (context, tab) {
           return CupertinoTabView(
@@ -118,7 +118,7 @@ class _ServiceShopAppScreenState
                 case 4:
                   return TabNavigatorHolder(
                     key: _tabHolders[4],
-                    child: const ProfileScreen(),
+                    child: const ResignWithnumberScreen(),
                   );
                 default:
                   return TabNavigatorHolder(

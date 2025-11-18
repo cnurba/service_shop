@@ -118,7 +118,7 @@ class _ServiceShopAppScreenState extends ConsumerState<ServiceShopAppScreen> {
                 case 4:
                   return TabNavigatorHolder(
                     key: _tabHolders[4],
-                    child: const ResignWithnumberScreen(),
+                    child: const ProfileScreen(),
                   );
                 default:
                   return TabNavigatorHolder(

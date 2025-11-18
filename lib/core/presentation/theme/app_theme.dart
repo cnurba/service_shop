@@ -15,7 +15,7 @@ class AppTheme {
         elevation: 2,
         iconTheme: const IconThemeData(color: ServiceColors.primaryColor),
         titleTextStyle: const TextStyle(
-          color: ServiceColors.primaryColor,
+          color: ServiceColors.black,
           fontSize: 20,
           fontWeight: FontWeight.w600,
         ),
@@ -23,9 +23,7 @@ class AppTheme {
       cardTheme: base.cardTheme.copyWith(
         color: ServiceColors.cardBgColor,
         elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
   }

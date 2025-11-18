@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:service_shop/app/profile/widgets/profile_text_field.dart';
+import 'package:service_shop/app/profile/presentation/widgets/profile_text_field.dart';
 import 'package:service_shop/core/presentation/appbar/custom_appbar.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
 

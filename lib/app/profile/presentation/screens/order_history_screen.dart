@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:service_shop/core/presentation/theme/colors.dart';
 
 class OrderHistoryScreen extends StatelessWidget {
   const OrderHistoryScreen({super.key});
@@ -9,6 +10,7 @@ class OrderHistoryScreen extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: ServiceColors.white,
           title: const Text('История заказов'),
           bottom: const TabBar(
             labelColor: Colors.black,

@@ -82,7 +82,10 @@ class ProductDetailScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(product.name.isNotEmpty ? product.name : '')),
+      appBar: AppBar(
+        title: Text(product.name.isNotEmpty ? product.name : ''),
+        backgroundColor: ServiceColors.white,
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

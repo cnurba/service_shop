@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:service_shop/app/profile/widgets/adress_card.dart';
+import 'package:service_shop/app/profile/presentation/widgets/adress_card.dart';
 import 'package:service_shop/core/presentation/appbar/custom_appbar.dart';
 
 class MyAddressesScreen extends StatelessWidget {

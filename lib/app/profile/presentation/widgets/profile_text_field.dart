@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/profile/application/profile_edit/profile_edit_provider.dart';
-import 'package:service_shop/app/profile/widgets/gender_selector.dart';
-import 'package:service_shop/app/profile/widgets/profile_field_updater.dart';
-import 'package:service_shop/app/profile/widgets/text_field_with_status.dart';
+import 'package:service_shop/app/profile/presentation/widgets/gender_selector.dart';
+import 'package:service_shop/app/profile/presentation/widgets/profile_field_updater.dart';
+import 'package:service_shop/app/profile/presentation/widgets/text_field_with_status.dart';
 
 class ProfileTextField extends ConsumerWidget {
   const ProfileTextField({

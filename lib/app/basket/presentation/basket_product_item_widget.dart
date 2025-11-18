@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:service_shop/app/core/models/products/product.dart';
 import 'package:service_shop/core/presentation/image/app_image_container.dart';
+import 'package:service_shop/core/presentation/theme/colors.dart';
 
 class BasketProductCard extends StatelessWidget {
   final Product product;
@@ -77,13 +78,19 @@ class BasketProductCard extends StatelessWidget {
                             // Кнопки количества
                             Container(
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey.shade300),
+                                border: Border.all(
+                                  color: ServiceColors.primaryColor,
+                                ),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Row(
                                 children: [
                                   IconButton(
-                                    icon: const Icon(Icons.remove, size: 20),
+                                    icon: const Icon(
+                                      Icons.remove_circle_outline,
+                                      color: ServiceColors.primaryColor,
+                                      size: 30,
+                                    ),
                                     onPressed: onMinus,
                                     constraints: const BoxConstraints(),
                                     padding: const EdgeInsets.all(8),
@@ -98,7 +105,11 @@ class BasketProductCard extends StatelessWidget {
                                     ),
                                   ),
                                   IconButton(
-                                    icon: const Icon(Icons.add, size: 20),
+                                    icon: const Icon(
+                                      Icons.add_circle_outline,
+                                      color: ServiceColors.primaryColor,
+                                      size: 30,
+                                    ),
                                     onPressed: () => onAdd,
                                     constraints: const BoxConstraints(),
                                     padding: const EdgeInsets.all(8),
@@ -112,14 +123,14 @@ class BasketProductCard extends StatelessWidget {
                                 IconButton(
                                   icon: const Icon(
                                     Icons.favorite_border,
-                                    color: Colors.grey,
+                                    color: ServiceColors.primaryColor,
                                   ),
                                   onPressed: onAddToFavorites,
                                 ),
                                 IconButton(
                                   icon: const Icon(
-                                    Icons.delete_outline,
-                                    color: Colors.grey,
+                                    Icons.delete_outline_rounded,
+                                    color: ServiceColors.primaryColor,
                                   ),
                                   onPressed: onRemove,
                                 ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:service_shop/app/profile/widgets/status_container.dart';
+import 'package:service_shop/app/profile/presentation/widgets/status_container.dart';
 
 class TextFieldWithStatus extends StatelessWidget {
   final Widget textField;

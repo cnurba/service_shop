@@ -21,7 +21,10 @@ class ProductScreen extends StatelessWidget {
       builder: (context, ref, child) {
         final state = ref.watch(shopProductProvider);
         return Scaffold(
-          appBar: AppBar(title: Text('Shop Product Detail')),
+          appBar: AppBar(
+            title: Text('Продукты'),
+            backgroundColor: ServiceColors.white,
+          ),
           backgroundColor: ServiceColors.white,
           body: Builder(
             builder: (context) {

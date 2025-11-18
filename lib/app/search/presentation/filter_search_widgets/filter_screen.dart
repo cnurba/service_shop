@@ -16,6 +16,7 @@ class FilterScreen extends ConsumerWidget {
     final controller = ref.read(filtersProvider.notifier);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ServiceColors.white,
         title: const Text('Фильтр'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -24,7 +25,7 @@ class FilterScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},
-        label: const Text('Применить'),
+        label: const Text('Сохранить'),
         icon: const Icon(Icons.check),
         backgroundColor: ServiceColors.primaryColor05,
       ),
@@ -70,7 +71,6 @@ class FilterScreen extends ConsumerWidget {
     }
     return widgets;
   }
-
 }
 
 class _PriceFilterWidget extends ConsumerWidget {
@@ -172,7 +172,18 @@ class _GroupFilterWidgetState extends State<_GroupFilterWidget> {
                 return OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     backgroundColor: isSelected ? Colors.blue.shade100 : null,
+
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(6),
+                    ),
+                    side: BorderSide(
+                      color: isSelected
+                          ? ServiceColors.primaryColor
+                          : Colors.grey,
+                      width: 1,
+                    ),
                   ),
+
                   onPressed: () {
                     setState(() {
                       if (isSelected) {

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:service_shop/app/profile/screens/about_app_screen.dart';
-import 'package:service_shop/app/profile/screens/feedback_screen.dart';
-import 'package:service_shop/app/profile/screens/settings_screen.dart';
-import 'package:service_shop/app/profile/widgets/profile_menu_tile.dart';
+import 'package:service_shop/app/profile/presentation/screens/about_app_screen.dart';
+import 'package:service_shop/app/profile/presentation/screens/feedback_screen.dart';
+import 'package:service_shop/app/profile/presentation/screens/settings_screen.dart';
+import 'package:service_shop/app/profile/presentation/widgets/profile_menu_tile.dart';
 import 'package:service_shop/auth/presentation/screens/login_screen.dart';
 import 'package:service_shop/auth/presentation/screens/registration_screen.dart';
 import 'package:service_shop/core/extansions/router_extension.dart';

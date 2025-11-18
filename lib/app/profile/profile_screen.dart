@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:service_shop/app/profile/profile_edit_screen.dart';
-import 'package:service_shop/app/profile/screens/about_app_screen.dart';
-import 'package:service_shop/app/profile/screens/feedback_screen.dart';
-import 'package:service_shop/app/profile/screens/my_adress_screen.dart';
-import 'package:service_shop/app/profile/screens/order_history_screen.dart';
-import 'package:service_shop/app/profile/screens/payment_method_screen.dart';
-import 'package:service_shop/app/profile/screens/settings_screen.dart';
-import 'package:service_shop/app/profile/widgets/profile_menu_tile.dart';
-import 'package:service_shop/app/profile/widgets/status_container.dart';
+import 'package:service_shop/app/profile/presentation/screens/about_app_screen.dart';
+import 'package:service_shop/app/profile/presentation/screens/feedback_screen.dart';
+import 'package:service_shop/app/profile/presentation/screens/my_adress_screen.dart';
+import 'package:service_shop/app/profile/presentation/screens/order_history_screen.dart';
+import 'package:service_shop/app/profile/presentation/screens/payment_method_screen.dart';
+import 'package:service_shop/app/profile/presentation/screens/settings_screen.dart';
+import 'package:service_shop/app/profile/presentation/widgets/profile_menu_tile.dart';
+import 'package:service_shop/app/profile/presentation/widgets/status_container.dart';
 import 'package:service_shop/core/extansions/router_extension.dart';
 import 'package:service_shop/core/presentation/appbar/custom_appbar.dart';
 

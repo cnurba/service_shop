@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:service_shop/app/profile/widgets/payment_card_item.dart';
+import 'package:service_shop/app/profile/presentation/widgets/payment_card_item.dart';
 import 'package:service_shop/core/presentation/appbar/custom_appbar.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
 

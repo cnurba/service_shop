@@ -1,4 +1,4 @@
-import '../application/profile_edit/profile_edit_controller.dart';
+import '../../application/profile_edit/profile_edit_controller.dart';
 
 void updateProfileField(
   ProfileEditController controller,

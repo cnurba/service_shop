@@ -76,6 +76,25 @@ class Product extends Equatable {
     );
   }
 
+  toJson(){
+    return {
+      'uuid': uuid,
+      'name': name,
+      'description': description,
+      'categoryName': categoryName,
+      'branchUuid': branchUuid,
+      'sku': sku,
+      'imageUrl': imageUrl,
+      'images': images,
+      'price': price,
+      'count': count,
+      'propertyUuid': propertyUuid,
+      'propertyName': propertyName,
+      'quantity': quantity,
+      'liked': liked,
+    };
+  }
+
   copyWith({
     String? uuid,
     String? name,

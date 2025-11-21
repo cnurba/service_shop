@@ -139,7 +139,7 @@ class _ShopAttributeSelectWidgetState extends State<ShopAttributeSelectWidget> {
               }
 
               // Для главного атрибута показываем карточки (с картинкой или плейсхолдером с текстом)
-              if (widget.isMainAttribute || prop.propertyPicture.isNotEmpty) {
+              if (widget.isMainAttribute && prop.propertyPicture.isNotEmpty) {
                 return GestureDetector(
                   onTap: () {
                     // DEBUG: лог клика по карточке

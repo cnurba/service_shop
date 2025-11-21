@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class PaymentMethodsWidget extends StatefulWidget {
-  const PaymentMethodsWidget({super.key});
+  const PaymentMethodsWidget({super.key, required this.onPaymentMethodChanged});
+
+  final Function (String paymentType) onPaymentMethodChanged;
 
   @override
   State<PaymentMethodsWidget> createState() => _PaymentMethodsWidgetState();
@@ -73,6 +75,7 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
                       activeColor: Theme.of(context).colorScheme.primary,
                       onChanged: (val) {
                         setState(() => selectedMethod = val!);
+                        widget.onPaymentMethodChanged(item['title']!);
                       },
                     ),
                     const SizedBox(width: 6),

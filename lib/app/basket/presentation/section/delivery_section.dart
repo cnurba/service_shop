@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/basket/application/basket_provider/basket_controller.dart';
+import 'package:service_shop/core/enum/delivery_type.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
 
 class DeliverySection extends ConsumerWidget {
-  const DeliverySection({super.key});
+  const DeliverySection({super.key, required this.onDeliveryTypeChanged});
+
+  final Function(String deliveryType, String shopId, double cost) onDeliveryTypeChanged;
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -13,6 +17,7 @@ class DeliverySection extends ConsumerWidget {
     final shops = products.map((e) => e.shop).toList();
     return ListView.builder(
       itemCount: shops.length,
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
         final shop = shops[index];
@@ -55,7 +60,6 @@ class DeliverySection extends ConsumerWidget {
                   ),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(12),
-                    onTap: () {},
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -63,9 +67,12 @@ class DeliverySection extends ConsumerWidget {
                         children: [
                           Radio<int>(
                             value: deliveryIndex,
-                            groupValue: 0, // replace with selected index
+                            groupValue: 1, // replace with selected index
                             onChanged: (value) {
-                              // handle radio change
+                              ///TODO: Не работает переключение.
+                              ///Сделай отдельный стейтфул виджет для чекбоксов.
+                              onDeliveryTypeChanged(
+                                  delivery.type, shop.id, delivery.cost);
                             },
                           ),
                           const SizedBox(width: 4),

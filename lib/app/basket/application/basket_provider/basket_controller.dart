@@ -12,6 +12,31 @@ final basketProvider = StateNotifierProvider<BasketController, BasketState>((
 class BasketController extends StateNotifier<BasketState> {
   BasketController() : super(BasketState.initial());
 
+  void setDeliveryType(String shopId, String deliveryType, double cost) {
+    final existingShopIndex = state.shopItems.indexWhere(
+      (item) => item.shop.id == shopId,
+    );
+
+    if (existingShopIndex != -1) {
+      final existingShopItem = state.shopItems[existingShopIndex];
+
+      final updatedShopItem = BasketShopItem(
+        shop: existingShopItem.shop,
+        products: existingShopItem.products,
+        totalAmount: existingShopItem.totalAmount,
+        deliveryType: deliveryType,
+        deliveryCost: cost,
+      );
+
+      List<BasketShopItem> updatedShopItems = List<BasketShopItem>.from(
+        state.shopItems,
+      );
+      updatedShopItems[existingShopIndex] = updatedShopItem;
+
+      state = BasketState(shopItems: updatedShopItems);
+    }
+  }
+
   void add(Product product, Shop shop) {
     // Проверяем, есть ли уже магазин в корзине
     final existingShopIndex = state.shopItems.indexWhere(
@@ -52,6 +77,8 @@ class BasketController extends StateNotifier<BasketState> {
           shop: existingShopItem.shop,
           totalAmount: updatedTotalAmount,
           products: updatedProducts,
+          deliveryType: existingShopItem.deliveryType,
+          deliveryCost: existingShopItem.deliveryCost,
         );
 
         updatedShopItems[existingShopIndex] = updatedShopItem;
@@ -65,6 +92,8 @@ class BasketController extends StateNotifier<BasketState> {
           shop: existingShopItem.shop,
           totalAmount: updatedTotalAmount,
           products: updatedProducts,
+          deliveryType: existingShopItem.deliveryType,
+          deliveryCost: existingShopItem.deliveryCost,
         );
         updatedShopItems[existingShopIndex] = updatedShopItem;
       }
@@ -76,6 +105,8 @@ class BasketController extends StateNotifier<BasketState> {
         shop: shop,
         products: [product.copyWith(quantity: 1)],
         totalAmount: product.price,
+        deliveryType: '',
+        deliveryCost: 0,
       );
 
       state = BasketState(shopItems: [...state.shopItems, newShopItem]);
@@ -113,6 +144,8 @@ class BasketController extends StateNotifier<BasketState> {
             shop: existingShopItem.shop,
             products: updatedProducts,
             totalAmount: updatedTotalAmount,
+            deliveryType: existingShopItem.deliveryType,
+            deliveryCost: existingShopItem.deliveryCost,
           );
 
           updatedShopItems[existingShopIndex] = updatedShopItem;
@@ -155,6 +188,8 @@ class BasketController extends StateNotifier<BasketState> {
           shop: existingShopItem.shop,
           products: updatedProducts,
           totalAmount: updatedTotalAmount,
+          deliveryType: existingShopItem.deliveryType,
+          deliveryCost: existingShopItem.deliveryCost,
         );
 
         List<BasketShopItem> updatedShopItems = List<BasketShopItem>.from(
@@ -196,9 +231,11 @@ class BasketController extends StateNotifier<BasketState> {
 
           final updatedShopItem = BasketShopItem(
             shop: existingShopItem.shop,
+            deliveryType: existingShopItem.deliveryType,
 
             products: updatedProducts,
             totalAmount: updatedTotalAmount,
+            deliveryCost: existingShopItem.deliveryCost,
           );
 
           List<BasketShopItem> updatedShopItems = List<BasketShopItem>.from(

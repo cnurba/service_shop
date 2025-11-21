@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
 
 class AddressSection extends StatelessWidget {
-  const AddressSection({super.key});
+  const AddressSection({super.key,
+    required this.onNameChanged,
+    required this.onNamePhone,
+    required this.onCityChanged,
+    required this.onStreetChanged,
+    required this.onApartmentChanged,
+    required this.onSaveInfoChanged,
+  });
+
+  final Function(String name) onNameChanged;
+  final Function(String phone) onNamePhone;
+  final Function(String city) onCityChanged;
+  final Function(String street) onStreetChanged;
+  final Function(String apartment) onApartmentChanged;
+  final Function(bool saveInfo) onSaveInfoChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +34,7 @@ class AddressSection extends StatelessWidget {
           children: [
             Expanded(
               child: TextField(
+                onChanged: (value) => onNameChanged(value),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Имя',
@@ -29,6 +44,7 @@ class AddressSection extends StatelessWidget {
             SizedBox(width: 8),
             Expanded(
               child: TextField(
+                onChanged: (value) => onNamePhone(value),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Телефон',
@@ -42,6 +58,7 @@ class AddressSection extends StatelessWidget {
           children: [
             Expanded(
               child: TextField(
+                onChanged: (value) => onCityChanged(value),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Город, область',
@@ -51,6 +68,7 @@ class AddressSection extends StatelessWidget {
             SizedBox(width: 8),
             Expanded(
               child: TextField(
+                onChanged: (value) => onStreetChanged(value),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Улица',
@@ -61,6 +79,7 @@ class AddressSection extends StatelessWidget {
 
             Expanded(
               child: TextField(
+                onChanged: (value) => onApartmentChanged(value),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Дом, квартира',
@@ -75,8 +94,11 @@ class AddressSection extends StatelessWidget {
             Checkbox(
               value: _isChecked,
               onChanged: (newValue) {
+                onSaveInfoChanged(newValue!);
                 // setState(() {
-                //   _isChecked = newValue!;
+                //
+                //   });
+                  _isChecked = newValue;
               },
             ),
             Text('Сохранить эти данные для будущих заказов'),

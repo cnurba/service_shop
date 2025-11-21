@@ -36,7 +36,6 @@ class ShopProductProperty extends Equatable {
   });
 
   factory ShopProductProperty.fromJson(Map<String, dynamic> json) {
-
     final price = (json['price'] ?? 0).toDouble();
     final count = (json['count'] ?? 0).toDouble();
 
@@ -124,7 +123,7 @@ class ShopProduct extends Equatable {
       brandName: json['brandName'] ?? '',
       sku: json['sku'] ?? '',
       isFeatured: json['isFeatured'] ?? false,
-      price: (json['price'] ?? 0).toDouble()??0.0,
+      price: (json['price'] ?? 0).toDouble() ?? 0.0,
       imageUrl: json['imageUrl'] ?? '',
       images: (json['images'] as List<dynamic>? ?? [])
           .map((e) => e as String)

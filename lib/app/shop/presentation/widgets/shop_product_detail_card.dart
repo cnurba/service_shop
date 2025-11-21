@@ -59,7 +59,9 @@ class _ProductCardState extends State<ProductCard> {
                           right: 8,
                           child: IconButton(
                             icon: Icon(
-                              CupertinoIcons.heart_fill,
+                              widget.product.liked
+                                  ? CupertinoIcons.heart_fill
+                                  : CupertinoIcons.heart,
                               color: Colors.red,
                               size: 30,
                             ),
@@ -106,14 +108,18 @@ class _ProductCardState extends State<ProductCard> {
                   ],
                 ),
               ),
+              // ...existing code...
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
-                child: AddRemoveButton(
-                  count: widget.quantity,
-                  onAdd: widget.onAdd!,
-                  onRemove: widget.onRemove!,
-                ),
+                child: (widget.onAdd != null && widget.onRemove != null)
+                    ? AddRemoveButton(
+                        count: widget.quantity,
+                        onAdd: widget.onAdd!,
+                        onRemove: widget.onRemove!,
+                      )
+                    : const SizedBox.shrink(),
               ),
+              // ...existing code...
             ],
           ),
         ),

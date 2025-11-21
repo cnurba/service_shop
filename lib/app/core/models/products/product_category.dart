@@ -16,6 +16,13 @@ class ProductCategory extends Equatable {
     );
   }
 
+  ProductCategory copyWith({String? category, List<Product>? products}) {
+    return ProductCategory(
+      category: category ?? this.category,
+      products: products ?? this.products,
+    );
+  }
+
   @override
   List<Object?> get props => [category, products];
 }

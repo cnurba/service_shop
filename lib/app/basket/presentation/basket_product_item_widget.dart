@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:service_shop/app/core/models/products/product.dart';
 import 'package:service_shop/core/presentation/image/app_image_container.dart';
@@ -121,9 +122,15 @@ class BasketProductCard extends StatelessWidget {
                             Row(
                               children: [
                                 IconButton(
-                                  icon: const Icon(
-                                    Icons.favorite_border,
-                                    color: ServiceColors.primaryColor,
+                                  icon: Icon(
+                                    product.liked
+                                        ? CupertinoIcons.heart_fill
+                                        : CupertinoIcons.heart,
+                                    color: product.liked
+                                        ? Colors.red
+                                        : Colors
+                                              .grey, // changes color when liked
+                                    size: 30,
                                   ),
                                   onPressed: onAddToFavorites,
                                 ),

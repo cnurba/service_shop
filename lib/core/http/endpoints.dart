@@ -1,5 +1,3 @@
-
-
 import 'package:service_shop/core/http/server_address.dart';
 
 final String _baseUrl = ServerAddress().baseUrl;
@@ -37,6 +35,10 @@ class _Orders {
   String ordersDetailById(int id) => "$_baseUrl/orders/full/$id";
 }
 
+class Like {
+  String get favorites => "$_baseUrl/like/";
+}
+
 /// Defines endpoints for connection to server.
 class Endpoints {
   static get product => _Product();
@@ -48,6 +50,8 @@ class Endpoints {
   static get brand => _Brand();
 
   static get orders => _Orders();
+
+  static get like => Like();
 
   static String get image => "$_baseUrl";
 }

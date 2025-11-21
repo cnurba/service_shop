@@ -1,11 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_shop/app/core/models/products/product.dart';
 import 'package:service_shop/app/shop/domain/repositories/i_shop_repository.dart';
 import 'package:service_shop/core/enum/state_type.dart';
 import 'package:service_shop/injection.dart';
 import 'shop_product_state.dart';
 
-final shopProductProvider = StateNotifierProvider<ShopProductController, ShopProductState>((ref) {
-  return ShopProductController(getIt<IShopRepository>());
+final shopProductProvider =
+    StateNotifierProvider<ShopProductController, ShopProductState>((ref) {
+      return ShopProductController(getIt<IShopRepository>());
+    });
+
+/// Provider that returns all liked products from all categories
+final favouriteProductsProvider = Provider<List<Product>>((ref) {
+  final state = ref.watch(shopProductProvider);
+  return state.categories
+      .expand((cat) => cat.products)
+      .where((product) => product.liked)
+      .toList();
 });
 
 class ShopProductController extends StateNotifier<ShopProductState> {
@@ -23,5 +34,60 @@ class ShopProductController extends StateNotifier<ShopProductState> {
       state = state.copyWith(status: StateType.error, error: e.toString());
     }
   }
-}
 
+  Future<void> toggleFavorite(
+    String uuid, {
+    required int categoryIndex,
+    required int productIndex,
+    required Product product,
+  }) async {
+    final currentCategories = state.categories;
+
+    if (categoryIndex < 0 || categoryIndex >= currentCategories.length) return;
+    if (productIndex < 0 ||
+        productIndex >= currentCategories[categoryIndex].products.length)
+      return;
+
+    final isLiked = product.liked;
+
+    try {
+      if (isLiked) {
+        final result = await _api.unlikeProduct(product.uuid);
+        if (result) {
+          final updatedProduct = product.copyWith(liked: !isLiked);
+          final updatedProducts = List.of(
+            currentCategories[categoryIndex].products,
+          );
+          updatedProducts[productIndex] = updatedProduct;
+
+          final updatedCategory = currentCategories[categoryIndex];
+          final updatedCategories = List.of(currentCategories);
+          updatedCategories[categoryIndex] = updatedCategory.copyWith(
+            products: updatedProducts,
+          );
+
+          state = state.copyWith(categories: updatedCategories);
+        }
+      } else {
+        final result = await _api.likeProduct(product.uuid);
+        if (result) {
+          final updatedProduct = product.copyWith(liked: !isLiked);
+          final updatedProducts = List.of(
+            currentCategories[categoryIndex].products,
+          );
+          updatedProducts[productIndex] = updatedProduct;
+
+          final updatedCategory = currentCategories[categoryIndex];
+          final updatedCategories = List.of(currentCategories);
+          updatedCategories[categoryIndex] = updatedCategory.copyWith(
+            products: updatedProducts,
+          );
+
+          state = state.copyWith(categories: updatedCategories);
+        }
+      }
+    } catch (e) {
+      // Handle error if needed
+    }
+  }
+}

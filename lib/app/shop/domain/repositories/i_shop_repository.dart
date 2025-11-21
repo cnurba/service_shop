@@ -7,5 +7,10 @@ abstract class IShopRepository {
   Future<bool> likeShop(String shopUuid);
   Future<bool> unlikeShop(String shopUuid);
   Future<List<ProductCategory>> getShopProducts(String shopUuid);
-  Future<DataTree> getProductDetail({required String shopUuid, required String productUuid});
+  Future<DataTree> getProductDetail({
+    required String shopUuid,
+    required String productUuid,
+  });
+  Future<bool> likeProduct(String productUuid);
+  Future<bool> unlikeProduct(String productUuid);
 }

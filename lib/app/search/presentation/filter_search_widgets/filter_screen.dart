@@ -172,7 +172,6 @@ class _GroupFilterWidgetState extends State<_GroupFilterWidget> {
                 return OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     backgroundColor: isSelected ? Colors.blue.shade100 : null,
-
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadiusGeometry.circular(6),
                     ),

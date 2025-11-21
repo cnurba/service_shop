@@ -74,12 +74,22 @@ class ShopRepository implements IShopRepository {
   }
 
   @override
-  Future<bool> likeShop(String shopUuid) async{
+  Future<bool> likeShop(String shopUuid) async {
     return true;
   }
 
   @override
-  Future<bool> unlikeShop(String shopUuid) async{
+  Future<bool> unlikeShop(String shopUuid) async {
+    return true;
+  }
+
+  @override
+  Future<bool> likeProduct(String productUuid) async {
+    return true;
+  }
+
+  @override
+  Future<bool> unlikeProduct(String productUuid) async {
     return true;
   }
 }

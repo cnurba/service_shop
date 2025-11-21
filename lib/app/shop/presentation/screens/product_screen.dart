@@ -58,7 +58,6 @@ class ProductScreen extends StatelessWidget {
                         shrinkWrap: true,
                         physics:
                             const NeverScrollableScrollPhysics(), // disables inner scrolling
-                        // padding: const EdgeInsets.only(right: 8),
                         itemCount: category.products.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
@@ -68,8 +67,8 @@ class ProductScreen extends StatelessWidget {
                               childAspectRatio:
                                   0.6, // adjust to make card look nice
                             ),
-                        itemBuilder: (context, index) {
-                          final product = category.products[index];
+                        itemBuilder: (context, productIndex) {
+                          final product = category.products[productIndex];
                           return ProductCard(
                             quantity: ref
                                 .watch(basketProvider)
@@ -90,7 +89,16 @@ class ProductScreen extends StatelessWidget {
                                   .read(basketProvider.notifier)
                                   .add(product, shop);
                             },
-                            onFavorite: () {},
+                            onFavorite: () {
+                              ref
+                                  .read(shopProductProvider.notifier)
+                                  .toggleFavorite(
+                                    product.uuid, // <-- positional argument
+                                    categoryIndex: index,
+                                    productIndex: productIndex,
+                                    product: product,
+                                  );
+                            },
                             onTap: () async {
                               ref
                                   .read(productDetailLoaderProvider.notifier)

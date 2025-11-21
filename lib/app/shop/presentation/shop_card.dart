@@ -69,12 +69,16 @@ class ShopCard extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           onFavorite();
                         },
-                        child: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: Colors.red,
+                        child: AnimatedScale(
+                          scale: isFavorite ? 1.2 : 1.0,
+                          duration: const Duration(milliseconds: 200),
+                          child: Icon(
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                            color: Colors.red,
+                          ),
                         ),
                       ),
                     ],

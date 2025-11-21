@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 /// [Product] - Model class representing a product with various attributes.
 class Product extends Equatable {
   final String uuid;
@@ -9,7 +10,7 @@ class Product extends Equatable {
   final String description;
   final String categoryName;
   final String sku;
-  final String imageUrl;
+  final String? imageUrl;
   final double price;
   final double count;
   final double quantity;
@@ -23,7 +24,7 @@ class Product extends Equatable {
     required this.categoryName,
     required this.branchUuid,
     required this.sku,
-    required this.imageUrl,
+    this.imageUrl,
     required this.images,
     required this.price,
     required this.count,
@@ -47,7 +48,7 @@ class Product extends Equatable {
       count: 0,
       propertyUuid: '',
       propertyName: '',
-      quantity:0,
+      quantity: 0,
       liked: false,
     );
   }
@@ -67,7 +68,7 @@ class Product extends Equatable {
       sku: json['sku'] ?? '',
       propertyName: json['propertyName'] ?? '',
       propertyUuid: json['propertyUuid'] ?? '',
-      imageUrl: json['imageUrl'] ?? '',
+      imageUrl: json['imageUrl'] as String?,
       liked: json['liked'] ?? false,
       images: (json['images'] as List<dynamic>? ?? [])
           .map((e) => e as String)
@@ -105,7 +106,7 @@ class Product extends Equatable {
       propertyName: propertyName ?? this.propertyName,
       branchUuid: branchUuid ?? this.branchUuid,
       quantity: quantity ?? this.quantity,
-      liked: liked ?? this.liked
+      liked: liked ?? this.liked,
     );
   }
 

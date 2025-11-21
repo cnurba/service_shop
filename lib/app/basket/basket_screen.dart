@@ -5,6 +5,8 @@ import 'package:service_shop/app/basket/application/checkout_provider/checkout_c
 import 'package:service_shop/app/basket/checkout_screen.dart';
 import 'package:service_shop/app/basket/presentation/basket_product_item_widget.dart';
 import 'package:service_shop/app/basket/presentation/empty_basket_widget.dart';
+import 'package:service_shop/app/core/models/products/product.dart';
+import 'package:service_shop/app/shop/application/products/shop_product_controller.dart';
 import 'package:service_shop/core/extansions/router_extension.dart';
 import 'package:service_shop/core/presentation/appbar/favs_app_bar.dart';
 import 'package:service_shop/core/presentation/buttons/custom_button.dart';
@@ -46,6 +48,31 @@ class BasketScreen extends ConsumerWidget {
                               separatorBuilder: (_, __) => const Divider(),
                               itemBuilder: (context, productIndex) {
                                 final product = shopItem.products[productIndex];
+                                final shopProductState = ref.watch(
+                                  shopProductProvider,
+                                );
+                                final categoryIndex = shopProductState
+                                    .categories
+                                    .indexWhere(
+                                      (cat) => cat.products.any(
+                                        (p) => p.uuid == product.uuid,
+                                      ),
+                                    );
+                                int prodIndex = -1;
+                                Product latestProduct = product;
+                                if (categoryIndex != -1) {
+                                  prodIndex = shopProductState
+                                      .categories[categoryIndex]
+                                      .products
+                                      .indexWhere(
+                                        (p) => p.uuid == product.uuid,
+                                      );
+                                  if (prodIndex != -1) {
+                                    latestProduct = shopProductState
+                                        .categories[categoryIndex]
+                                        .products[prodIndex];
+                                  }
+                                }
                                 return BasketProductCard(
                                   onMinus: () {
                                     ref
@@ -56,9 +83,17 @@ class BasketScreen extends ConsumerWidget {
                                         );
                                   },
                                   onAddToFavorites: () {
-                                    ref
-                                        .read(basketProvider.notifier)
-                                        .onLike(product, shopItem.shop.id);
+                                    if (categoryIndex != -1 &&
+                                        prodIndex != -1) {
+                                      ref
+                                          .read(shopProductProvider.notifier)
+                                          .toggleFavorite(
+                                            product.uuid,
+                                            categoryIndex: categoryIndex,
+                                            productIndex: prodIndex,
+                                            product: latestProduct,
+                                          );
+                                    }
                                   },
                                   onAdd: () {
                                     ref
@@ -70,7 +105,7 @@ class BasketScreen extends ConsumerWidget {
                                         .read(basketProvider.notifier)
                                         .remove(product, shopItem.shop.id);
                                   },
-                                  product: product,
+                                  product: latestProduct,
                                 );
                               },
                             ),

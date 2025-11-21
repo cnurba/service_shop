@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_shop/app/basket/application/add_order/add_order_controller.dart';
 import 'package:service_shop/app/basket/application/basket_provider/basket_controller.dart';
 import 'package:service_shop/app/basket/application/checkout_provider/checkout_controller.dart';
 import 'package:service_shop/app/basket/presentation/basket_product_item_widget.dart';
@@ -8,6 +9,7 @@ import 'package:service_shop/app/basket/presentation/section/delivery_section.da
 import 'package:service_shop/app/basket/presentation/section/total_price_section.dart';
 import 'package:service_shop/app/basket/presentation/widgets/confirm_button.dart';
 import 'package:service_shop/app/basket/presentation/widgets/payment_method_widget.dart';
+import 'package:service_shop/core/enum/state_type.dart';
 import 'package:service_shop/core/presentation/appbar/favs_app_bar.dart';
 
 class CheckoutScreen extends ConsumerWidget {
@@ -78,9 +80,7 @@ class CheckoutScreen extends ConsumerWidget {
                     ref
                         .read(basketProvider.notifier)
                         .setDeliveryType(deliveryType, shopId, cost);
-                    ref
-                        .read(checkoutProvider.notifier)
-                        .setDeliveryCost(cost);
+                    ref.read(checkoutProvider.notifier).setDeliveryCost(cost);
                   },
                 ),
                 SizedBox(height: 20),
@@ -90,7 +90,7 @@ class CheckoutScreen extends ConsumerWidget {
                   totalAmount: checkoutState.totalAmount,
                   discount: 0,
                   deliveryCost: checkoutState.deliveryCost,
-                  finalAmount: checkoutState.deliveryCost,
+                  finalAmount: checkoutState.finalAmount,
                 ),
                 AddressSection(
                   onNameChanged: (name) =>
@@ -110,16 +110,60 @@ class CheckoutScreen extends ConsumerWidget {
                       .onChangeSaveInfo(saveInfo),
                 ),
                 Divider(),
-                PaymentMethodsWidget(onPaymentMethodChanged: (paymentType) {
-                  ref.read(checkoutProvider.notifier).changePaymentType(paymentType);
-                },),
+                PaymentMethodsWidget(
+                  onPaymentMethodChanged: (paymentType) {
+                    ref
+                        .read(checkoutProvider.notifier)
+                        .changePaymentType(paymentType);
+                  },
+                ),
                 SizedBox(height: 16),
-                ConfirmButton(totalPrice: checkoutState.finalAmount, onConfirm: () {
-                  // Подтверждение заказа
+                ConfirmButton(
+                  totalPrice: checkoutState.finalAmount,
+                  onConfirm: () {
+                    // Подтверждение заказа
 
-                  ref.read(checkoutProvider.notifier).fillShopItems(basketState);
+                    ref
+                        .read(checkoutProvider.notifier)
+                        .fillShopItems(basketState);
+                    final checkoutState =
+                        ref.watch(checkoutProvider);
+                    ref.read(addOrderProvider.notifier).post(checkoutState);
+                  },
+                ),
+                Consumer(
+                  builder: (context, ref, child) {
+                    final status = ref.watch(addOrderProvider).status;
+                    if (status == StateType.loaded) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Заказ успешно создан!')),
+                        );
+                        ref.read(basketProvider.notifier).clearBasket();
+                        Navigator.of(
+                          context,
+                        ).popUntil((route) => route.isFirst);
+                      });
+                    } else if (status == StateType.error) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Ошибка при создании заказа. Попробуйте еще раз.',
+                            ),
+                          ),
+                        );
+                      });
+                    } else if (status == StateType.loading) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      return SizedBox.shrink();
+                    }
 
-                },),
+                    return SizedBox.shrink();
+                  },
+                ),
+
                 SizedBox(height: 16),
               ],
             ),

@@ -12,6 +12,10 @@ final basketProvider = StateNotifierProvider<BasketController, BasketState>((
 class BasketController extends StateNotifier<BasketState> {
   BasketController() : super(BasketState.initial());
 
+  void clearBasket() {
+    state = BasketState.initial();
+  }
+
   void setDeliveryType(String shopId, String deliveryType, double cost) {
     final existingShopIndex = state.shopItems.indexWhere(
       (item) => item.shop.id == shopId,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
 
 class ConfirmButton extends StatelessWidget {
-  final int totalPrice;
+  final double totalPrice;
   final VoidCallback onConfirm;
 
   const ConfirmButton({

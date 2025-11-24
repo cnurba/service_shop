@@ -1,98 +1,119 @@
 import 'package:equatable/equatable.dart';
-import 'package:service_shop/app/core/models/products/product.dart';
-import 'package:service_shop/core/enum/delivery_type.dart';
-import 'package:service_shop/core/enum/payment_type.dart';
+import 'package:service_shop/app/basket/application/basket_provider/basket_state.dart';
 
-class CheckoutState extends Equatable{
-  final List<CheckoutShopItem> shopItems;
-  final PaymentType paymentType;
-  final bool isCombinedDelivery;
-  final double totalAmount;
+class CheckoutState extends Equatable {
+  final List<BasketShopItem> shopItems;
+  final String paymentType;
+  final String name;
+  final String phone;
+  final String city;
+  final String street;
+  final String apartment;
+  final bool saveInfo;
+  final int totalShops;
   final double totalCount;
+  final double totalAmount;
+  final double deliveryCost;
+  final double finalAmount;
 
   const CheckoutState({
     this.shopItems = const [],
     required this.paymentType,
-    this.isCombinedDelivery = false,
-    this.totalAmount = 0.0,
-    this.totalCount = 0.0,
-
+    required this.totalAmount,
+    required this.totalCount,
+    required this.name,
+    required this.phone,
+    required this.city,
+    required this.street,
+    required this.apartment,
+    required this.saveInfo,
+    required this.deliveryCost,
+    required this.finalAmount,
+    required this.totalShops,
   });
 
   factory CheckoutState.initial() {
     return const CheckoutState(
       shopItems: [],
-      paymentType: PaymentType.cash,
+      paymentType: "Онлайн",
+      totalAmount: 0.0,
+      totalCount: 0.0,
+      name: '',
+      phone: '',
+      city: '',
+      street: '',
+      apartment: '',
+      saveInfo: false,
+      deliveryCost: 0.0,
+      finalAmount: 0.0,
+      totalShops: 0,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'shopItems': shopItems.map((e) => e.toJson()).toList(),
+      'paymentType': paymentType,
+      'name': name,
+      'phone': phone,
+      'city': city,
+      'street': street,
+      'apartment': apartment,
+      'saveInfo': saveInfo,
+      'totalAmount': totalAmount,
+      'totalCount': totalCount,
+      'deliveryCost': deliveryCost,
+      'finalAmount': finalAmount,
+      'totalShops': totalShops,
+    };
   }
 
   copyWith({
-    List<CheckoutShopItem>? shopItems,
-    PaymentType? paymentType,
-    bool? isCombinedDelivery,
+    List<BasketShopItem>? shopItems,
+    String? paymentType,
+    String? name,
+    String? phone,
+    String? city,
+    String? street,
+    String? apartment,
+    bool? saveInfo,
     double? totalAmount,
     double? totalCount,
-  }){
+    double? deliveryCost,
+    double? finalAmount,
+    int? totalShops,
+  }) {
     return CheckoutState(
       shopItems: shopItems ?? this.shopItems,
       paymentType: paymentType ?? this.paymentType,
-      isCombinedDelivery: isCombinedDelivery ?? this.isCombinedDelivery,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      city: city ?? this.city,
+      street: street ?? this.street,
+      apartment: apartment ?? this.apartment,
+      saveInfo: saveInfo ?? this.saveInfo,
+      deliveryCost: deliveryCost ?? this.deliveryCost,
+      finalAmount: finalAmount ?? this.finalAmount,
       totalAmount: totalAmount ?? this.totalAmount,
       totalCount: totalCount ?? this.totalCount,
+      totalShops: totalShops ?? this.totalShops,
     );
   }
 
   @override
-  List<Object?> get props => [shopItems];
-}
-
-class CheckoutShopItem extends Equatable{
-  final String shopId;
-  final String shopName;
-  final String shopImageUrl;
-  final List<Product> products;
-  final double totalAmount;
-  final DeliveryType deliveryType;
-  /// объединенная доставка
-
-   const CheckoutShopItem({
-    required this.shopId,
-    required this.shopName,
-    required this.shopImageUrl,
-    this.products = const [],
-    this.totalAmount = 0.0,
-    required this.deliveryType,
-  });
-
-   copyWith({
-    String? shopId,
-    String? shopName,
-    String? shopImageUrl,
-    List<Product>? products,
-    double? totalAmount,
-    DeliveryType? deliveryType,
-  }){
-    return CheckoutShopItem(
-      shopId: shopId ?? this.shopId,
-      shopName: shopName ?? this.shopName,
-      shopImageUrl: shopImageUrl ?? this.shopImageUrl,
-      products: products ?? this.products,
-      totalAmount: totalAmount ?? this.totalAmount,
-      deliveryType: deliveryType ?? this.deliveryType,
-    );
-   }
-
-  factory CheckoutShopItem.initial() {
-    return const CheckoutShopItem(
-      shopId: '',
-      shopName: '',
-      shopImageUrl: '',
-      products: [],
-      totalAmount: 0.0,
-      deliveryType: DeliveryType.pickup,
-    );
-  }
-
-  @override
-  List<Object?> get props => [shopId, shopName, shopImageUrl,products, totalAmount,deliveryType];
+  List<Object?> get props => [
+    shopItems,
+    paymentType,
+    name,
+    phone,
+    city,
+    street,
+    apartment,
+    saveInfo,
+    totalAmount,
+    totalCount,
+    deliveryCost,
+    finalAmount,
+    totalShops,
+  ];
 }

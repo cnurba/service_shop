@@ -11,6 +11,42 @@ class BasketState extends Equatable {
     return const BasketState(shopItems: []);
   }
 
+  double get totalAmount {
+    double total = 0.0;
+    for (var shopItem in shopItems) {
+      total += shopItem.totalAmount;
+    }
+    return total;
+  }
+
+  double get totalCount {
+    double count = 0.0;
+    for (var shopItem in shopItems) {
+      for (var product in shopItem.products) {
+        count += product.quantity;
+      }
+    }
+    return count;
+  }
+
+  double get totalShops {
+    return shopItems.length.toDouble();
+  }
+
+  double get totalDeliveryCost {
+    double total = 0.0;
+    for (var shopItem in shopItems) {
+      total += shopItem.deliveryCost;
+    }
+    return total;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'shopItems': shopItems.map((e) => e.toJson()).toList(),
+    };
+  }
+
   @override
   List<Object?> get props => [shopItems];
 
@@ -35,33 +71,53 @@ class BasketShopItem extends Equatable {
   final Shop shop;
   final List<Product> products;
   final double totalAmount;
+  final String deliveryType;
+  final double deliveryCost;
 
   const BasketShopItem({
     required this.shop,
     this.products = const [],
     this.totalAmount = 0.0,
+    required this.deliveryType,
+    required this.deliveryCost,
   });
 
   factory BasketShopItem.initial() {
-    return BasketShopItem(shop: Shop.empty(), products: [], totalAmount: 0.0);
+    return BasketShopItem(
+      shop: Shop.empty(),
+      products: [],
+      totalAmount: 0.0,
+      deliveryType: 'Самовывоз',
+      deliveryCost: 0,
+    );
+  }
+
+  toJson() {
+    return {
+      'shop': shop.toJson(),
+      'products': products.map((e) => e.toJson()).toList(),
+      'totalAmount': totalAmount,
+      'deliveryType': deliveryType,
+      'deliveryCost': deliveryCost,
+    };
   }
 
   copyWith({
     Shop? shop,
     List<Product>? products,
     double? totalAmount,
+    String? deliveryType,
+    double? deliveryCost,
   }) {
     return BasketShopItem(
       shop: shop ?? this.shop,
       products: products ?? this.products,
       totalAmount: totalAmount ?? this.totalAmount,
+      deliveryType: deliveryType ?? this.deliveryType,
+      deliveryCost: deliveryCost ?? this.deliveryCost,
     );
   }
 
   @override
-  List<Object?> get props => [
-    shop,
-    products,
-    totalAmount,
-  ];
+  List<Object?> get props => [shop, products, totalAmount, deliveryType];
 }

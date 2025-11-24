@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
 
 class TotalPriceSection extends StatelessWidget {
-  const TotalPriceSection({super.key});
+  const TotalPriceSection({super.key, required this.totalShops, required this.totalCount, required this.totalAmount, required this.discount, required this.deliveryCost, required this.finalAmount});
+  final int totalShops;
+  final double totalCount;
+  final double totalAmount;
+  final double discount;
+  final double deliveryCost;
+  final double finalAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +20,7 @@ class TotalPriceSection extends StatelessWidget {
           children: [
             Text('Магазины', style: TextStyle(color: ServiceColors.grey)),
             SizedBox(width: 18),
-            Text('2', style: TextStyle(color: ServiceColors.grey)),
+            Text('$totalShops', style: TextStyle(color: ServiceColors.grey)),
           ],
         ),
         Row(
@@ -22,16 +28,16 @@ class TotalPriceSection extends StatelessWidget {
             Text('Товары', style: TextStyle(color: ServiceColors.grey)),
             SizedBox(width: 18),
 
-            Text('3шт', style: TextStyle(color: ServiceColors.grey)),
+            Text('$totalCount шт', style: TextStyle(color: ServiceColors.grey)),
             Spacer(),
-            Text('3 865 с', style: TextStyle(color: ServiceColors.grey)),
+            Text('$totalAmount с', style: TextStyle(color: ServiceColors.grey)),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Скидка', style: TextStyle(color: ServiceColors.grey)),
-            Text('470 с', style: TextStyle(color: ServiceColors.grey)),
+            Text('$discount с', style: TextStyle(color: ServiceColors.grey)),
           ],
         ),
         SizedBox(height: 16),
@@ -39,7 +45,7 @@ class TotalPriceSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Итого', style: TextTheme.of(context).titleMedium),
-            Text('5 985 с', style: TextTheme.of(context).titleMedium),
+            Text('$finalAmount с', style: TextTheme.of(context).titleMedium),
           ],
         ),
         Divider(),

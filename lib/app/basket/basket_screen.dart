@@ -82,16 +82,28 @@ class BasketScreen extends ConsumerWidget {
                                           shopItem.shop.id,
                                         );
                                   },
-                                  onAddToFavorites: () {
+                                  onAddToFavorites: () async {
                                     if (categoryIndex != -1 &&
                                         prodIndex != -1) {
-                                      ref
+                                      await ref
                                           .read(shopProductProvider.notifier)
                                           .toggleFavorite(
                                             product.uuid,
                                             categoryIndex: categoryIndex,
                                             productIndex: prodIndex,
                                             product: latestProduct,
+                                          );
+                                      // Get the new liked value from provider
+                                      final updatedProduct = ref
+                                          .read(shopProductProvider)
+                                          .categories[categoryIndex]
+                                          .products[prodIndex];
+                                      ref
+                                          .read(basketProvider.notifier)
+                                          .onLike(
+                                            product,
+                                            shopItem.shop.id,
+                                            updatedProduct.liked,
                                           );
                                     }
                                   },

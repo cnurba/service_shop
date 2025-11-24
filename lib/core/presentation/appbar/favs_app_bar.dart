@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:service_shop/core/presentation/theme/colors.dart';
 
 class FavsAppBar extends StatelessWidget implements PreferredSizeWidget {
   const FavsAppBar({super.key, required this.title});
@@ -18,7 +19,7 @@ class FavsAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           centerTitle: true,
-          backgroundColor: Colors.transparent,
+          backgroundColor: ServiceColors.white,
           elevation: 0,
         ),
         Container(height: 10, color: Colors.grey[300]),

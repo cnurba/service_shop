@@ -8,6 +8,7 @@ import 'package:service_shop/app/basket/presentation/section/total_price_section
 import 'package:service_shop/app/basket/presentation/widgets/confirm_button.dart';
 import 'package:service_shop/app/basket/presentation/widgets/payment_method_widget.dart';
 import 'package:service_shop/core/presentation/appbar/favs_app_bar.dart';
+import 'package:service_shop/app/shop/application/products/shop_product_controller.dart';
 
 class CheckoutScreen extends ConsumerWidget {
   const CheckoutScreen({super.key});
@@ -49,10 +50,47 @@ class CheckoutScreen extends ConsumerWidget {
                                   .read(basketProvider.notifier)
                                   .onMinusCount(product, shopItem.shop.id);
                             },
-                            onAddToFavorites: () {
-                              ref
-                                  .read(basketProvider.notifier)
-                                  .onLike(product, shopItem.shop.id);
+                            onAddToFavorites: () async {
+                              final shopProductState = ref.read(
+                                shopProductProvider,
+                              );
+                              final categoryIndex = shopProductState.categories
+                                  .indexWhere(
+                                    (cat) => cat.products.any(
+                                      (p) => p.uuid == product.uuid,
+                                    ),
+                                  );
+                              int prodIndex = -1;
+                              if (categoryIndex != -1) {
+                                prodIndex = shopProductState
+                                    .categories[categoryIndex]
+                                    .products
+                                    .indexWhere((p) => p.uuid == product.uuid);
+                              }
+                              if (categoryIndex != -1 && prodIndex != -1) {
+                                await ref
+                                    .read(shopProductProvider.notifier)
+                                    .toggleFavorite(
+                                      product.uuid,
+                                      categoryIndex: categoryIndex,
+                                      productIndex: prodIndex,
+                                      product: shopProductState
+                                          .categories[categoryIndex]
+                                          .products[prodIndex],
+                                    );
+                                // Update basket liked state
+                                final updatedProduct = ref
+                                    .read(shopProductProvider)
+                                    .categories[categoryIndex]
+                                    .products[prodIndex];
+                                ref
+                                    .read(basketProvider.notifier)
+                                    .onLike(
+                                      product,
+                                      shopItem.shop.id,
+                                      updatedProduct.liked,
+                                    );
+                              }
                             },
                             onAdd: () {
                               ref

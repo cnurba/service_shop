@@ -123,11 +123,7 @@ class BasketController extends StateNotifier<BasketState> {
     }
   }
 
-  void onLike(Product product, String shopId) {}
-
-  void onAddCount(Product product, String shopId) {
-    /// Поиск товара и магазина в корзине
-    /// Увеличивает количество товара в корзине на 1
+  void onLike(Product product, String shopId, bool liked) {
     final existingShopIndex = state.shopItems.indexWhere(
       (item) => item.shop.id == shopId,
     );
@@ -136,32 +132,61 @@ class BasketController extends StateNotifier<BasketState> {
       final productIndex = existingShopItem.products.indexWhere(
         (p) => p.propertyUuid == product.propertyUuid,
       );
+      if (productIndex != -1) {
+        final updatedProduct = existingShopItem.products[productIndex].copyWith(
+          liked: liked,
+        );
+        final updatedProducts = List<Product>.from(existingShopItem.products);
+        updatedProducts[productIndex] = updatedProduct;
+        final updatedShopItem = BasketShopItem(
+          shop: existingShopItem.shop,
+          products: updatedProducts,
+          totalAmount: existingShopItem.totalAmount,
+        );
+        List<BasketShopItem> updatedShopItems = List<BasketShopItem>.from(
+          state.shopItems,
+        );
+        updatedShopItems[existingShopIndex] = updatedShopItem;
+        state = BasketState(shopItems: updatedShopItems);
+      }
+    }
+  }
 
+  void onAddCount(Product product, String shopId) {
+    final existingShopIndex = state.shopItems.indexWhere(
+      (item) => item.shop.id == shopId,
+    );
+    if (existingShopIndex != -1) {
+      final existingShopItem = state.shopItems[existingShopIndex];
+      final productIndex = existingShopItem.products.indexWhere(
+        (p) => p.uuid == product.uuid,
+      );
       if (productIndex != -1) {
         final existingProduct = existingShopItem.products[productIndex];
         final updatedProduct = existingProduct.copyWith(
           quantity: existingProduct.quantity + 1,
         );
-
         final updatedProducts = List<Product>.from(existingShopItem.products);
         updatedProducts[productIndex] = updatedProduct;
-
-        final updatedTotalAmount =
-            existingShopItem.totalAmount -
-            existingProduct.price +
-            updatedProduct.price;
-
+        // Update total amount correctly
+        final updatedTotalAmount = existingShopItem.products
+            .map(
+              (p) =>
+                  p.price *
+                  (p.uuid == product.uuid
+                      ? updatedProduct.quantity
+                      : p.quantity),
+            )
+            .fold(0.0, (a, b) => a + b);
         final updatedShopItem = BasketShopItem(
           shop: existingShopItem.shop,
           products: updatedProducts,
           totalAmount: updatedTotalAmount,
         );
-
         List<BasketShopItem> updatedShopItems = List<BasketShopItem>.from(
           state.shopItems,
         );
         updatedShopItems[existingShopIndex] = updatedShopItem;
-
         state = BasketState(shopItems: updatedShopItems);
       }
     }

@@ -111,7 +111,7 @@ class BasketProductCard extends StatelessWidget {
                                       color: ServiceColors.primaryColor,
                                       size: 30,
                                     ),
-                                    onPressed: () => onAdd,
+                                    onPressed: onAdd,
                                     constraints: const BoxConstraints(),
                                     padding: const EdgeInsets.all(8),
                                   ),

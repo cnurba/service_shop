@@ -28,29 +28,10 @@ class FavsScreen extends ConsumerWidget {
             : ListView.builder(
                 padding: const EdgeInsets.all(12),
                 itemCount: favourites.length,
-                // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                //   crossAxisCount: 2,
-                //   mainAxisSpacing: 12,
-                //   crossAxisSpacing: 12,
-                //   childAspectRatio: 0.65,
-                // ),
                 itemBuilder: (context, index) {
                   final product = favourites[index];
                   return FavoriteProductCard(
                     product: product,
-                    // quantity: ref
-                    //     .watch(basketProvider)
-                    //     .getProductCount(product, product.branchUuid),
-                    // onRemove: () => ref
-                    //     .read(basketProvider.notifier)
-                    //     .onMinusCount(product, product.branchUuid),
-                    // onAdd: () {
-                    //   final shop = ref
-                    //       .read(shopsProvider)
-                    //       .shops
-                    //       .firstWhere((e) => e.id == product.branchUuid);
-                    //   ref.read(basketProvider.notifier).add(product, shop);
-                    // },
                     onFavorite: () {
                       final shopProductState = ref.read(shopProductProvider);
                       final categoryIndex = shopProductState.categories

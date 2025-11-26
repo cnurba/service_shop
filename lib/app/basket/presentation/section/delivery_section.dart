@@ -1,14 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/basket/application/basket_provider/basket_controller.dart';
-import 'package:service_shop/core/enum/delivery_type.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
+
+final selectedDeliveryProvider = StateProvider.family<int, String>(
+  (ref, shopId) => -1,
+);
 
 class DeliverySection extends ConsumerWidget {
   const DeliverySection({super.key, required this.onDeliveryTypeChanged});
 
-  final Function(String deliveryType, String shopId, double cost) onDeliveryTypeChanged;
-
+  final Function(String deliveryType, String shopId, double cost)
+  onDeliveryTypeChanged;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,6 +25,7 @@ class DeliverySection extends ConsumerWidget {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         final shop = shops[index];
+        final selectedDelivery = ref.watch(selectedDeliveryProvider(shop.id));
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -46,7 +51,7 @@ class DeliverySection extends ConsumerWidget {
               itemCount: shop.deliveries.length,
               itemBuilder: (context, deliveryIndex) {
                 final delivery = shop.deliveries[deliveryIndex];
-                final isSelected = false;
+                final isSelected = selectedDelivery == deliveryIndex;
                 return Container(
                   decoration: BoxDecoration(
                     color: ServiceColors.white,
@@ -59,6 +64,17 @@ class DeliverySection extends ConsumerWidget {
                     ),
                   ),
                   child: InkWell(
+                    onTap: () {
+                      ref
+                              .read(selectedDeliveryProvider(shop.id).notifier)
+                              .state =
+                          deliveryIndex;
+                      onDeliveryTypeChanged(
+                        delivery.type,
+                        shop.id,
+                        delivery.cost,
+                      );
+                    },
                     borderRadius: BorderRadius.circular(12),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -67,12 +83,25 @@ class DeliverySection extends ConsumerWidget {
                         children: [
                           Radio<int>(
                             value: deliveryIndex,
-                            groupValue: 1, // replace with selected index
+                            groupValue:
+                                selectedDelivery, // replace with selected index
                             onChanged: (value) {
-                              ///TODO: Не работает переключение.
-                              ///Сделай отдельный стейтфул виджет для чекбоксов.
-                              onDeliveryTypeChanged(
-                                  delivery.type, shop.id, delivery.cost);
+                              if (value != null) {
+                                ref
+                                        .read(
+                                          selectedDeliveryProvider(
+                                            shop.id,
+                                          ).notifier,
+                                        )
+                                        .state =
+                                    value;
+
+                                onDeliveryTypeChanged(
+                                  delivery.type,
+                                  shop.id,
+                                  delivery.cost,
+                                );
+                              }
                             },
                           ),
                           const SizedBox(width: 4),
@@ -89,13 +118,22 @@ class DeliverySection extends ConsumerWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 4),
-                                Text(
-                                  'Стоимость: ${delivery.cost}',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                ),
+                                if (delivery.cost > 0)
+                                  Row(
+                                    children: [
+                                      Icon(CupertinoIcons.creditcard),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        '${delivery.cost}',
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          // color: Colors.red,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                else
+                                  const SizedBox.shrink(),
                               ],
                             ),
                           ),

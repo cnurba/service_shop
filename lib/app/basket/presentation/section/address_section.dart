@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:service_shop/app/basket/presentation/section/address_storage.dart';
 
-class AddressSection extends StatelessWidget {
-  const AddressSection({super.key,
+class AddressSection extends StatefulWidget {
+  const AddressSection({
+    super.key,
     required this.onNameChanged,
     required this.onNamePhone,
     required this.onCityChanged,
@@ -18,34 +20,78 @@ class AddressSection extends StatelessWidget {
   final Function(bool saveInfo) onSaveInfoChanged;
 
   @override
+  State<AddressSection> createState() => _AddressSectionState();
+}
+
+class _AddressSectionState extends State<AddressSection> {
+  late bool _isChecked;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedAddress();
+  }
+
+  Future<void> _loadSavedAddress() async {
+    final saved = await AddressStorage.loadSavedAddress();
+    if (mounted) {
+      setState(() {
+        _isChecked = saved['saveInfo'] as bool;
+        _isLoading = false;
+      });
+
+      // Pre-fill fields if saved
+      if (_isChecked) {
+        widget.onNameChanged(saved['name'] as String);
+        widget.onNamePhone(saved['phone'] as String);
+        widget.onCityChanged(saved['city'] as String);
+        widget.onStreetChanged(saved['street'] as String);
+        widget.onApartmentChanged(saved['apartment'] as String);
+        widget.onSaveInfoChanged(true);
+      }
+    }
+  }
+
+  Future<void> _saveIfNeeded() async {
+    // You can get current values from your checkout state or pass them in
+    // But easiest: just save on every change when checkbox is ON
+    if (_isChecked) {
+      // You'll pass current values from parent (CheckoutScreen)
+      // We'll trigger save from parent instead (see below)
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    bool _isChecked = false;
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Адрес и контактные данные',
-          style: TextTheme.of(context).titleMedium,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
-        SizedBox(height: 16),
-
+        const SizedBox(height: 16),
         Row(
           children: [
             Expanded(
               child: TextField(
-                onChanged: (value) => onNameChanged(value),
-                decoration: InputDecoration(
+                onChanged: widget.onNameChanged,
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Имя',
                 ),
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Expanded(
               child: TextField(
-                onChanged: (value) => onNamePhone(value),
-                decoration: InputDecoration(
+                onChanged: widget.onNamePhone,
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Телефон',
                 ),
@@ -53,34 +99,33 @@ class AddressSection extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Row(
           children: [
             Expanded(
               child: TextField(
-                onChanged: (value) => onCityChanged(value),
-                decoration: InputDecoration(
+                onChanged: widget.onCityChanged,
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Город, область',
                 ),
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Expanded(
               child: TextField(
-                onChanged: (value) => onStreetChanged(value),
-                decoration: InputDecoration(
+                onChanged: widget.onStreetChanged,
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Улица',
                 ),
               ),
             ),
-            SizedBox(width: 8),
-
+            const SizedBox(width: 8),
             Expanded(
               child: TextField(
-                onChanged: (value) => onApartmentChanged(value),
-                decoration: InputDecoration(
+                onChanged: widget.onApartmentChanged,
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Дом, квартира',
                 ),
@@ -88,20 +133,23 @@ class AddressSection extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Row(
           children: [
             Checkbox(
               value: _isChecked,
-              onChanged: (newValue) {
-                onSaveInfoChanged(newValue!);
-                // setState(() {
-                //
-                //   });
-                  _isChecked = newValue;
+              onChanged: (value) {
+                setState(() => _isChecked = value ?? false);
+                widget.onSaveInfoChanged(_isChecked);
+
+                if (!_isChecked) {
+                  AddressStorage.clearAddress(); // Clear if unchecked
+                }
               },
             ),
-            Text('Сохранить эти данные для будущих заказов'),
+            const Expanded(
+              child: Text('Сохранить эти данные для будущих заказов'),
+            ),
           ],
         ),
       ],

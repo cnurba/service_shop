@@ -1,77 +1,136 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_shop/app/profile/application/order_history/order_history_provider.dart';
+import 'package:service_shop/core/enum/state_type.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
 
-class OrderHistoryScreen extends StatelessWidget {
+class OrderHistoryScreen extends ConsumerStatefulWidget {
   const OrderHistoryScreen({super.key});
 
   @override
+  ConsumerState<OrderHistoryScreen> createState() => _OrderHistoryScreenState();
+}
+
+class _OrderHistoryScreenState extends ConsumerState<OrderHistoryScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TabController(length: 3, vsync: this);
+
+    controller.addListener(() {
+      if (!controller.indexIsChanging) {
+        final status = switch (controller.index) {
+          0 => 'processing',
+          1 => 'onWay',
+          2 => 'delivered',
+          _ => 'processing',
+        };
+
+        ref.read(orderHistoryProvider.notifier).loadOrders(status);
+      }
+    });
+
+    /// Load first tab initially
+    ref.read(orderHistoryProvider.notifier).loadOrders('processing');
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: ServiceColors.white,
-          title: const Text('История заказов'),
-          bottom: const TabBar(
-            labelColor: Colors.black,
-            indicatorColor: Colors.black,
-            tabs: [
-              Tab(icon: Icon(Icons.access_time), text: 'В обработке'),
-              Tab(icon: Icon(Icons.local_shipping_outlined), text: 'В пути'),
-              Tab(icon: Icon(Icons.verified_user_outlined), text: 'Доставлено'),
-            ],
-          ),
-        ),
-        body: const TabBarView(
-          children: [
-            OrderList(status: 'processing'),
-            OrderList(status: 'onWay'),
-            OrderList(status: 'delivered'),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: const Text('История заказов'),
+        bottom: TabBar(
+          controller: controller,
+          labelColor: Colors.black,
+          indicatorColor: Colors.black,
+          tabs: const [
+            Tab(icon: Icon(Icons.access_time), text: 'В обработке'),
+            Tab(icon: Icon(Icons.local_shipping_outlined), text: 'В пути'),
+            Tab(icon: Icon(Icons.verified_user_outlined), text: 'Доставлено'),
           ],
         ),
+      ),
+      body: TabBarView(
+        controller: controller,
+        children: const [
+          OrderList(status: 'processing'),
+          OrderList(status: 'onWay'),
+          OrderList(status: 'delivered'),
+        ],
       ),
     );
   }
 }
 
-class OrderList extends StatelessWidget {
+class OrderList extends ConsumerWidget {
   final String status;
   const OrderList({super.key, required this.status});
 
   @override
-  Widget build(BuildContext context) {
-    final orders = [
-      {
-        'number': '№ 12345',
-        'date': '09 сент.',
-        'items': 'и еще 2 товара',
-        'price': '2 500 с',
-        'image': 'assets/logo/placeholder.png',
-      },
-      {
-        'number': '№ 12344',
-        'date': '07 сент.',
-        'items': 'и еще 1 товар',
-        'price': '5 850 с',
-        'image': 'assets/logo/placeholder.png',
-      },
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(orderHistoryProvider);
+
+    // Load data when tab is opened
+    ref.listen(orderHistoryProvider, (_, next) {
+      // if first time in tab -> load
+      if (next.status == StateType.initial) {
+        ref.read(orderHistoryProvider.notifier).loadOrders(status);
+      }
+    });
+
+    if (state.status == StateType.loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (state.status == StateType.error) {
+      return Center(child: Text('Ошибка: ${state.error}'));
+    }
+
+    if (state.orders.isEmpty) {
+      return const Center(child: Text('Нет заказов'));
+    }
 
     return ListView.separated(
       padding: const EdgeInsets.all(16),
-      itemCount: orders.length,
+      itemCount: state.orders.length,
       separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
-        final order = orders[index];
+        final order = state.orders[index];
         return OrderCard(
-          number: order['number']!,
-          date: order['date']!,
-          items: order['items']!,
-          price: order['price']!,
-          image: order['image']!,
+          number: order.number,
+          date: _formatDate(order.date),
+          items: 'и еще ${order.count - 1} товара',
+          price: '${order.amount.toStringAsFixed(0)} с',
+          image: 'assets/logo/placeholder.png', // from API later if needed
         );
       },
     );
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.day.toString().padLeft(2, '0')} ${_ruMonth(date.month)}';
+  }
+
+  String _ruMonth(int month) {
+    const months = [
+      'янв.',
+      'февр.',
+      'март.',
+      'апр.',
+      'май',
+      'июнь',
+      'июль',
+      'авг.',
+      'сент.',
+      'окт.',
+      'нояб.',
+      'дек.',
+    ];
+    return months[month - 1];
   }
 }
 

@@ -179,6 +179,8 @@ class BasketController extends StateNotifier<BasketState> {
           shop: existingShopItem.shop,
           products: updatedProducts,
           totalAmount: existingShopItem.totalAmount,
+          deliveryType: existingShopItem.deliveryType,
+          deliveryCost: existingShopItem.deliveryCost,
         );
         List<BasketShopItem> updatedShopItems = List<BasketShopItem>.from(
           state.shopItems,

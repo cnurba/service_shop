@@ -5,6 +5,7 @@ import 'package:service_shop/app/basket/application/basket_provider/basket_contr
 import 'package:service_shop/app/basket/application/checkout_provider/checkout_controller.dart';
 import 'package:service_shop/app/basket/presentation/basket_product_item_widget.dart';
 import 'package:service_shop/app/basket/presentation/section/address_section.dart';
+import 'package:service_shop/app/basket/presentation/section/address_storage.dart';
 import 'package:service_shop/app/basket/presentation/section/delivery_section.dart';
 import 'package:service_shop/app/basket/presentation/section/total_price_section.dart';
 import 'package:service_shop/app/basket/presentation/widgets/confirm_button.dart';
@@ -158,14 +159,30 @@ class CheckoutScreen extends ConsumerWidget {
                 SizedBox(height: 16),
                 ConfirmButton(
                   totalPrice: checkoutState.finalAmount,
-                  onConfirm: () {
-                    // Подтверждение заказа
+                  // onConfirm: () {
+                  //   // Подтверждение заказа
 
-                    ref
-                        .read(checkoutProvider.notifier)
-                        .fillShopItems(basketState);
-                    final checkoutState =
-                        ref.watch(checkoutProvider);
+                  //   ref
+                  //       .read(checkoutProvider.notifier)
+                  //       .fillShopItems(basketState);
+                  //   final checkoutState = ref.watch(checkoutProvider);
+                  //   ref.read(addOrderProvider.notifier).post(checkoutState);
+                  // },
+                  onConfirm: () async {
+                    final checkoutState = ref.read(checkoutProvider);
+
+                    // Save address if user checked "Save info"
+                    if (checkoutState.saveInfo) {
+                      await AddressStorage.saveAddress(
+                        name: checkoutState.name,
+                        phone: checkoutState.phone,
+                        city: checkoutState.city,
+                        street: checkoutState.street,
+                        apartment: checkoutState.apartment,
+                        saveInfo: true,
+                      );
+                    }
+
                     ref.read(addOrderProvider.notifier).post(checkoutState);
                   },
                 ),

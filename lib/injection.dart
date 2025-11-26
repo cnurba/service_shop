@@ -3,6 +3,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:service_shop/app/basket/domain/repositories/i_basket_repository.dart';
 import 'package:service_shop/app/basket/infrastructure/repositories/basket_repository.dart';
+import 'package:service_shop/app/profile/domain/repositories/i_profile_repository.dart';
+import 'package:service_shop/app/profile/infrastructure/repositories/profile_repository.dart';
 import 'package:service_shop/app/search/domain/repository/i_search_repository.dart';
 import 'package:service_shop/app/search/infrastructure/repositories/search_repository.dart';
 import 'package:service_shop/app/shop/domain/repositories/i_shop_repository.dart';
@@ -36,5 +38,8 @@ void initGetIt() {
 
   getIt.registerLazySingleton<IBasketRepository>(
     () => BasketRepository(getIt()),
+  );
+  getIt.registerLazySingleton<IProfileRepository>(
+    () => ProfileRepository(getIt()),
   );
 }

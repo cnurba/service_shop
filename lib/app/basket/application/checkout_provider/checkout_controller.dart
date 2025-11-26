@@ -53,7 +53,6 @@ class CheckoutController extends StateNotifier<CheckoutState> {
     state = state.copyWith(shopItems: basketState.shopItems);
 
     print(state.toJson());
-
   }
 
   void setDeliveryCost(double cost) {
@@ -62,7 +61,6 @@ class CheckoutController extends StateNotifier<CheckoutState> {
       finalAmount: state.totalAmount + cost,
     );
   }
-
 
   void onLike(Product product, String shopId) {}
 }

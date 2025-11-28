@@ -16,23 +16,21 @@ class ShopsController extends StateNotifier<ShopsState> {
       if (isLiked) {
         final result = await repository.unlikeShop(shopUuid);
 
-        if(result){
+        if (result) {
           final updatedShop = currentShops[shopIndex].copyWith(liked: !isLiked);
           final updatedShops = List.of(currentShops);
           updatedShops[shopIndex] = updatedShop;
           state = state.copyWith(shops: updatedShops);
         }
-
       } else {
         final result = await repository.likeShop(shopUuid);
-        if(result){
+        if (result) {
           final updatedShop = currentShops[shopIndex].copyWith(liked: !isLiked);
           final updatedShops = List.of(currentShops);
           updatedShops[shopIndex] = updatedShop;
           state = state.copyWith(shops: updatedShops);
         }
       }
-
     } catch (e) {
       // Handle error if needed
     }
@@ -47,5 +45,4 @@ class ShopsController extends StateNotifier<ShopsState> {
       state = state.copyWith(status: ShopsStatus.error, error: e.toString());
     }
   }
-
 }

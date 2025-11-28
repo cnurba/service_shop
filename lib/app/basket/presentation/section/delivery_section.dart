@@ -144,32 +144,6 @@ class DeliverySection extends ConsumerWidget {
                 );
               },
             ),
-
-            /// delivere
-            // SizedBox(height: 8),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Text('Доставка:', style: Theme.of(context).textTheme.bodyMedium),
-            //       Text(shopItem.deliveryType.toString(), style: Theme.of(context).textTheme.bodyMedium),
-            //     ],
-            //   ),
-            // ),
-            // SizedBox(height: 8),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Text('Способ оплаты:', style: Theme.of(context).textTheme.bodyMedium),
-            //       Text(checkoutState.paymentType.toString(), style: Theme.of(context).textTheme.bodyMedium),
-            //       //Text(.toString(), style: Theme.of(context).textTheme.bodyMedium),
-            //     ],
-            //   ),
-            // ),
-            // const Divider(),
           ],
         );
       },

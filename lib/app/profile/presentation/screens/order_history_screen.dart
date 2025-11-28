@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/profile/application/order_history/order_history_provider.dart';
 import 'package:service_shop/core/enum/state_type.dart';
-import 'package:service_shop/core/presentation/theme/colors.dart';
+import 'package:service_shop/core/presentation/image/app_image_container.dart';
 
 class OrderHistoryScreen extends ConsumerStatefulWidget {
   const OrderHistoryScreen({super.key});
@@ -34,7 +34,9 @@ class _OrderHistoryScreenState extends ConsumerState<OrderHistoryScreen>
     });
 
     /// Load first tab initially
-    ref.read(orderHistoryProvider.notifier).loadOrders('processing');
+    Future.microtask(() {
+      ref.read(orderHistoryProvider.notifier).loadOrders('processing');
+    });
   }
 
   @override
@@ -56,6 +58,7 @@ class _OrderHistoryScreenState extends ConsumerState<OrderHistoryScreen>
       ),
       body: TabBarView(
         controller: controller,
+
         children: const [
           OrderList(status: 'processing'),
           OrderList(status: 'onWay'),
@@ -103,9 +106,11 @@ class OrderList extends ConsumerWidget {
         return OrderCard(
           number: order.number,
           date: _formatDate(order.date),
-          items: 'и еще ${order.count - 1} товара',
+          // items: 'и еще ${order.count - 1} товара ',
+          items: '${order.count == 1 ? '' : 'и еще ${order.count - 1} товара'}',
+
           price: '${order.amount.toStringAsFixed(0)} с',
-          image: 'assets/logo/placeholder.png', // from API later if needed
+          image: order.imageUrl, // from API later if needed
         );
       },
     );
@@ -174,15 +179,7 @@ class OrderCard extends StatelessWidget {
 
           Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  image,
-                  width: 60,
-                  height: 60,
-                  fit: BoxFit.cover,
-                ),
-              ),
+              AppImageContainer(image: image),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(items, style: const TextStyle(fontSize: 14)),

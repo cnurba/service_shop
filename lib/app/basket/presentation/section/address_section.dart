@@ -53,15 +53,6 @@ class _AddressSectionState extends State<AddressSection> {
     }
   }
 
-  Future<void> _saveIfNeeded() async {
-    // You can get current values from your checkout state or pass them in
-    // But easiest: just save on every change when checkbox is ON
-    if (_isChecked) {
-      // You'll pass current values from parent (CheckoutScreen)
-      // We'll trigger save from parent instead (see below)
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {

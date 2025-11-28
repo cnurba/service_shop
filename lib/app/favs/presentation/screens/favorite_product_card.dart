@@ -31,7 +31,7 @@ class _FavoriteProductCardState extends State<FavoriteProductCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      // onTap: widget.onTap,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 2,
@@ -96,7 +96,6 @@ class _FavoriteProductCardState extends State<FavoriteProductCard> {
                         IconButton(
                           icon: Icon(
                             CupertinoIcons.delete,
-
                             color: ServiceColors.primaryColor,
                             size: 24,
                           ),
@@ -108,7 +107,7 @@ class _FavoriteProductCardState extends State<FavoriteProductCard> {
                             color: ServiceColors.primaryColor,
                             size: 24,
                           ),
-                          onPressed: widget.onAdd,
+                          onPressed: widget.onTap,
                         ),
                       ],
                     ),

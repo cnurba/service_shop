@@ -4,6 +4,7 @@ class OrderModelInfo {
   final DateTime date;
   final double amount;
   final int count;
+  final String imageUrl;
 
   const OrderModelInfo({
     required this.id,
@@ -11,6 +12,7 @@ class OrderModelInfo {
     required this.date,
     required this.amount,
     required this.count,
+    required this.imageUrl,
   });
 
   factory OrderModelInfo.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class OrderModelInfo {
       date: DateTime.parse(json['date']),
       amount: (json['amount'] ?? 0).toDouble(),
       count: json['count'] ?? 0,
+      imageUrl: json['imageUrl'] ?? '',
     );
   }
 
@@ -30,6 +33,7 @@ class OrderModelInfo {
       'date': date.toIso8601String(),
       'amount': amount,
       'count': count,
+      'imageUrl': imageUrl,
     };
   }
 }

@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_shop/app/profile/application/adress/my_address_provider.dart';
 import 'package:service_shop/app/profile/presentation/widgets/adress_card.dart';
 import 'package:service_shop/core/presentation/appbar/custom_appbar.dart';
 
-class MyAddressesScreen extends StatelessWidget {
+class MyAddressesScreen extends ConsumerStatefulWidget {
   const MyAddressesScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final addresses = [
-      Address('Адрес 1', 'г. Ош, ул. Шакирова, 14а', true),
-      Address('Адрес 2', 'г. Ош, ул. Кулатов, 184'),
-    ];
+  ConsumerState<MyAddressesScreen> createState() => _MyAddressesScreenState();
+}
 
+class _MyAddressesScreenState extends ConsumerState<MyAddressesScreen>
+    with SingleTickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    Future.microtask(
+      () => ref.read(myAddressProvider.notifier).loadAddresses(),
+    );
+    final addressesState = ref.watch(myAddressProvider);
+    final addresses = addressesState.addresses;
     return Scaffold(
       appBar: customAppBar(context, "Мои адреса", showBack: false),
-
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

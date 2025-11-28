@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/core/http/server_address.dart';
 import 'package:service_shop/injection.dart';
 import 'package:service_shop/service_client_app.dart';
-
 import 'core/http/dio_interceptor.dart';
 
 void main() async {

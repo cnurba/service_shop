@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/basket/application/add_order/add_order_state.dart';
-import 'package:service_shop/app/basket/application/basket_provider/basket_state.dart';
 import 'package:service_shop/app/basket/application/checkout_provider/checkout_state.dart';
 import 'package:service_shop/app/basket/domain/repositories/i_basket_repository.dart';
 import 'package:service_shop/core/enum/state_type.dart';

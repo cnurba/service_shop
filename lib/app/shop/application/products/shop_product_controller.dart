@@ -11,13 +11,13 @@ final shopProductProvider =
     });
 
 /// Provider that returns all liked products from all categories
-final favouriteProductsProvider = Provider<List<Product>>((ref) {
-  final state = ref.watch(shopProductProvider);
-  return state.categories
-      .expand((cat) => cat.products)
-      .where((product) => product.liked)
-      .toList();
-});
+// final favouriteProductsProvider = Provider<List<Product>>((ref) {
+//   final state = ref.watch(shopProductProvider);
+//   return state.categories
+//       .expand((cat) => cat.products)
+//       .where((product) => product.liked)
+//       .toList();
+// });
 
 class ShopProductController extends StateNotifier<ShopProductState> {
   ShopProductController(this._api) : super(const ShopProductState());
@@ -52,7 +52,10 @@ class ShopProductController extends StateNotifier<ShopProductState> {
 
     try {
       if (isLiked) {
-        final result = await _api.unlikeProduct(product.uuid);
+        final result = await _api.unlikeProduct(
+          product.propertyUuid,
+          product.branchUuid,
+        );
         if (result) {
           final updatedProduct = product.copyWith(liked: !isLiked);
           final updatedProducts = List.of(
@@ -69,7 +72,10 @@ class ShopProductController extends StateNotifier<ShopProductState> {
           state = state.copyWith(categories: updatedCategories);
         }
       } else {
-        final result = await _api.likeProduct(product.uuid);
+        final result = await _api.likeProduct(
+          product.propertyUuid,
+          product.branchUuid,
+        );
         if (result) {
           final updatedProduct = product.copyWith(liked: !isLiked);
           final updatedProducts = List.of(

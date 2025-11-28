@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:service_shop/app/profile/profile_edit_screen.dart';
 import 'package:service_shop/app/profile/presentation/screens/about_app_screen.dart';
 import 'package:service_shop/app/profile/presentation/screens/feedback_screen.dart';
-import 'package:service_shop/app/profile/presentation/screens/my_adress_screen.dart';
+import 'package:service_shop/app/profile/presentation/screens/address/my_adress_screen.dart';
 import 'package:service_shop/app/profile/presentation/screens/order_history_screen.dart';
 import 'package:service_shop/app/profile/presentation/screens/payment_method_screen.dart';
 import 'package:service_shop/app/profile/presentation/screens/settings_screen.dart';

@@ -2,13 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/basket/basket_screen.dart';
+import 'package:service_shop/app/favs/application/favorites_product_provider.dart';
 import 'package:service_shop/app/favs/favs_screen.dart';
 import 'package:service_shop/app/profile/profile_screen.dart';
-import 'package:service_shop/app/profile/unregistered_profile_screen.dart';
 import 'package:service_shop/app/search/search_screen.dart';
 import 'package:service_shop/app/shop/application/shops/shops_provider.dart';
 import 'package:service_shop/app/shop/shop_screen.dart';
-import 'package:service_shop/auth/presentation/screens/resign_withnumber.dart';
 import 'package:service_shop/core/presentation/navs/nav_bar.dart';
 import 'package:service_shop/core/presentation/navs/tab_holder.dart';
 
@@ -108,6 +107,7 @@ class _ServiceShopAppScreenState extends ConsumerState<ServiceShopAppScreen> {
                 case 2:
                   return TabNavigatorHolder(
                     key: _tabHolders[2],
+
                     child: const FavsScreen(),
                   );
                 case 3:
@@ -141,6 +141,8 @@ class _ServiceShopAppScreenState extends ConsumerState<ServiceShopAppScreen> {
           onTab: (newTab) {
             if (newTab == 0) {
               //context.read<DeliveryListCubit>().load(status: 0);
+            } else if (newTab == 2) {
+              ref.read(favoritesProductProvider.notifier).getLikes();
             } else {
               // context.read<DeliveryListCubit>().load(status: 1);
             }

@@ -4,24 +4,33 @@ import 'package:service_shop/app/basket/application/add_order/add_order_controll
 import 'package:service_shop/app/basket/application/basket_provider/basket_controller.dart';
 import 'package:service_shop/app/basket/application/checkout_provider/checkout_controller.dart';
 import 'package:service_shop/app/basket/presentation/basket_product_item_widget.dart';
-import 'package:service_shop/app/basket/presentation/section/address_section.dart';
 import 'package:service_shop/app/basket/presentation/section/address_storage.dart';
 import 'package:service_shop/app/basket/presentation/section/delivery_section.dart';
 import 'package:service_shop/app/basket/presentation/section/total_price_section.dart';
 import 'package:service_shop/app/basket/presentation/widgets/confirm_button.dart';
 import 'package:service_shop/app/basket/presentation/widgets/payment_method_widget.dart';
+import 'package:service_shop/app/profile/domain/models/my_address.dart';
+import 'package:service_shop/app/profile/presentation/screens/address/my_adress_screen.dart';
 import 'package:service_shop/core/enum/state_type.dart';
 import 'package:service_shop/core/presentation/appbar/favs_app_bar.dart';
-import 'package:service_shop/app/shop/application/products/shop_product_controller.dart';
+import 'package:service_shop/core/presentation/theme/colors.dart';
 
-class CheckoutScreen extends ConsumerWidget {
+class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
+}
+
+class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
+  MyAddressModel? _selectedAddress; 
+
+  @override
+  Widget build(BuildContext context) {
     final basketState = ref.watch(basketProvider);
     final checkoutState = ref.watch(checkoutProvider);
     final products = basketState.shopItems;
+
     return SafeArea(
       child: SafeArea(
         child: Scaffold(
@@ -50,53 +59,16 @@ class CheckoutScreen extends ConsumerWidget {
                         itemBuilder: (context, index) {
                           final product = shopItem.products[index];
                           return BasketProductCard(
+                            quantity: ref
+                                .watch(basketProvider)
+                                .getProductCount(product, product.branchUuid),
+
                             onMinus: () {
                               ref
                                   .read(basketProvider.notifier)
                                   .onMinusCount(product, shopItem.shop.id);
                             },
-                            onAddToFavorites: () async {
-                              final shopProductState = ref.read(
-                                shopProductProvider,
-                              );
-                              final categoryIndex = shopProductState.categories
-                                  .indexWhere(
-                                    (cat) => cat.products.any(
-                                      (p) => p.uuid == product.uuid,
-                                    ),
-                                  );
-                              int prodIndex = -1;
-                              if (categoryIndex != -1) {
-                                prodIndex = shopProductState
-                                    .categories[categoryIndex]
-                                    .products
-                                    .indexWhere((p) => p.uuid == product.uuid);
-                              }
-                              if (categoryIndex != -1 && prodIndex != -1) {
-                                await ref
-                                    .read(shopProductProvider.notifier)
-                                    .toggleFavorite(
-                                      product.uuid,
-                                      categoryIndex: categoryIndex,
-                                      productIndex: prodIndex,
-                                      product: shopProductState
-                                          .categories[categoryIndex]
-                                          .products[prodIndex],
-                                    );
-                                // Update basket liked state
-                                final updatedProduct = ref
-                                    .read(shopProductProvider)
-                                    .categories[categoryIndex]
-                                    .products[prodIndex];
-                                ref
-                                    .read(basketProvider.notifier)
-                                    .onLike(
-                                      product,
-                                      shopItem.shop.id,
-                                      updatedProduct.liked,
-                                    );
-                              }
-                            },
+                            onAddToFavorites: () async {},
                             onAdd: () {
                               ref
                                   .read(basketProvider.notifier)
@@ -119,35 +91,62 @@ class CheckoutScreen extends ConsumerWidget {
                     ref
                         .read(basketProvider.notifier)
                         .setDeliveryType(deliveryType, shopId, cost);
-                    ref.read(checkoutProvider.notifier).setDeliveryCost(cost);
                   },
                 ),
                 SizedBox(height: 20),
                 TotalPriceSection(
                   totalShops: products.length,
-                  totalCount: checkoutState.totalCount,
-                  totalAmount: checkoutState.totalAmount,
+                  totalCount: basketState.totalCount,
+                  totalAmount: basketState.totalAmount,
                   discount: 0,
-                  deliveryCost: checkoutState.deliveryCost,
-                  finalAmount: checkoutState.finalAmount,
+                  deliveryCost: basketState.totalDeliveryCost,
+                  finalAmount: basketState.finishAmount,
                 ),
-                AddressSection(
-                  onNameChanged: (name) =>
-                      ref.read(checkoutProvider.notifier).onChangeName(name),
-                  onNamePhone: (phone) =>
-                      ref.read(checkoutProvider.notifier).onChangePhone(phone),
-                  onCityChanged: (city) =>
-                      ref.read(checkoutProvider.notifier).onChangeCity(city),
-                  onStreetChanged: (street) => ref
-                      .read(checkoutProvider.notifier)
-                      .onChangeStreet(street),
-                  onApartmentChanged: (apartment) => ref
-                      .read(checkoutProvider.notifier)
-                      .onChangeApartment(apartment),
-                  onSaveInfoChanged: (saveInfo) => ref
-                      .read(checkoutProvider.notifier)
-                      .onChangeSaveInfo(saveInfo),
+                InkWell(
+                  onTap: () async {
+                    final selectedAddress = await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => MyAddressesScreen()),
+                    );
+
+                    if (selectedAddress != null) {
+                      setState(() {
+                        _selectedAddress = selectedAddress;
+                      });
+
+                      // update checkout provider with new address data
+                      final checkout = ref.read(checkoutProvider.notifier);
+                      checkout.onChangeName(selectedAddress.name);
+                      checkout.onChangePhone(selectedAddress.phone);
+                      checkout.onChangeCity(selectedAddress.city);
+                      checkout.onChangeStreet(selectedAddress.street);
+                      checkout.onChangeApartment(selectedAddress.apartment);
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: ServiceColors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Text("Выберите адрес"),
+                  ),
                 ),
+                if (_selectedAddress != null) ...[
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Имя: ${_selectedAddress!.name}"),
+                        Text("Номер: ${_selectedAddress!.phone}"),
+                        Text("Город: ${_selectedAddress!.city}"),
+                        Text("Улица: ${_selectedAddress!.street}"),
+                        Text("Квартира: ${_selectedAddress!.apartment}"),
+                      ],
+                    ),
+                  ),
+                ],
                 Divider(),
                 PaymentMethodsWidget(
                   onPaymentMethodChanged: (paymentType) {

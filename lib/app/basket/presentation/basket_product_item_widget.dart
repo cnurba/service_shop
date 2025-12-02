@@ -10,6 +10,7 @@ class BasketProductCard extends StatelessWidget {
   final VoidCallback onMinus;
   final VoidCallback onRemove;
   final VoidCallback onAddToFavorites;
+  final double quantity;
 
   const BasketProductCard({
     super.key,
@@ -18,6 +19,7 @@ class BasketProductCard extends StatelessWidget {
     required this.onRemove,
     required this.onMinus,
     required this.onAddToFavorites,
+    required this.quantity,
   });
 
   @override
@@ -101,7 +103,7 @@ class BasketProductCard extends StatelessWidget {
                                       horizontal: 8,
                                     ),
                                     child: Text(
-                                      product.quantity.toString(),
+                                      '${quantity}',
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                   ),

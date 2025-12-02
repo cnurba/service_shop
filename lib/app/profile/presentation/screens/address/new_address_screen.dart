@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:service_shop/app/profile/application/adress/my_address_provider.dart';
 import 'package:service_shop/app/profile/application/new_address/new_address_provider.dart';
 import 'package:service_shop/core/enum/state_type.dart';
 import 'package:service_shop/core/presentation/appbar/custom_appbar.dart';

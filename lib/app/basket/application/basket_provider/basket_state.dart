@@ -41,10 +41,12 @@ class BasketState extends Equatable {
     return total;
   }
 
+  double get finishAmount {
+    return totalAmount + totalDeliveryCost;
+  }
+
   Map<String, dynamic> toJson() {
-    return {
-      'shopItems': shopItems.map((e) => e.toJson()).toList(),
-    };
+    return {'shopItems': shopItems.map((e) => e.toJson()).toList()};
   }
 
   @override

@@ -63,7 +63,7 @@ class DeliverySection extends ConsumerWidget {
                       width: 1.5,
                     ),
                   ),
-                  child: InkWell(
+                  child: GestureDetector(
                     onTap: () {
                       ref
                               .read(selectedDeliveryProvider(shop.id).notifier)
@@ -75,7 +75,7 @@ class DeliverySection extends ConsumerWidget {
                         delivery.cost,
                       );
                     },
-                    borderRadius: BorderRadius.circular(12),
+                    // borderRadius: BorderRadius.circular(12),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(

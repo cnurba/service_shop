@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_shop/app/basket/application/checkout_provider/checkout_controller.dart';
 import 'package:service_shop/app/profile/application/adress/my_address_provider.dart';
+import 'package:service_shop/app/profile/presentation/screens/address/add_address_screen.dart';
 import 'package:service_shop/app/profile/presentation/widgets/adress_card.dart';
+import 'package:service_shop/core/extansions/router_extension.dart';
 import 'package:service_shop/core/presentation/appbar/custom_appbar.dart';
 
 class MyAddressesScreen extends ConsumerStatefulWidget {
@@ -30,12 +33,38 @@ class _MyAddressesScreenState extends ConsumerState<MyAddressesScreen>
               child: ListView.separated(
                 itemCount: addresses.length,
                 separatorBuilder: (_, __) => const SizedBox(height: 12),
-                itemBuilder: (_, i) => AddressCard(address: addresses[i]),
+                itemBuilder: (_, i) => InkWell(
+                  onTap: () {
+                    Navigator.pop(
+                      context,
+                      addresses[i],
+                    ); // <-- return selected address
+                  },
+                  child: AddressCard(address: addresses[i]),
+                ),
               ),
             ),
             const SizedBox(height: 12),
             OutlinedButton.icon(
-              onPressed: () {},
+              onPressed: () => context.push(
+                AddAddressScreen(
+                  onNameChanged: (name) =>
+                      ref.read(checkoutProvider.notifier).onChangeName(name),
+                  onNamePhone: (phone) =>
+                      ref.read(checkoutProvider.notifier).onChangePhone(phone),
+                  onCityChanged: (city) =>
+                      ref.read(checkoutProvider.notifier).onChangeCity(city),
+                  onStreetChanged: (street) => ref
+                      .read(checkoutProvider.notifier)
+                      .onChangeStreet(street),
+                  onApartmentChanged: (apartment) => ref
+                      .read(checkoutProvider.notifier)
+                      .onChangeApartment(apartment),
+                  onSaveInfoChanged: (saveInfo) => ref
+                      .read(checkoutProvider.notifier)
+                      .onChangeSaveInfo(saveInfo),
+                ),
+              ),
               icon: const Icon(Icons.add, color: Colors.grey),
               label: const Text(
                 'Добавить адрес',

@@ -21,6 +21,18 @@ class FilterModel extends Equatable {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'attributeName': attributeName,
+      'attributeUuid': attributeUuid,
+      'children': children.map((e) => {
+        'attributeUuid': e.attributeUuid,
+        'propertyName': e.propertyName,
+        'propertyUuid': e.propertyUuid,
+      }).toList(),
+    };
+  }
+
   @override
   List<Object?> get props => [attributeName, attributeUuid, children];
 }
@@ -42,6 +54,14 @@ class FilterPropertyModel extends Equatable {
       propertyName: json['propertyName'] as String,
       propertyUuid: json['propertyUuid'] as String,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'attributeUuid': attributeUuid,
+      'propertyName': propertyName,
+      'propertyUuid': propertyUuid,
+    };
   }
 
   @override

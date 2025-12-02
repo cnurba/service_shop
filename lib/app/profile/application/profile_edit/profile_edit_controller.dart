@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/profile/application/profile_edit/profile_edit_state.dart';
 
 class ProfileEditController extends StateNotifier<ProfileEditState> {
-  ProfileEditController() : super(const ProfileEditState());
+  ProfileEditController() : super(ProfileEditState.initial());
 
   // Individual field updaters
   void setFirstName(String name) {

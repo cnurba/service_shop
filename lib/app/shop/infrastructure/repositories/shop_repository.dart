@@ -159,11 +159,20 @@ class ShopRepository implements IShopRepository {
     }
   }
 
-  // @override
-  // Future<bool> deleteFavoritProduct(String propertyUuid, String shopUuid) {
-  //   // TODO: implement deleteFavoritProduct
-  //   throw UnimplementedError();
-  // }
+  @override
+  Future<List<Product>> searchProducts({
+    required Map<String, dynamic> queryParams,
+  }) async {
+    try {
+      final response = await _dio.post('/products', data: queryParams);
+      final List<Product> products = (response.data as List)
+          .map((productJson) => Product.fromJson(productJson))
+          .toList();
+      return products;
+    } on DioException catch (e) {
+      throw Exception('Failed to get likes: ${e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occured');
+    }
+  }
 }
-
-// Repository methods would go her

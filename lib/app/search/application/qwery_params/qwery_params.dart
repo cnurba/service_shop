@@ -30,6 +30,19 @@ class QueryParamsState extends Equatable {
     );
   }
 
+  Map<String, dynamic> toMap() {
+    final categoryUuid = category == null ? "" : category!.id;
+
+    return {
+      'categoryUuid': categoryUuid,
+      'searchText': searchText,
+      'sortText': sortText,
+      'filters': filters.map((f) => f.toMap()).toList(),
+      'minPrice': minPrice,
+      'maxPrice': maxPrice,
+    };
+  }
+
   QueryParamsState copyWith({
     CategoryModel? category,
     String? searchText,
@@ -38,11 +51,10 @@ class QueryParamsState extends Equatable {
     double? minPrice,
     double? maxPrice,
   }) {
-
     var cat = category;
     if (category == null) {
       cat = null;
-    }else{
+    } else {
       cat = this.category;
     }
     return QueryParamsState(

@@ -1,7 +1,8 @@
-enum ProfileStatus { initial, loading, loaded, error }
+import 'package:equatable/equatable.dart';
+import 'package:service_shop/core/enum/state_type.dart';
 
-class ProfileEditState {
-  final ProfileStatus status;
+class ProfileEditState extends Equatable {
+  final StateType status;
   final String? error;
   final String firstName;
   final String lastName;
@@ -13,19 +14,33 @@ class ProfileEditState {
   final String imageUrl = '';
 
   const ProfileEditState({
-    this.status = ProfileStatus.initial,
-    this.error,
-    this.firstName = '',
-    this.lastName = '',
-    this.birthDate = '',
-    this.gender = '',
-    this.phone = '',
-    this.email = '',
-    this.password = '',
+    required this.status,
+    required this.error,
+    required this.firstName,
+    required this.lastName,
+    required this.birthDate,
+    required this.gender,
+    required this.phone,
+    required this.email,
+    required this.password,
   });
 
+  factory ProfileEditState.initial() {
+    return const ProfileEditState(
+      status: StateType.initial,
+      error: null,
+      firstName: '',
+      lastName: '',
+      birthDate: '',
+      gender: '',
+      phone: '',
+      email: '',
+      password: '',
+    );
+  }
+
   ProfileEditState copyWith({
-    ProfileStatus? status,
+    StateType? status,
     String? error,
     String? firstName,
     String? lastName,
@@ -47,4 +62,17 @@ class ProfileEditState {
       password: password ?? this.password,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    status,
+    error,
+    firstName,
+    lastName,
+    birthDate,
+    gender,
+    phone,
+    email,
+    password,
+  ];
 }

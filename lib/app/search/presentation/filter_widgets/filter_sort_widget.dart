@@ -17,14 +17,21 @@ class FilterSortWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        CategoryButton(onPressed: onPressedCategory),
-        SortDropButton(onSelected: onSelectedSortOption),
-        FilterButton(onPressed: onPressedFilter),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16.0,
+       // vertical: 8.0,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CategoryButton(onPressed: onPressedCategory),
+          SizedBox(width: 16.0),
+          SortDropButton(onSelected: onSelectedSortOption),
+          //FilterButton(onPressed: onPressedFilter),
+        ],
+      ),
     );
   }
 }

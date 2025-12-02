@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/basket/application/basket_provider/basket_controller.dart';
 import 'package:service_shop/app/core/models/data_tree.dart';
-import 'package:service_shop/app/favs/application/favorites_product_provider.dart';
 import 'package:service_shop/app/shop/application/product/product_detail_controller.dart';
 import 'package:service_shop/app/shop/application/product_detail_loader/product_detail_loader_controller.dart';
 import 'package:service_shop/app/shop/application/products/shop_product_controller.dart';

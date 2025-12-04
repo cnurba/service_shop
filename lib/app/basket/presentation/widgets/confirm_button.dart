@@ -41,12 +41,18 @@ class ConfirmButton extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 margin: const EdgeInsets.only(right: 16),
-                child: Text(
-                  '$totalPrice с',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.credit_card, size: 18),
+                    const SizedBox(width: 4),
+                    Text(
+                      '${totalPrice.truncateToDouble() == totalPrice ? totalPrice.toInt() : totalPrice.toStringAsFixed(0)} с',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const Text(

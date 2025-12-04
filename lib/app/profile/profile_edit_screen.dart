@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_shop/app/profile/presentation/change_info/birth_date_field.dart';
+import 'package:service_shop/app/profile/presentation/change_info/email_field.dart';
+import 'package:service_shop/app/profile/presentation/change_info/gender_field.dart';
+import 'package:service_shop/app/profile/presentation/change_info/name_field.dart';
+import 'package:service_shop/app/profile/presentation/change_info/password_field.dart';
+import 'package:service_shop/app/profile/presentation/change_info/phone_field.dart';
+import 'package:service_shop/app/profile/presentation/change_info/surname_field.dart';
 import 'package:service_shop/app/profile/presentation/widgets/profile_text_field.dart';
 import 'package:service_shop/core/presentation/appbar/custom_appbar.dart';
 import 'package:service_shop/core/presentation/theme/colors.dart';
@@ -24,42 +31,35 @@ class ProfileEditScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
 
-            const ProfileTextField(label: 'Имя', fieldKey: 'firstName'),
+            NameField(
+              // controller: ,
+              onChanged: (value) {
+              },
+                ),
             const SizedBox(height: 12),
-            const ProfileTextField(label: 'Фамилия', fieldKey: 'lastName'),
+             SurnameField(),
             const SizedBox(height: 12),
-            const ProfileTextField(
-              label: 'Дата рождения',
-              fieldKey: 'birthDate',
-              suffixIcon: Icon(Icons.date_range),
+            const BirthdateField(
             ),
             const SizedBox(height: 12),
-            const ProfileTextField(
-              label: 'Пол',
-              fieldKey: 'gender',
-              suffixIcon: Icon(Icons.arrow_forward_ios),
+             GenderField(
+
             ),
             const SizedBox(height: 12),
-            const ProfileTextField(
-              label: 'Телефон',
-              fieldKey: 'phone',
-              suffixIcon: Icon(Icons.phone),
-              statusText: "Подтвeржден",
+             PhoneField(
+
             ),
             const SizedBox(height: 12),
-            const ProfileTextField(
-              label: 'E-mail',
-              fieldKey: 'email',
-              suffixIcon: Icon(Icons.email),
-              statusText: "Ожидает \nподтвреждения",
+             EmailField(
+              onChanged: (String value) {
+              },
+
             ),
             const SizedBox(height: 12),
-            const ProfileTextField(
-              label: 'Пароль',
-              fieldKey: 'password',
-              obscureText: true,
-              suffixIcon: Icon(Icons.lock),
-              statusText: "Сменить пароль",
+            PasswordField(
+              onChanged: (String value) {
+              }, title: 'Пароль',
+
             ),
             SizedBox(height: 24),
             Container(

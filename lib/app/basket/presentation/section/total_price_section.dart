@@ -28,16 +28,16 @@ class TotalPriceSection extends StatelessWidget {
             Text('Товары', style: TextStyle(color: ServiceColors.grey)),
             SizedBox(width: 18),
 
-            Text('$totalCount шт', style: TextStyle(color: ServiceColors.grey)),
+            Text('${totalCount.truncateToDouble()==totalCount ? totalCount.toInt() : totalCount.toStringAsFixed(0)} шт', style: TextStyle(color: ServiceColors.grey)),
             Spacer(),
-            Text('$totalAmount с', style: TextStyle(color: ServiceColors.grey)),
+            Text('${totalAmount.truncateToDouble() == totalAmount ? totalAmount.toInt() : totalAmount.toStringAsFixed(0)} с', style: TextStyle(color: ServiceColors.grey)),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Скидка', style: TextStyle(color: ServiceColors.grey)),
-            Text('$discount с', style: TextStyle(color: ServiceColors.grey)),
+            Text('${discount.truncateToDouble()==discount ? discount.toInt() : discount.toStringAsFixed(0)} с', style: TextStyle(color: ServiceColors.grey)),
           ],
         ),
         SizedBox(height: 16),
@@ -45,7 +45,7 @@ class TotalPriceSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Итого', style: TextTheme.of(context).titleMedium),
-            Text('$finalAmount с', style: TextTheme.of(context).titleMedium),
+            Text('${finalAmount.truncateToDouble() == finalAmount ? finalAmount.toInt() : finalAmount.toStringAsFixed(0)} с', style: TextTheme.of(context).titleMedium),
           ],
         ),
         Divider(),

@@ -79,12 +79,11 @@ class _ProductCardState extends State<ProductCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${widget.product.price.toString()} с',
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green,
-                                ),
+                            '${widget.product.price.truncateToDouble() == widget.product.price ? widget.product.price.toInt() : widget.product.price.toStringAsFixed(2)} c',
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
                           ),
                           const SizedBox(height: 4),
                           Text(

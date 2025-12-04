@@ -103,7 +103,7 @@ class BasketProductCard extends StatelessWidget {
                                       horizontal: 8,
                                     ),
                                     child: Text(
-                                      '${quantity}',
+                                      '${quantity.truncateToDouble()==quantity ? quantity.toInt() : quantity.toStringAsFixed(0)}',
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                   ),

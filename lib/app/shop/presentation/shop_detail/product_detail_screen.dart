@@ -106,7 +106,7 @@ class ProductDetailScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '${state.currentProduct.quantity} шт',
+                    '${state.currentProduct.quantity.toStringAsFixed(0)} шт',
                     style: const TextStyle(color: Colors.grey),
                   ),
                   const SizedBox(height: 4),
@@ -134,7 +134,7 @@ class ProductDetailScreen extends ConsumerWidget {
                       ),
                       const Spacer(),
                       Text(
-                        '${state.currentProduct.price} с',
+                        '${state.currentProduct.price.truncateToDouble() == state.currentProduct.price ? state.currentProduct.price.toInt() : state.currentProduct.price.toStringAsFixed(2)} с',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: ServiceColors.primaryColor,

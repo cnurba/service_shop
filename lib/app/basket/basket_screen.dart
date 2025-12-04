@@ -37,7 +37,15 @@ class BasketScreen extends ConsumerWidget {
                           children: [
                             ListTile(
                               title: Text('Магазин ${shopItem.shop.name}'),
-                              trailing: Text(shopItem.totalAmount.toString()),
+                              trailing: Text(
+                                '${shopItem.totalAmount % 1 == 0
+                                    ? shopItem.totalAmount.toInt().toString()
+                                    : shopItem.totalAmount.toStringAsFixed(2)} c',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                             ListView.separated(
                               shrinkWrap: true,

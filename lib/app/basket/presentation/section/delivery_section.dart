@@ -124,7 +124,7 @@ class DeliverySection extends ConsumerWidget {
                                       Icon(CupertinoIcons.creditcard),
                                       SizedBox(width: 8),
                                       Text(
-                                        '${delivery.cost}',
+                                        '${delivery.cost.truncateToDouble() == delivery.cost ? delivery.cost.toInt() : delivery.cost.toStringAsFixed(0)}',
                                         style: const TextStyle(
                                           fontSize: 12,
                                           // color: Colors.red,

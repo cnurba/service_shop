@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:service_shop/core/enum/state_type.dart';
 
@@ -12,6 +14,8 @@ class ProfileEditState extends Equatable {
   final String email;
   final String password;
   final String imageUrl = '';
+  final File? image;
+
 
   const ProfileEditState({
     required this.status,
@@ -23,6 +27,7 @@ class ProfileEditState extends Equatable {
     required this.phone,
     required this.email,
     required this.password,
+    this.image,
   });
 
   factory ProfileEditState.initial() {
@@ -36,6 +41,7 @@ class ProfileEditState extends Equatable {
       phone: '',
       email: '',
       password: '',
+      image: null,
     );
   }
 
@@ -49,6 +55,7 @@ class ProfileEditState extends Equatable {
     String? phone,
     String? email,
     String? password,
+    File? image,
   }) {
     return ProfileEditState(
       status: status ?? this.status,

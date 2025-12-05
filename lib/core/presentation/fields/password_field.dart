@@ -1,14 +1,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:service_shop/app/profile/presentation/widgets/status_container.dart';
 
-import '../../../../core/presentation/theme/colors.dart';
+import '../theme/colors.dart';
 
 class PasswordField extends StatefulWidget {
   const PasswordField({
     super.key,
     required this.onChanged,
-    required this.title,
     this.errorText,
     this.focusNode,
     this.onEditingComplete,
@@ -16,7 +16,6 @@ class PasswordField extends StatefulWidget {
   });
 
   final ValueChanged<String>? onChanged;
-  final String title;
   final String? errorText;
   final FocusNode? focusNode;
   final Function()? onEditingComplete;
@@ -40,61 +39,56 @@ class _PasswordFieldState extends State<PasswordField> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.title,
-            style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  // color: MurasColors.textColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-          ),
-          const SizedBox(height: 8),
-          TextFormField(
-            style: const TextStyle(fontSize: 24),
-            autofocus: false,
-            focusNode: widget.focusNode,
-            keyboardType: TextInputType.visiblePassword,
-            obscureText: isObscured,
-            onEditingComplete: widget.onEditingComplete,
-            validator: widget.validator,
-            decoration: InputDecoration(
-                fillColor: ServiceColors.white,
-                filled: true,
-                errorText: widget.errorText,
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                  borderSide: BorderSide.none,
-                ),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    if (isObscured) {
-                      isObscured = false;
-                    } else {
-                      isObscured = true;
-                    }
 
-                    setState(() {});
-                  },
-                  icon: isObscured
-                      ? const Icon(CupertinoIcons.eye_slash)
-                      : const Icon(CupertinoIcons.eye_fill),
-                )),
-            onChanged: widget.onChanged,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-          ),
+          const SizedBox(height: 8),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: TextFormField(
+                  style: const TextStyle(fontSize: 24),
+                  autofocus: false,
+                  focusNode: widget.focusNode,
+                  keyboardType: TextInputType.visiblePassword,
+                  obscureText: isObscured,
+                  onEditingComplete: widget.onEditingComplete,
+                  validator: widget.validator,
+                  decoration: InputDecoration(
+                    fillColor: ServiceColors.white,
+                    filled: true,
+                    labelText: 'Пароль',
+                    labelStyle: const TextStyle(color: ServiceColors.black),
+                    errorText: widget.errorText,
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                      borderSide: BorderSide.none,
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() => isObscured = !isObscured);
+                      },
+                      icon: isObscured
+                          ? const Icon(CupertinoIcons.eye_slash)
+                          : const Icon(CupertinoIcons.eye_fill),
+                    ),
+                  ),
+                  onChanged: widget.onChanged,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
+              StatusContainer(text: 'Сменить пароль'),
+            ],
+          )
         ],
 
       ) : Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.title,
-            style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-          ),
+
           const SizedBox(height: 8),
           TextFormField(
             style: const TextStyle(fontSize: 12),
@@ -107,6 +101,8 @@ class _PasswordFieldState extends State<PasswordField> {
             decoration: InputDecoration(
                 fillColor: ServiceColors.white,
                 filled: true,
+                labelText: 'Пароль',
+                labelStyle: const TextStyle(color: ServiceColors.black),
                 errorText: widget.errorText,
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4)),

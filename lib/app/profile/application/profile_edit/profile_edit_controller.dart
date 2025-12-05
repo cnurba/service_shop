@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_shop/app/profile/application/profile_edit/profile_edit_state.dart';
 
@@ -25,7 +27,12 @@ class ProfileEditController extends StateNotifier<ProfileEditState> {
     state = state.copyWith(phone: phone);
   }
 
-  void setEmail(String email) {
+   void setImage(File image) {
+      state = state.copyWith(image: image);
+    }
+
+
+    void setEmail(String email) {
     state = state.copyWith(email: email);
   }
 
